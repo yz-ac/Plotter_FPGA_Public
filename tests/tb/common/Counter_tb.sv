@@ -24,7 +24,7 @@ module Counter_tb;
 
 	Counter #(
 		.COUNTER_BITS(COUNTER_BITS)
-	) counter (
+	) UUT (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en),
