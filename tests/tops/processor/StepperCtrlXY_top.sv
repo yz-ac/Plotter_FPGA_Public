@@ -4,12 +4,12 @@
 `define CLOCK_DIVIDE (50)
 
 typedef enum {
-	STEPPER_CTRL_TOP_WAITING,
-	STEPPER_CTRL_TOP_TRIGGERRING,
-	STEPPER_CTRL_TOP_STOP
-} StepperXY_top_state_t;
+	STEPPER_CTRL_XY_TOP_WAIT,
+	STEPPER_CTRL_XY_TOP_TRIGGER,
+	STEPPER_CTRL_XY_TOP_STOP
+} StepperCtrlXY_top_state;
 
-module StepperXY_top(
+module StepperCtrlXY_top (
 	input logic clk,
 	input logic reset,
 	output logic out_x,
@@ -17,23 +17,25 @@ module StepperXY_top(
 	output logic out_y,
 	output logic dir_y
 );
+
 	localparam COUNT_BITS_X = `BYTE_BITS;
 	localparam COUNT_BITS_Y = `BYTE_BITS;
+	localparam STATE_BITS = `BYTE_BITS;
 
 	reg clk_en;
 	reg trigger;
 	reg [COUNT_BITS_X-1:0] num_steps_x;
 	reg [COUNT_BITS_Y-1:0] num_steps_y;
-	reg [COUNT_BITS_X-1:0] num_steps_x_saved;
-	reg [COUNT_BITS_Y-1:0] num_steps_y_saved;
+	reg [COUNT_BITS_X-1:0] saved_num_steps_x;
+	reg [COUNT_BITS_Y-1:0] saved_num_steps_y;
 
-	reg [`BYTE_BITS-1:0] counter;
+	reg [`STATE_BITS-1:0] state_counter;
 	reg increase_counter;
 
 	wire done;
 
-	StepperXY_top_state_t cur_state;
-	StepperXY_top_state_t nxt_state;
+	StepperCtrlXY_top_state cur_state;
+	StepperCtrlXY_top_state nxt_state;
 
 	ClockEnabler #(
 		.PERIOD_BITS(`DWORD_BITS)
@@ -53,8 +55,8 @@ module StepperXY_top(
 		.reset(reset),
 		.clk_en(clk_en),
 		.trigger(trigger),
-		.num_steps_x(num_steps_x_saved),
-		.num_steps_y(num_steps_y_saved),
+		.num_steps_x(saved_num_steps_x),
+		.num_steps_y(saved_num_steps_y),
 		.out_x(out_x),
 		.dir_x(dir_x),
 		.out_y(out_y),
@@ -67,11 +69,12 @@ module StepperXY_top(
 		num_steps_y = 0;
 		increase_counter = 0;
 		trigger = 0;
+
 		case (cur_state)
-			STEPPER_CTRL_TOP_WAITING: begin
-				nxt_state = STEPPER_CTRL_TOP_WAITING;
+			STEPPER_CTRL_XY_TOP_WAIT: begin
+				nxt_state = STEPPER_CTRL_XY_TOP_WAIT;
 				if (done) begin
-					nxt_state = STEPPER_CTRL_TOP_TRIGGERRING;
+					nxt_state = STEPPER_CTRL_XY_TOP_TRIGGER;
 					increase_counter = 1;
 					case (counter)
 						0: begin
@@ -93,47 +96,47 @@ module StepperXY_top(
 						default: begin
 							num_steps_x = 0;
 							num_steps_y = 0;
-							nxt_state = STEPPER_CTRL_TOP_STOP;
+							nxt_state = STEPPER_CTRL_XY_TOP_STOP;
 						end
 					endcase
 				end
 			end
-			
-			STEPPER_CTRL_TOP_TRIGGERRING: begin
-				trigger = 1;
-				nxt_state = STEPPER_CTRL_TOP_WAITING;
 
+			STEPPER_CTRL_XY_TOP_TRIGGER: begin
+				trigger = 1;
+				nxt_state = STEPPER_CTRL_XY_TOP_WAIT;
 			end
-			STEPPER_CTRL_TOP_STOP: begin
-				nxt_state = STEPPER_CTRL_TOP_STOP;
+
+			STEPPER_CTRL_XY_TOP_STOP: begin
+				nxt_state = STEPPER_CTRL_XY_TOP_STOP;
 			end
 		endcase
 	end
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
-			cur_state <= STEPPER_CTRL_TOP_WAITING;
-			counter <= 0;
-			num_steps_x_saved <= 0;
-			num_steps_y_saved <= 0;
+			cur_state <= STEPPER_CTRL_XY_TOP_WAIT;
+			state_counter <= 0;
+			saved_num_steps_x <= 0;
+			saved_num_steps_y <= 0;
 		end
 		else if (clk_en) begin
 			cur_state <= nxt_state;
-			counter <= counter;
-			num_steps_x_saved <= num_steps_x_saved;
-			num_steps_y_saved <= num_steps_y_saved;
+			state_counter <= state_counter;
+			saved_num_steps_x <= saved_num_steps_x;
+			saved_num_steps_y <= saved_num_steps_y;
 			if (increase_counter) begin
-				counter <= counter + 1;
-				num_steps_x_saved <= num_steps_x;
-				num_steps_y_saved <= num_steps_y;
+				state_counter <= state_counter + 1;
+				saved_num_steps_x <= num_steps_x;
+				saved_num_steps_y <= num_steps_y;
 			end
 		end
 		else begin
 			cur_state <= cur_state;
-			counter <= counter;
-			num_steps_x_saved <= num_steps_x_saved;
-			num_steps_y_saved <= num_steps_y_saved;
+			state_counter <= state_counter;
+			saved_num_steps_x <= saved_num_steps_x;
+			saved_num_steps_y <= saved_num_steps_y;
 		end
 	end
 
-endmodule : StepperXY_top
+endmodule : StepperCtrlXY_top
