@@ -94,6 +94,12 @@ module StepperCtrl #(
 					counter_stop <= 1;
 					pulse_num_counter <= 1;
 				end
+				// If pulse width is 0, stop working.
+				if (~|saved_pulse_width) begin
+					counter_stop <= 1;
+					pulse_num_counter <= 1;
+					pulse_width_counter <= 1;
+				end
 			end
 		end
 		else begin
