@@ -4,11 +4,13 @@ module StepperCtrl_tb;
 
 	localparam CLK_EN_BITS = `BYTE_BITS;
 	localparam COUNT_BITS = `BYTE_BITS;
+	localparam WIDTH_BITS = `BYTE_BITS;
 
 	reg clk;
 	reg reset;
 	reg trigger;
 	reg [COUNT_BITS-1:0] num_steps;
+	reg [PULSE_WIDTH-1:0] pulse_width;
 
 	wire clk_en;
 	wire out;
@@ -33,6 +35,7 @@ module StepperCtrl_tb;
 		.clk_en(clk_en),
 		.trigger(trigger),
 		.num_steps(num_steps),
+		.pulse_width(pulse_width),
 		.out(out),
 		.dir(dir),
 		.done(done)
@@ -45,11 +48,12 @@ module StepperCtrl_tb;
 		#(`CLOCK_PERIOD / 2);
 	end
 
-	// 73 clks
+	// 120 clks
 	initial begin
 		reset = 1;
 		trigger = 0;
 		num_steps = 3;
+		pulse_width = 1;
 		#(`CLOCK_PERIOD * 2);
 
 		reset = 0;
@@ -77,6 +81,21 @@ module StepperCtrl_tb;
 
 		trigger = 0;
 		#(`CLOCK_PERIOD * 29);
+
+		num_steps = 3;
+		pulse_width = 3;
+		trigger = 1;
+		#(`CLOCK_PERIOD * 2);
+
+		trigger = 0;
+		#(`CLOCK_PERIOD * 30)
+
+		pulse_width = 0;
+		trigger = 1;
+		#(`CLOCK_PERIOD * 2);
+
+		trigger = 0;
+		#(`CLOCK_PERIOD * 13);
 		
 	end
 

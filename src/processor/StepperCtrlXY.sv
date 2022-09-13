@@ -79,26 +79,30 @@ module StepperCtrlXY #(
 	);
 
 	StepperCtrl #(
-		.COUNT_BITS(COUNT_BITS_X)
+		.COUNT_BITS(COUNT_BITS_X),
+		.WIDTH_BITS(COUNT_BITS_Y - 1)
 	) stepper_ctrl_x (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en_x),
 		.trigger(trigger_x),
 		.num_steps(saved_num_steps_x),
+		.pulse_width(1),
 		.out(out_x),
 		.dir(dir_x),
 		.done(done_x)
 	);
 
 	StepperCtrl #(
-		.COUNT_BITS(COUNT_BITS_Y)
+		.COUNT_BITS(COUNT_BITS_Y),
+		.WIDTH_BITS(COUNT_BITS_X - 1)
 	) stepper_ctrl_y (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en_y),
 		.trigger(trigger_y),
 		.num_steps(saved_num_steps_y),
+		.pulse_width(1),
 		.out(out_y),
 		.dir(dir_y),
 		.done(done_y)
