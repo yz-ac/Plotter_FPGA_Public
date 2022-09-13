@@ -28,8 +28,8 @@ module StepperCtrlXY #(
 	input logic reset,
 	input logic clk_en,
 	input logic trigger,
-	input logic [COUNT_BITS_X-1:0] num_steps_x,
-	input logic [COUNT_BITS_Y-1:0] num_steps_y,
+	input logic num_steps_x,
+	input logic num_steps_y,
 
 	output logic out_x,
 	output logic dir_x,
@@ -38,45 +38,17 @@ module StepperCtrlXY #(
 	output logic done
 );
 
-	wire trigger_x;
-	wire trigger_y;
-
-	wire working_x;
-	wire working_y;
-
-	wire clk_en_x;
-	wire clk_en_y;
-
-	wire is_standby;
-
 	reg [COUNT_BITS_X-1:0] saved_num_steps_x;
 	reg [COUNT_BITS_Y-1:0] saved_num_steps_y;
 
 	reg [COUNT_BITS_X-2:0] abs_num_steps_x;
 	reg [COUNT_BITS_Y-2:0] abs_num_steps_y;
 
-	reg [COUNT_BITS_Y-2:0] scale_x;
-	reg [COUNT_BITS_X-2:0] scale_y;
+	reg [COUNT_BITS_Y-2:0] pulse_width_x;
+	reg [COUNT_BITS_X-2:0] pulse_width_y;
 
-	FreqDivider #(
-		.DIV_BITS(COUNT_BITS_Y-1)
-	) freq_div_x (
-		.clk(clk),
-		.reset(reset),
-		.signal_in(clk_en),
-		.div_val(scale_x),
-		.signal_out(clk_en_x)
-	);
-
-	FreqDivider #(
-		.DIV_BITS(COUNT_BITS_X-1)
-	) freq_div_y (
-		.clk(clk),
-		.reset(reset),
-		.signal_in(clk_en),
-		.div_val(scale_y),
-		.signal_out(clk_en_y)
-	);
+	wire done_x;
+	wire done_y;
 
 	StepperCtrl #(
 		.COUNT_BITS(COUNT_BITS_X),
@@ -84,10 +56,10 @@ module StepperCtrlXY #(
 	) stepper_ctrl_x (
 		.clk(clk),
 		.reset(reset),
-		.clk_en(clk_en_x),
-		.trigger(trigger_x),
+		.clk_en(clk_en),
+		.trigger(trigger),
 		.num_steps(saved_num_steps_x),
-		.pulse_width(1),
+		.pulse_width(pulse_width_x),
 		.out(out_x),
 		.dir(dir_x),
 		.done(done_x)
@@ -99,31 +71,16 @@ module StepperCtrlXY #(
 	) stepper_ctrl_y (
 		.clk(clk),
 		.reset(reset),
-		.clk_en(clk_en_y),
-		.trigger(trigger_y),
+		.clk_en(clk_en),
+		.trigger(trigger),
 		.num_steps(saved_num_steps_y),
-		.pulse_width(1),
+		.pulse_width(pulse_width_y),
 		.out(out_y),
 		.dir(dir_y),
 		.done(done_y)
 	);
 
-	StepperCtrlXY_FSM fsm (
-		.clk(clk),
-		.reset(reset),
-		.clk_en(clk_en),
-		.trigger(trigger),
-		.working_x(working_x),
-		.working_y(working_y),
-		.trigger_x(trigger_x),
-		.trigger_y(trigger_y),
-		.is_standby(is_standby)
-	);
-
 	assign done = done_x & done_y;
-
-	assign working_x = ~done_x;
-	assign working_y = ~done_y;
 
 	always_comb begin
 		abs_num_steps_x = saved_num_steps_x[COUNT_BITS_X-2:0];
@@ -138,14 +95,14 @@ module StepperCtrlXY #(
 		end
 	end // always_comb
 
-	// If at least one of the num_steps is 0, no need to scale clk_en
+	// If at least one of the num_steps is 0, no need to change pulse width.
 	always_comb begin
-		scale_x = abs_num_steps_y;
-		scale_y = abs_num_steps_x;
+		pulse_width_x = abs_num_steps_y;
+		pulse_width_y = abs_num_steps_x;
 
 		if ((~|abs_num_steps_x) | (~|abs_num_steps_y)) begin
-			scale_x = 1;
-			scale_y = 1;
+			pulse_width_x = 1;
+			pulse_width_y = 1;
 		end
 	end // always_comb
 
@@ -157,7 +114,8 @@ module StepperCtrlXY #(
 		else if (clk_en) begin
 			saved_num_steps_x <= saved_num_steps_x;
 			saved_num_steps_y <= saved_num_steps_y;
-			if (is_standby) begin
+			// In standby
+			if (done_x & done_y) begin
 				saved_num_steps_x <= num_steps_x;
 				saved_num_steps_y <= num_steps_y;
 			end
