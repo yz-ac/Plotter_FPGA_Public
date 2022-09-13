@@ -29,7 +29,7 @@ module StepperCtrlXY_top (
 	reg [COUNT_BITS_X-1:0] saved_num_steps_x;
 	reg [COUNT_BITS_Y-1:0] saved_num_steps_y;
 
-	reg [`STATE_BITS-1:0] state_counter;
+	reg [STATE_BITS-1:0] state_counter;
 	reg increase_counter;
 
 	wire done;
@@ -76,7 +76,7 @@ module StepperCtrlXY_top (
 				if (done) begin
 					nxt_state = STEPPER_CTRL_XY_TOP_TRIGGER;
 					increase_counter = 1;
-					case (counter)
+					case (state_counter)
 						0: begin
 							num_steps_x = 2;
 							num_steps_y = 3;
