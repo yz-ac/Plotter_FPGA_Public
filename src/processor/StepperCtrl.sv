@@ -82,13 +82,15 @@ module StepperCtrl #(
 			pulse_width_counter <= 1;
 			if (working) begin
 				pulse_width_counter <= pulse_width_counter + 1;
+				pulse_num_counter <= pulse_num_counter;
+				saved_num_steps <= saved_num_steps;
+				saved_pulse_width <= saved_pulse_width;
 				if (pulse_width_counter == saved_pulse_width) begin
 					pulse_num_counter <= pulse_num_counter + 1;
 					pulse_width_counter <= 1;
 				end
-				saved_num_steps <= saved_num_steps;
-				saved_pulse_width <= saved_pulse_width;
-				if (pulse_num_counter[COUNT_BITS-1:1] == abs_num_steps) begin
+				if ((pulse_num_counter[COUNT_BITS-1:1] == abs_num_steps)
+					& (pulse_width_counter == saved_pulse_width)) begin
 					counter_stop <= 1;
 					pulse_num_counter <= 1;
 				end

@@ -10,7 +10,7 @@ module StepperCtrl_tb;
 	reg reset;
 	reg trigger;
 	reg [COUNT_BITS-1:0] num_steps;
-	reg [PULSE_WIDTH-1:0] pulse_width;
+	reg [WIDTH_BITS-1:0] pulse_width;
 
 	wire clk_en;
 	wire out;
@@ -48,7 +48,7 @@ module StepperCtrl_tb;
 		#(`CLOCK_PERIOD / 2);
 	end
 
-	// 120 clks
+	// 130 clks
 	initial begin
 		reset = 1;
 		trigger = 0;
@@ -88,7 +88,7 @@ module StepperCtrl_tb;
 		#(`CLOCK_PERIOD * 2);
 
 		trigger = 0;
-		#(`CLOCK_PERIOD * 30)
+		#(`CLOCK_PERIOD * 40)
 
 		pulse_width = 0;
 		trigger = 1;
