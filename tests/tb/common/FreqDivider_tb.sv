@@ -58,4 +58,4 @@ module FreqDivider_tb;
 		#(`CLOCK_PERIOD * 10);
 	end
 
-endmodule : FreqDivider_tb;
+endmodule : FreqDivider_tb

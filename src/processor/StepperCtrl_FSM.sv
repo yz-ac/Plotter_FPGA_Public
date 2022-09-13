@@ -1,8 +1,8 @@
 `include "../common/common.svh"
 
 typedef enum {
-	STANDBY,
-	WORKING
+	STEPPER_CTRL_STANDBY,
+	STEPPER_CTRL_WORKING
 } StepperCtrl_state;
 
 /**
@@ -30,18 +30,18 @@ module StepperCtrl_FSM (
 
 	always_comb begin
 		case (cur_state)
-			STANDBY: begin
+			STEPPER_CTRL_STANDBY: begin
 				working = 1'b0;
-				nxt_state = STANDBY;
+				nxt_state = STEPPER_CTRL_STANDBY;
 				if (trigger) begin
-					nxt_state = WORKING;
+					nxt_state = STEPPER_CTRL_WORKING;
 				end
 			end
-			WORKING: begin
+			STEPPER_CTRL_WORKING: begin
 				working = 1'b1;
-				nxt_state = WORKING;
+				nxt_state = STEPPER_CTRL_WORKING;
 				if (counter_stop) begin
-					nxt_state = STANDBY;
+					nxt_state = STEPPER_CTRL_STANDBY;
 					working = 1'b0;
 				end
 			end
@@ -51,7 +51,7 @@ module StepperCtrl_FSM (
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
-			cur_state <= STANDBY;
+			cur_state <= STEPPER_CTRL_STANDBY;
 		end
 		else if (clk_en) begin
 			cur_state <= nxt_state;

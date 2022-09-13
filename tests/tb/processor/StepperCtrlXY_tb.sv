@@ -53,7 +53,7 @@ module StepperCtrlXY_tb;
 		#(`CLOCK_PERIOD / 2);
 	end
 
-	// 57 clks
+	// 198 clks
 	initial begin
 		reset = 1;
 		trigger = 0;
@@ -74,7 +74,7 @@ module StepperCtrlXY_tb;
 		#(`CLOCK_PERIOD * 2);
 
 		trigger = 0;
-		#(`CLOCK_PERIOD * 11);
+		#(`CLOCK_PERIOD * 17);
 
 		num_steps_x = -2;
 		num_steps_y = 0;
@@ -82,7 +82,7 @@ module StepperCtrlXY_tb;
 		#(`CLOCK_PERIOD * 2);
 
 		trigger = 0;
-		#(`CLOCK_PERIOD * 7);
+		#(`CLOCK_PERIOD * 11);
 
 		num_steps_x = 0;
 		num_steps_y = 0;
@@ -91,6 +91,14 @@ module StepperCtrlXY_tb;
 
 		trigger = 0;
 		#(`CLOCK_PERIOD * 10);
+
+		num_steps_x = -7;
+		num_steps_y = 4;
+		trigger = 1;
+		#(`CLOCK_PERIOD * 2);
+
+		trigger = 0;
+		#(`CLOCK_PERIOD * 129);
 	end
 
 endmodule : StepperCtrlXY_tb

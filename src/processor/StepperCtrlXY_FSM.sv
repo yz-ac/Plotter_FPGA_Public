@@ -1,11 +1,11 @@
 `include "../common/common.svh"
 
 typedef enum {
-	STANDBY,
-	TRIGGER_HOLD_BOTH,
-	TRIGGER_HOLD_X,
-	TRIGGER_HOLD_Y,
-	WORKING
+	STEPPER_CTRL_XY_STANDBY,
+	STEPPER_CTRL_XY_TRIGGER_HOLD_BOTH,
+	STEPPER_CTRL_XY_TRIGGER_HOLD_X,
+	STEPPER_CTRL_XY_TRIGGER_HOLD_Y,
+	STEPPER_CTRL_XY_WORKING
 } StepperCtrlXY_state;
 
 /**
@@ -42,45 +42,45 @@ module StepperCtrlXY_FSM (
 		trigger_y = 1'b0;
 		is_standby = 1'b0;
 		case (cur_state)
-			STANDBY: begin
-				nxt_state = STANDBY;
+			STEPPER_CTRL_XY_STANDBY: begin
+				nxt_state = STEPPER_CTRL_XY_STANDBY;
 				is_standby = 1'b1;
 				if (trigger) begin
-					nxt_state = TRIGGER_HOLD_BOTH;
+					nxt_state = STEPPER_CTRL_XY_TRIGGER_HOLD_BOTH;
 				end
 			end
-			TRIGGER_HOLD_BOTH: begin
+			STEPPER_CTRL_XY_TRIGGER_HOLD_BOTH: begin
 				trigger_x = 1'b1;
 				trigger_y = 1'b1;
-				nxt_state = TRIGGER_HOLD_BOTH;
+				nxt_state = STEPPER_CTRL_XY_TRIGGER_HOLD_BOTH;
 				if (working_x) begin
-					nxt_state = TRIGGER_HOLD_Y;
+					nxt_state = STEPPER_CTRL_XY_TRIGGER_HOLD_Y;
 				end
 				if (working_y) begin
-					nxt_state = TRIGGER_HOLD_X;
+					nxt_state = STEPPER_CTRL_XY_TRIGGER_HOLD_X;
 				end
 				if (working_x & working_y) begin
-					nxt_state = WORKING;
+					nxt_state = STEPPER_CTRL_XY_WORKING;
 				end
 			end
-			TRIGGER_HOLD_X: begin
+			STEPPER_CTRL_XY_TRIGGER_HOLD_X: begin
 				trigger_x = 1'b1;
-				nxt_state = TRIGGER_HOLD_X;
+				nxt_state = STEPPER_CTRL_XY_TRIGGER_HOLD_X;
 				if (working_x) begin
-					nxt_state = WORKING;
+					nxt_state = STEPPER_CTRL_XY_WORKING;
 				end
 			end
-			TRIGGER_HOLD_Y: begin
+			STEPPER_CTRL_XY_TRIGGER_HOLD_Y: begin
 				trigger_y = 1'b1;
-				nxt_state = TRIGGER_HOLD_Y;
+				nxt_state = STEPPER_CTRL_XY_TRIGGER_HOLD_Y;
 				if (working_y) begin
-					nxt_state = WORKING;
+					nxt_state = STEPPER_CTRL_XY_WORKING;
 				end
 			end
-			WORKING: begin
-				nxt_state = WORKING;
+			STEPPER_CTRL_XY_WORKING: begin
+				nxt_state = STEPPER_CTRL_XY_WORKING;
 				if ((!working_x) & (!working_y)) begin
-					nxt_state = STANDBY;
+					nxt_state = STEPPER_CTRL_XY_STANDBY;
 				end
 			end
 		endcase
@@ -88,7 +88,7 @@ module StepperCtrlXY_FSM (
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
-			cur_state <= STANDBY;
+			cur_state <= STEPPER_CTRL_XY_STANDBY;
 		end
 		else if (clk_en) begin
 			cur_state <= nxt_state;
