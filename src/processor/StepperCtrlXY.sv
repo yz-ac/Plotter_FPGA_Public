@@ -28,8 +28,8 @@ module StepperCtrlXY #(
 	input logic reset,
 	input logic clk_en,
 	input logic trigger,
-	input logic num_steps_x,
-	input logic num_steps_y,
+	input logic [COUNT_BITS_X-1:0] num_steps_x,
+	input logic [COUNT_BITS_Y-1:0] num_steps_y,
 
 	output logic out_x,
 	output logic dir_x,
