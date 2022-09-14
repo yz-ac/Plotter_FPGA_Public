@@ -1,11 +1,8 @@
 `include "../common/common.svh"
 
 typedef enum {
-	STEPPER_CTRL_RESET,
 	STEPPER_CTRL_STANDBY,
-	STEPPER_CTRL_IN_PULSE,
-	STEPPER_CTRL_NEXT_PULSE,
-	STEPPER_CTRL_DONE
+	STEPPER_CTRL_WORKING
 } StepperCtrl_state;
 
 /**
@@ -45,58 +42,41 @@ module StepperCtrl_FSM (
 		enable_pulse_width_counter = 0;
 		working = 0;
 		case (cur_state)
-			STEPPER_CTRL_RESET: begin
-				nxt_state = STEPPER_CTRL_STANDBY;
-				reset_pulse_num_counter = 1;
-				reset_pulse_width_counter = 1;
-				if (trigger) begin
-					nxt_state = STEPPER_CTRL_IN_PULSE;
-				end
-			end
-
 			STEPPER_CTRL_STANDBY: begin
 				nxt_state = STEPPER_CTRL_STANDBY;
+				reset_pulse_num_counter = 1;
+				reset_pulse_width_counter = 1;
 				if (trigger) begin
-					reset_pulse_num_counter = 1;
-					reset_pulse_width_counter = 1;
-					nxt_state = STEPPER_CTRL_IN_PULSE;
+					nxt_state = STEPPER_CTRL_WORKING;
 				end
 			end
 
-			STEPPER_CTRL_IN_PULSE: begin
-				nxt_state = STEPPER_CTRL_IN_PULSE;
+			STEPPER_CTRL_WORKING: begin
+				nxt_state = STEPPER_CTRL_WORKING;
 				working = 1;
 				enable_pulse_width_counter = 1;
+
 				if (pulse_width_count_reached_target) begin
-					nxt_state = STEPPER_CTRL_NEXT_PULSE;
+					reset_pulse_width_counter = 1;
+					enable_pulse_num_counter = 1;
 				end
 				if (pulse_num_count_reached_target & pulse_width_count_reached_target) begin
-					nxt_state = STEPPER_CTRL_DONE;
+					nxt_state = STEPPER_CTRL_STANDBY;
+					reset_pulse_width_counter = 1;
+					reset_pulse_num_counter = 1;
 				end
 				if (pulse_width_is_zero) begin
-					nxt_state = STEPPER_CTRL_DONE;
+					nxt_state = STEPPER_CTRL_STANDBY;
+					reset_pulse_width_counter = 1;
+					reset_pulse_num_counter = 1;
 				end
-			end
-
-			STEPPER_CTRL_NEXT_PULSE: begin
-				nxt_state = STEPPER_CTRL_IN_PULSE;
-				working = 1;
-				reset_pulse_width_counter = 1;
-				enable_pulse_num_counter = 1;
-			end
-
-			STEPPER_CTRL_DONE: begin
-				nxt_state = STEPPER_CTRL_STANDBY;
-				working = 1;
-				reset_pulse_width_counter = 1;
-				reset_pulse_num_counter = 1;
 			end
 		endcase
 	end // always_comb
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
-			cur_state <= STEPPER_CTRL_RESET;
+			cur_state <= STEPPER_CTRL_STANDBY;
 		end
 		else if (clk_en) begin
 			cur_state <= nxt_state;

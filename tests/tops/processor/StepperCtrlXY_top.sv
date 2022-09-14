@@ -1,7 +1,7 @@
 `include "../../../src/common/common.svh"
 
-`define CLOCK_DIVIDE (50_000_000)
-// `define CLOCK_DIVIDE (50)
+// `define CLOCK_DIVIDE (50_000_000) // FPGA test
+`define CLOCK_DIVIDE (50) // MODELSIM test
 
 typedef enum {
 	STEPPER_CTRL_XY_TOP_WAIT,

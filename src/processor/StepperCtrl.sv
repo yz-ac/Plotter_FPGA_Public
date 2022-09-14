@@ -54,9 +54,10 @@ module StepperCtrl #(
 		.COUNTER_BITS(COUNT_BITS)
 	) pulse_num_counter (
 		.clk(clk),
-		.reset(reset_pulse_num_counter),
+		.reset(reset),
 		.clk_en(clk_en),
 		.enable(enable_pulse_num_counter),
+		.sync_reset(reset_pulse_num_counter),
 		.start_from_one(1),
 		.out(pulse_num_count)
 	);
@@ -65,9 +66,10 @@ module StepperCtrl #(
 		.COUNTER_BITS(WIDTH_BITS)
 	) pulse_width_counter (
 		.clk(clk),
-		.reset(reset_pulse_width_counter),
+		.reset(reset),
 		.clk_en(clk_en),
 		.enable(enable_pulse_width_counter),
+		.sync_reset(reset_pulse_width_counter),
 		.start_from_one(1),
 		.out(pulse_width_count)
 	);

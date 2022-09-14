@@ -8,6 +8,7 @@ module Counter_tb;
 	reg clk;
 	reg reset;
 	reg enable;
+	reg sync_reset;
 	reg start_from_one;
 
 	wire clk_en;
@@ -30,6 +31,7 @@ module Counter_tb;
 		.reset(reset),
 		.clk_en(clk_en),
 		.enable(enable),
+		.sync_reset(sync_reset),
 		.start_from_one(start_from_one),
 		.out(out)
 	);
@@ -41,10 +43,11 @@ module Counter_tb;
 		#(`CLOCK_PERIOD / 2);
 	end
 
-	// 112 clks
+	// 120 clks
 	initial begin
 		reset = 1;
 		enable = 1;
+		sync_reset = 0;
 		start_from_one = 0;
 		#(`CLOCK_PERIOD * 2);
 
@@ -57,6 +60,12 @@ module Counter_tb;
 		enable = 1;
 		start_from_one = 1;
 		#(`CLOCK_PERIOD * 50);
+
+		sync_reset = 1;
+		#(`CLOCK_PERIOD * 2);
+
+		sync_reset = 0;
+		#(`CLOCK_PERIOD * 6);
 	end
 
 endmodule : Counter_tb
