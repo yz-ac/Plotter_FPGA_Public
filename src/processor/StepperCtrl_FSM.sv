@@ -3,7 +3,9 @@
 typedef enum {
 	STEPPER_CTRL_RESET,
 	STEPPER_CTRL_STANDBY,
-	STEPPER_CTRL_WORKING
+	STEPPER_CTRL_IN_PULSE,
+	STEPPER_CTRL_NEXT_PULSE,
+	STEPPER_CTRL_DONE
 } StepperCtrl_state;
 
 /**
@@ -48,7 +50,7 @@ module StepperCtrl_FSM (
 				reset_pulse_num_counter = 1;
 				reset_pulse_width_counter = 1;
 				if (trigger) begin
-					nxt_state = STEPPER_CTRL_WORKING;
+					nxt_state = STEPPER_CTRL_IN_PULSE;
 				end
 			end
 
@@ -57,28 +59,37 @@ module StepperCtrl_FSM (
 				if (trigger) begin
 					reset_pulse_num_counter = 1;
 					reset_pulse_width_counter = 1;
-					nxt_state = STEPPER_CTRL_WORKING;
+					nxt_state = STEPPER_CTRL_IN_PULSE;
 				end
 			end
 
-			STEPPER_CTRL_WORKING: begin
-				nxt_state = STEPPER_CTRL_WORKING;
+			STEPPER_CTRL_IN_PULSE: begin
+				nxt_state = STEPPER_CTRL_IN_PULSE;
 				working = 1;
 				enable_pulse_width_counter = 1;
 				if (pulse_width_count_reached_target) begin
-					reset_pulse_width_counter = 1;
-					enable_pulse_num_counter = 1;
+					nxt_state = STEPPER_CTRL_NEXT_PULSE;
 				end
 				if (pulse_num_count_reached_target & pulse_width_count_reached_target) begin
-					nxt_state = STEPPER_CTRL_STANDBY;
-					reset_pulse_num_counter = 1;
-					reset_pulse_width_counter = 1;
+					nxt_state = STEPPER_CTRL_DONE;
 				end
 				if (pulse_width_is_zero) begin
-					nxt_state = STEPPER_CTRL_STANDBY;
-					reset_pulse_num_counter = 1;
-					reset_pulse_width_counter = 1;
+					nxt_state = STEPPER_CTRL_DONE;
 				end
+			end
+
+			STEPPER_CTRL_NEXT_PULSE: begin
+				nxt_state = STEPPER_CTRL_IN_PULSE;
+				working = 1;
+				reset_pulse_width_counter = 1;
+				enable_pulse_num_counter = 1;
+			end
+
+			STEPPER_CTRL_DONE: begin
+				nxt_state = STEPPER_CTRL_STANDBY;
+				working = 1;
+				reset_pulse_width_counter = 1;
+				reset_pulse_num_counter = 1;
 			end
 		endcase
 	end // always_comb
