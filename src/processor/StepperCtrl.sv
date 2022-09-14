@@ -35,28 +35,66 @@ module StepperCtrl #(
 	output logic done
 );
 
-	wire working;
-
-	reg counter_stop;
 	reg [COUNT_BITS-1:0] saved_num_steps;
 	reg [WIDTH_BITS-1:0] saved_pulse_width;
 	reg [COUNT_BITS-2:0] abs_num_steps;
-	reg [COUNT_BITS-1:0] pulse_num_counter;
-	reg [WIDTH_BITS-1:0] pulse_width_counter;
 
-	StepperCtrl_FSM fsm(
+	wire reset_pulse_num_counter;
+	wire reset_pulse_width_counter;
+	wire enable_pulse_num_counter;
+	wire enable_pulse_width_counter;
+	wire [COUNT_BITS-1:0] pulse_num_count;
+	wire [WIDTH_BITS-1:0] pulse_width_count;
+	wire working;
+	wire pulse_num_count_reached_target;
+	wire pulse_width_count_reached_target;
+	wire pulse_width_is_zero;
+
+	Counter #(
+		.COUNTER_BITS(COUNT_BITS)
+	) pulse_num_counter (
+		.clk(clk),
+		.reset(reset_pulse_num_counter),
+		.clk_en(clk_en),
+		.enable(enable_pulse_num_counter),
+		.start_from_one(1),
+		.out(pulse_num_count)
+	);
+
+	Counter #(
+		.COUNTER_BITS(WIDTH_BITS)
+	) pulse_width_counter (
+		.clk(clk),
+		.reset(reset_pulse_width_counter),
+		.clk_en(clk_en),
+		.enable(enable_pulse_width_counter),
+		.start_from_one(1),
+		.out(pulse_width_count)
+	);
+
+	StepperCtrl_FSM fsm (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en),
 		.trigger(trigger),
-		.counter_stop(counter_stop),
-		.working(working)
+		.pulse_num_count_reached_target(pulse_num_count_reached_target),
+		.pulse_width_count_reached_target(pulse_width_count_reached_target),
+		.pulse_width_is_zero(pulse_width_is_zero),
+		.working(working),
+		.reset_pulse_num_counter(reset_pulse_num_counter),
+		.reset_pulse_width_counter(reset_pulse_width_counter),
+		.enable_pulse_num_counter(enable_pulse_num_counter),
+		.enable_pulse_width_counter(enable_pulse_width_counter)
 	);
 
 	assign done = ~working;
 	assign dir = saved_num_steps[COUNT_BITS-1];
-	// Stepper needs pulses (clk_ens = num_steps x2)
-	assign out = ~(pulse_num_counter[0]);
+	// Stepper needs pulses (clk_en's = num_steps x2)
+	assign out = ~(pulse_num_count[0]);
+
+	assign pulse_num_count_reached_target = (pulse_num_count[COUNT_BITS-1:1] == abs_num_steps) ? 1 : 0;
+	assign pulse_width_count_reached_target = (pulse_width_count == saved_pulse_width) ? 1 : 0;
+	assign pulse_width_is_zero = (~|saved_pulse_width) ? 1 : 0;
 
 	always_comb begin
 		abs_num_steps = saved_num_steps[COUNT_BITS-2:0];
@@ -70,45 +108,114 @@ module StepperCtrl #(
 		if (reset) begin
 			saved_num_steps <= num_steps;
 			saved_pulse_width <= pulse_width;
-			pulse_num_counter <= 1;
-			pulse_width_counter <= 1;
-			counter_stop <= 0;
 		end
 		else if (clk_en) begin
-			counter_stop <= 0;
 			saved_num_steps <= num_steps;
 			saved_pulse_width <= pulse_width;
-			pulse_num_counter <= 1;
-			pulse_width_counter <= 1;
 			if (working) begin
-				pulse_width_counter <= pulse_width_counter + 1;
-				pulse_num_counter <= pulse_num_counter;
 				saved_num_steps <= saved_num_steps;
 				saved_pulse_width <= saved_pulse_width;
-				if (pulse_width_counter == saved_pulse_width) begin
-					pulse_num_counter <= pulse_num_counter + 1;
-					pulse_width_counter <= 1;
-				end
-				if ((pulse_num_counter[COUNT_BITS-1:1] == abs_num_steps)
-					& (pulse_width_counter == saved_pulse_width)) begin
-					counter_stop <= 1;
-					pulse_num_counter <= 1;
-				end
-				// If pulse width is 0, stop working.
-				if (~|saved_pulse_width) begin
-					counter_stop <= 1;
-					pulse_num_counter <= 1;
-					pulse_width_counter <= 1;
-				end
 			end
 		end
 		else begin
 			saved_num_steps <= saved_num_steps;
 			saved_pulse_width <= saved_pulse_width;
-			pulse_num_counter <= pulse_num_counter;
-			pulse_width_counter <= pulse_width_counter;
-			counter_stop <= counter_stop;
 		end
 	end // always_ff
 
 endmodule : StepperCtrl
+
+// module StepperCtrl #(
+// 	COUNT_BITS = `BYTE_BITS,
+// 	WIDTH_BITS = `BYTE_BITS
+// )
+// (
+// 	input logic clk,
+// 	input logic reset,
+// 	input logic clk_en,
+// 	input logic trigger,
+// 	input logic [COUNT_BITS-1:0] num_steps,
+// 	input logic [WIDTH_BITS-1:0] pulse_width,
+// 
+// 	output logic out,
+// 	output logic dir,
+// 	output logic done
+// );
+// 
+// 	wire working;
+// 
+// 	reg counter_stop;
+// 	reg [COUNT_BITS-1:0] saved_num_steps;
+// 	reg [WIDTH_BITS-1:0] saved_pulse_width;
+// 	reg [COUNT_BITS-2:0] abs_num_steps;
+// 	reg [COUNT_BITS-1:0] pulse_num_counter;
+// 	reg [WIDTH_BITS-1:0] pulse_width_counter;
+// 
+// 	StepperCtrl_FSM fsm(
+// 		.clk(clk),
+// 		.reset(reset),
+// 		.clk_en(clk_en),
+// 		.trigger(trigger),
+// 		.counter_stop(counter_stop),
+// 		.working(working)
+// 	);
+// 
+// 	assign done = ~working;
+// 	assign dir = saved_num_steps[COUNT_BITS-1];
+// 	// Stepper needs pulses (clk_ens = num_steps x2)
+// 	assign out = ~(pulse_num_counter[0]);
+// 
+// 	always_comb begin
+// 		abs_num_steps = saved_num_steps[COUNT_BITS-2:0];
+// 		// Negative - two's complements
+// 		if (saved_num_steps[COUNT_BITS-1]) begin
+// 			abs_num_steps = (~(saved_num_steps[COUNT_BITS-2:0])) + 1;
+// 		end
+// 	end // always_comb
+// 
+// 	always_ff @(posedge clk) begin
+// 		if (reset) begin
+// 			saved_num_steps <= num_steps;
+// 			saved_pulse_width <= pulse_width;
+// 			pulse_num_counter <= 1;
+// 			pulse_width_counter <= 1;
+// 			counter_stop <= 0;
+// 		end
+// 		else if (clk_en) begin
+// 			counter_stop <= 0;
+// 			saved_num_steps <= num_steps;
+// 			saved_pulse_width <= pulse_width;
+// 			pulse_num_counter <= 1;
+// 			pulse_width_counter <= 1;
+// 			if (working) begin
+// 				pulse_width_counter <= pulse_width_counter + 1;
+// 				pulse_num_counter <= pulse_num_counter;
+// 				saved_num_steps <= saved_num_steps;
+// 				saved_pulse_width <= saved_pulse_width;
+// 				if (pulse_width_counter == saved_pulse_width) begin
+// 					pulse_num_counter <= pulse_num_counter + 1;
+// 					pulse_width_counter <= 1;
+// 				end
+// 				if ((pulse_num_counter[COUNT_BITS-1:1] == abs_num_steps)
+// 					& (pulse_width_counter == saved_pulse_width)) begin
+// 					counter_stop <= 1;
+// 					pulse_num_counter <= 1;
+// 				end
+// 				// If pulse width is 0, stop working.
+// 				if (~|saved_pulse_width) begin
+// 					counter_stop <= 1;
+// 					pulse_num_counter <= 1;
+// 					pulse_width_counter <= 1;
+// 				end
+// 			end
+// 		end
+// 		else begin
+// 			saved_num_steps <= saved_num_steps;
+// 			saved_pulse_width <= saved_pulse_width;
+// 			pulse_num_counter <= pulse_num_counter;
+// 			pulse_width_counter <= pulse_width_counter;
+// 			counter_stop <= counter_stop;
+// 		end
+// 	end // always_ff
+// 
+// endmodule : StepperCtrl

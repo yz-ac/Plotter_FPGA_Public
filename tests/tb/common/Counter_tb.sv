@@ -8,6 +8,7 @@ module Counter_tb;
 	reg clk;
 	reg reset;
 	reg enable;
+	reg start_from_one;
 
 	wire clk_en;
 	wire [COUNTER_BITS-1:0] out;
@@ -29,6 +30,7 @@ module Counter_tb;
 		.reset(reset),
 		.clk_en(clk_en),
 		.enable(enable),
+		.start_from_one(start_from_one),
 		.out(out)
 	);
 
@@ -39,10 +41,11 @@ module Counter_tb;
 		#(`CLOCK_PERIOD / 2);
 	end
 
-	// 72 clks
+	// 112 clks
 	initial begin
 		reset = 1;
 		enable = 1;
+		start_from_one = 0;
 		#(`CLOCK_PERIOD * 2);
 
 		reset = 0;
@@ -52,7 +55,8 @@ module Counter_tb;
 		#(`CLOCK_PERIOD * 10);
 
 		enable = 1;
-		#(`CLOCK_PERIOD * 10);
+		start_from_one = 1;
+		#(`CLOCK_PERIOD * 50);
 	end
 
 endmodule : Counter_tb
