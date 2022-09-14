@@ -55,4 +55,4 @@ module Counter_tb;
 		#(`CLOCK_PERIOD * 10);
 	end
 
-endmodule : Counter_tb;
+endmodule : Counter_tb

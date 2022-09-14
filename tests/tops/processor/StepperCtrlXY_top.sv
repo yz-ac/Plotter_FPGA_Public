@@ -1,7 +1,7 @@
 `include "../../../src/common/common.svh"
 
-// `define CLOCK_DIVIDE (50_000_000)
-`define CLOCK_DIVIDE (50)
+`define CLOCK_DIVIDE (50_000_000)
+// `define CLOCK_DIVIDE (50)
 
 typedef enum {
 	STEPPER_CTRL_XY_TOP_WAIT,
@@ -15,7 +15,8 @@ module StepperCtrlXY_top (
 	output logic out_x,
 	output logic dir_x,
 	output logic out_y,
-	output logic dir_y
+	output logic dir_y,
+	output logic done_out
 );
 
 	localparam COUNT_BITS_X = `BYTE_BITS;
@@ -64,6 +65,8 @@ module StepperCtrlXY_top (
 		.done(done)
 	);
 
+	assign done_out = done;
+
 	always_comb begin
 		num_steps_x = 0;
 		num_steps_y = 0;
@@ -91,6 +94,10 @@ module StepperCtrlXY_top (
 						end
 						3: begin
 							num_steps_x = -2;
+							num_steps_y = 0;
+						end
+						4: begin
+							num_steps_x = 0;
 							num_steps_y = 0;
 						end
 						default: begin
