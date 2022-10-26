@@ -37,8 +37,8 @@ module StepperCtrl #(
 
 	reg [COUNT_BITS-1:0] saved_num_steps;
 	reg [WIDTH_BITS-1:0] saved_pulse_width;
-	reg [COUNT_BITS-2:0] abs_num_steps;
 
+	wire [COUNT_BITS-2:0] abs_num_steps;
 	wire reset_pulse_num_counter;
 	wire reset_pulse_width_counter;
 	wire enable_pulse_num_counter;
@@ -98,13 +98,12 @@ module StepperCtrl #(
 	assign pulse_width_count_reached_target = (pulse_width_count == saved_pulse_width) ? 1 : 0;
 	assign pulse_width_is_zero = (~|saved_pulse_width) ? 1 : 0;
 
-	always_comb begin
-		abs_num_steps = saved_num_steps[COUNT_BITS-2:0];
-		// Negative - two's complements
-		if (saved_num_steps[COUNT_BITS-1]) begin
-			abs_num_steps = (~(saved_num_steps[COUNT_BITS-2:0])) + 1;
-		end
-	end // always_comb
+	Abs #(
+		.BITS(COUNT_BITS)
+	) num_steps_to_abs (
+		.in(saved_num_steps),
+		.out(abs_num_steps)
+	);
 
 	always_ff @(posedge clk) begin
 		if (reset) begin

@@ -41,12 +41,11 @@ module StepperCtrlXY #(
 	reg [COUNT_BITS_X-1:0] saved_num_steps_x;
 	reg [COUNT_BITS_Y-1:0] saved_num_steps_y;
 
-	reg [COUNT_BITS_X-2:0] abs_num_steps_x;
-	reg [COUNT_BITS_Y-2:0] abs_num_steps_y;
-
 	reg [COUNT_BITS_Y-2:0] pulse_width_x;
 	reg [COUNT_BITS_X-2:0] pulse_width_y;
 
+	wire [COUNT_BITS_X-2:0] abs_num_steps_x;
+	wire [COUNT_BITS_Y-2:0] abs_num_steps_y;
 	wire done_x;
 	wire done_y;
 
@@ -82,18 +81,19 @@ module StepperCtrlXY #(
 
 	assign done = done_x & done_y;
 
-	always_comb begin
-		abs_num_steps_x = saved_num_steps_x[COUNT_BITS_X-2:0];
-		abs_num_steps_y = saved_num_steps_y[COUNT_BITS_Y-2:0];
+	Abs #(
+		.BITS(COUNT_BITS_X)
+	) num_steps_x_to_abs (
+		.in(saved_num_steps_x),
+		.out(abs_num_steps_x)
+	);
 
-		// Negative - two's complements
-		if (saved_num_steps_x[COUNT_BITS_X-1]) begin
-			abs_num_steps_x = (~saved_num_steps_x[COUNT_BITS_X-2:0]) + 1;
-		end
-		if (saved_num_steps_y[COUNT_BITS_Y-1]) begin
-			abs_num_steps_y = (~saved_num_steps_y[COUNT_BITS_Y-2:0]) + 1;
-		end
-	end // always_comb
+	Abs #(
+		.BITS(COUNT_BITS_Y)
+	) num_steps_y_to_abs (
+		.in(saved_num_steps_y),
+		.out(abs_num_steps_y)
+	);
 
 	// If at least one of the num_steps is 0, no need to change pulse width.
 	always_comb begin
