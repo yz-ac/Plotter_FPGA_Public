@@ -7,9 +7,11 @@
 `define SERVO_DUTY_UP (10) // 1ms uptime for upward position (datasheet)
 `define SERVO_DUTY_DOWN (15) // 1.5ms uptime for mid position (datasheet)
 
-typedef enum {
-	SERVO_POS_DOWN,
-	SERVO_POS_UP
-} ServoPosition_t;
+package Servo;
+	typedef enum {
+		SERVO_POS_DOWN,
+		SERVO_POS_UP
+	} ServoPosition_t;
+endpackage : Servo
 
 `endif // __SERVO_SVH__

@@ -1,6 +1,8 @@
 `include "../common/common.svh"
 `include "../processor/servo.svh"
 
+import Servo::ServoPosition_t;
+
 /**
 * Controls the servo motor via PWM.
 * Compatible with sg90 servo.
@@ -17,7 +19,7 @@ module ServoCtrl #(
 (
 	input logic clk,
 	input logic reset,
-	input ServoPosition_t pos,
+	input Servo::ServoPosition_t pos,
 
 	output logic out
 );
@@ -47,6 +49,6 @@ module ServoCtrl #(
 		.out(out)
 	);
 
-	assign duty_cycle = (pos == SERVO_POS_UP) ? (`SERVO_DUTY_UP) : (`SERVO_DUTY_DOWN);
+	assign duty_cycle = (pos == Servo::SERVO_POS_UP) ? (`SERVO_DUTY_UP) : (`SERVO_DUTY_DOWN);
 
 endmodule : ServoCtrl
