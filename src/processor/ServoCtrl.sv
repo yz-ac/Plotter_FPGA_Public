@@ -1,7 +1,7 @@
 `include "../common/common.svh"
 `include "../processor/servo.svh"
 
-import Servo::ServoPosition_t;
+import Servo_p::ServoPosition_t;
 
 /**
 * Controls the servo motor via PWM.
@@ -49,6 +49,6 @@ module ServoCtrl #(
 		.out(out)
 	);
 
-	assign duty_cycle = (pos == Servo::SERVO_POS_UP) ? (`SERVO_DUTY_UP) : (`SERVO_DUTY_DOWN);
+	assign duty_cycle = (pos == Servo_p::SERVO_POS_UP) ? (`SERVO_DUTY_UP) : (`SERVO_DUTY_DOWN);
 
 endmodule : ServoCtrl

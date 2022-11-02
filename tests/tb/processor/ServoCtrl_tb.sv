@@ -1,7 +1,7 @@
 `include "../../../src/common/common.svh"
 `include "../../../src/processor/servo.svh"
 
-import Servo::ServoPosition_t;
+import Servo_p::ServoPosition_t;
 
 module ServoCtrl_tb;
 
@@ -9,7 +9,7 @@ module ServoCtrl_tb;
 
 	reg clk;
 	reg reset;
-	Servo::ServoPosition_t pos;
+	Servo_p::ServoPosition_t pos;
 
 	wire out;
 	wire clk_en;
@@ -43,13 +43,13 @@ module ServoCtrl_tb;
 	// 8_000_002 clks
 	initial begin
 		reset = 1;
-		pos = Servo::SERVO_POS_DOWN;
+		pos = Servo_p::SERVO_POS_DOWN;
 		#(`CLOCK_PERIOD * 2);
 
 		reset = 0;
 		#(`CLOCK_PERIOD * `SERVO_CLK_EN * `SERVO_PERIOD * 4);
 
-		pos = Servo::SERVO_POS_UP;
+		pos = Servo_p::SERVO_POS_UP;
 		#(`CLOCK_PERIOD * `SERVO_CLK_EN * `SERVO_PERIOD * 4);
 	end
 

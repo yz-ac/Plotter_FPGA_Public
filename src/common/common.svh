@@ -11,9 +11,4 @@
 // Board constants
 `define CLOCK_PERIOD (20) // ns
 
-// Opcode format
-`define OP_BITS (8)
-`define ARG_BITS (12)
-`define FLAG_BITS (8)
-
 `endif // __COMMON_SVH__
