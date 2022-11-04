@@ -20,7 +20,8 @@ package Opcode_p;
 		OP_G00 = 0,
 		OP_G01 = 1,
 		OP_G02 = 2,
-		OP_G03 = 3
+		OP_G03 = 3,
+		OP_INVALID = 255
 	} Opcode_t;
 endpackage : Opcode_p
 
