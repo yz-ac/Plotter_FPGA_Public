@@ -15,6 +15,13 @@ package Opcode_p;
 		bit [`ARG_BITS-1:0] arg4;
 		bit [`FLAG_BITS-1:0] flags;
 	} Opcode_st;
+
+	typedef enum {
+		OP_G00 = 0,
+		OP_G01 = 1,
+		OP_G02 = 2,
+		OP_G03 = 3
+	} Opcode_t;
 endpackage : Opcode_p
 
 `endif // __OPCODE_SVH__

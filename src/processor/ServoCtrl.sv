@@ -19,7 +19,7 @@ module ServoCtrl #(
 (
 	input logic clk,
 	input logic reset,
-	input Servo::ServoPosition_t pos,
+	input Servo_p::ServoPosition_t pos,
 
 	output logic out
 );
