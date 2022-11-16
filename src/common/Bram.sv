@@ -1,5 +1,18 @@
 `include "../common/common.svh"
 
+/**
+* BRAM module with simultaneous RW.
+*
+* :param ADDR_BITS: Number of bits for the address field.
+* :param DATA_BITS: Number of bits for data field.
+* :input clk: System clock.
+* :input clear: Clears the RAM.
+* :input rd_addr: Address to read.
+* :input wr_en: Enable write to memory.
+* :input wr_addr: Address to write to.
+* :input wr_data: Data to write.
+* :output rd_data: Read data.
+*/
 module Bram #(
 	ADDR_BITS = `BYTE_BITS,
 	DATA_BITS = `QWORD_BITS
