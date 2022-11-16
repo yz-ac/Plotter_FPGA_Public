@@ -35,6 +35,7 @@ module Bram #(
 			for (i = 0; i < 2**ADDR_BITS; i = i + 1) begin
 				mem[i] <= 0;
 			end
+			rd_data <= 0;
 		end
 		else begin
 			rd_data <= mem[rd_addr];
