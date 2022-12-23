@@ -18,17 +18,19 @@ PROC_DIR =processor
 VINCLUDE :=+incdir+$(IDIR) +incdir+.
 VFLAGS :=-O0 -sv -sv12compat -s $(VINCLUDE)
 
-TOP :=FreqDivider_tb
+TOP :=
 
 SIM_FLAGS :=-nolog
 SIM_CMD :=-do "add wave $(TOP).* -depth 1; run -all"
 
 VFILES :=
 VFILES += $(COMMON_DIR)/FreqDivider.sv
+VFILES += $(COMMON_DIR)/Abs.sv
 
 TB_FILES :=
 TB_FILES += SimClock.sv
 TB_FILES += $(COMMON_DIR)/FreqDivider_tb.sv
+TB_FILES += $(COMMON_DIR)/Abs_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _TB_FILES = $(patsubst %.sv,$(TDIR)/%.sv,$(TB_FILES))
