@@ -6,6 +6,18 @@ typedef enum {
 	PULSE_GEN_WORKING
 } PulseGen_state;
 
+/**
+* FSM for PulseGen Module.
+*
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input en: Enables the module.
+* :input trigger: Triggers pulse logic.
+* :input counters_reached_target: PulseGen internal counters reached requested
+* numbers.
+* :output prepare: Logic in preparation state (buffer against races).
+* :output working: Logic in working state.
+*/
 module PulseGen_FSM (
 	input logic clk,
 	input logic reset,

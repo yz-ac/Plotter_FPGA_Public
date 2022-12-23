@@ -1,5 +1,19 @@
 `include "common/common.svh"
 
+/**
+* Pulse generator.
+*
+* :param PULSE_NUM_BITS: Field width of number of pulses.
+* :param PULSE_WIDTH_BITS: Field width of pulse width.
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input en: Enables the module.
+* :input pulse_num: Number of pulses.
+* :input pulse_width: Width of pulses (in clocks * en).
+* :input trigger: Triggers the pulses.
+* :output out: Output signal.
+* :output done: Logic is finished and awaits new trigger.
+*/
 module PulseGen #(
 	PULSE_NUM_BITS = `BYTE_BITS,
 	PULSE_WIDTH_BITS = `BYTE_BITS
