@@ -1,4 +1,4 @@
-#! Makefile
+# Makefile
 
 VLIB :=vlib
 VDEL :=vdel
@@ -28,12 +28,15 @@ VFILES += $(COMMON_DIR)/FreqDivider.sv
 VFILES += $(COMMON_DIR)/Abs.sv
 VFILES += $(COMMON_DIR)/PulseGen.sv
 VFILES += $(COMMON_DIR)/PulseGen_FSM.sv
+VFILES += $(PROC_DIR)/StepperCtrl.sv
+VFILES += $(PROC_DIR)/StepperCtrl_IF.sv
 
 TB_FILES :=
 TB_FILES += SimClock.sv
 TB_FILES += $(COMMON_DIR)/FreqDivider_tb.sv
 TB_FILES += $(COMMON_DIR)/Abs_tb.sv
 TB_FILES += $(COMMON_DIR)/PulseGen_tb.sv
+TB_FILES += $(PROC_DIR)/StepperCtrl_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _TB_FILES = $(patsubst %.sv,$(TDIR)/%.sv,$(TB_FILES))
