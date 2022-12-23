@@ -1,12 +1,11 @@
-`include "common/common.svh"
 `include "tb/simulation.svh"
+`include "common/common.svh"
 
 module FreqDivider_tb;
 
 	localparam DIV_BITS = `BYTE_BITS;
 
 	wire clk;
-
 	reg reset;
 	reg en;
 	reg [DIV_BITS-1:0] div;

@@ -1,5 +1,5 @@
-`include "common/common.svh"
 `include "tb/simulation.svh"
+`include "common/common.svh"
 
 module Abs_tb;
 

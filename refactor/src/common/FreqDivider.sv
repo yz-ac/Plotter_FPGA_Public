@@ -32,6 +32,7 @@ module FreqDivider #(
 		end
 		else if (en) begin
 			_counter <= _counter + 1;
+			_last_div <= _last_div;
 			if (!_last_div) begin
 				_counter <= 0;
 				_last_div <= div;
