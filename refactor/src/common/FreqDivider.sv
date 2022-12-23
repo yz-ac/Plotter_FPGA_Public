@@ -1,5 +1,15 @@
 `include "common/common.svh"
 
+/**
+* Frequency divider for enable signals.
+* 
+* :param DIV_BITS: Field size of div signal.
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input en: Enables the module.
+* :input div: The number by which frequency is divided.
+* :output out: Output signal.
+*/
 module FreqDivider #(
 	DIV_BITS = `BYTE_BITS
 )
