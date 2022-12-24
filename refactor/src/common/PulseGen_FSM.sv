@@ -1,5 +1,3 @@
-`include "common/common.svh"
-
 typedef enum {
 	PULSE_GEN_IDLE,
 	PULSE_GEN_PREPARE,
@@ -11,7 +9,7 @@ typedef enum {
 *
 * :input clk: System clock.
 * :input reset: Resets the module.
-* :input en: Enables the module.
+* :input clk_en: Logic enabling clock.
 * :input trigger: Triggers pulse logic.
 * :input counters_reached_target: PulseGen internal counters reached requested
 * numbers.
@@ -21,7 +19,7 @@ typedef enum {
 module PulseGen_FSM (
 	input logic clk,
 	input logic reset,
-	input logic en,
+	input logic clk_en,
 	input logic trigger,
 	input logic counters_reached_target,
 
@@ -40,6 +38,8 @@ module PulseGen_FSM (
 			working = 0;
 			if (trigger) begin
 				_nxt_state = PULSE_GEN_PREPARE;
+				prepare = 1;
+				working = 1;
 			end
 		end
 
@@ -71,7 +71,7 @@ module PulseGen_FSM (
 		if (reset) begin
 			_cur_state <= PULSE_GEN_IDLE;
 		end
-		else if (en) begin
+		else if (clk_en) begin
 			_cur_state <= _nxt_state;
 		end
 		else begin

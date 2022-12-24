@@ -1,20 +1,17 @@
 `include "tb/simulation.svh"
 `include "common/common.svh"
 
-module PulseGen_tb;
+module Timer_tb;
 
 	localparam DIV_BITS = `BYTE_BITS;
-	localparam PULSE_NUM_BITS = `BYTE_BITS;
-	localparam PULSE_WIDTH_BITS = `BYTE_BITS;
+	localparam COUNTER_BITS = `BYTE_BITS;
 
 	wire clk;
 	reg reset;
 	wire clk_en;
-	reg [PULSE_NUM_BITS-1:0] pulse_num;
-	reg [PULSE_WIDTH_BITS-1:0] pulse_width;
+	reg en;
+	reg [COUNTER_BITS-1:0] count;
 	reg trigger;
-
-	wire out;
 	wire done;
 
 	SimClock sim_clk (
@@ -32,24 +29,22 @@ module PulseGen_tb;
 		.out(clk_en)
 	);
 
-	PulseGen #(
-		.PULSE_NUM_BITS(PULSE_NUM_BITS),
-		.PULSE_WIDTH_BITS(PULSE_WIDTH_BITS)
+	Timer #(
+		.COUNTER_BITS(COUNTER_BITS)
 	) UUT (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en),
-		.pulse_num(pulse_num),
-		.pulse_width(pulse_width),
+		.en(en),
+		.count(count),
 		.trigger(trigger),
-		.out(out),
 		.done(done)
 	);
 
 	initial begin
 		reset = 1;
-		pulse_num = 0;
-		pulse_width = 0;
+		en = 0;
+		count = 3;
 		trigger = 0;
 		#(`CLOCK_PERIOD * 2);
 
@@ -58,18 +53,12 @@ module PulseGen_tb;
 		#(`CLOCK_PERIOD * 2);
 
 		trigger = 0;
-		#(`CLOCK_PERIOD * 4);
+		#(`CLOCK_PERIOD * 10);
 
-		pulse_num = 3;
-		pulse_width = 2;
-		trigger = 1;
-		#(`CLOCK_PERIOD * 2);
+		en = 1;
+		#(`CLOCK_PERIOD * 10);
 
-		trigger = 0;
-		#(`CLOCK_PERIOD * 40);
-
-		pulse_num = 2;
-		pulse_width = 5;
+		count = 0;
 		trigger = 1;
 		#(`CLOCK_PERIOD * 2);
 
@@ -77,12 +66,13 @@ module PulseGen_tb;
 		#(`CLOCK_PERIOD * 10);
 
 		trigger = 1;
+		count = 5;
 		#(`CLOCK_PERIOD * 2);
 
 		trigger = 0;
-		#(`CLOCK_PERIOD * 40);
+		#(`CLOCK_PERIOD * 20);
 
 		$stop;
-	end // initial
+	end // intial
 
-endmodule : PulseGen_tb
+endmodule : Timer_tb

@@ -20,14 +20,14 @@ interface StepperCtrl_IF #(
 	logic trigger;
 	logic done;
 
-	modport master(
+	modport master (
 		output trigger,
 		output pulse_num,
 		output pulse_width,
 		input done
 	);
 
-	modport slave(
+	modport slave (
 		input trigger,
 		input pulse_num,
 		input pulse_width,

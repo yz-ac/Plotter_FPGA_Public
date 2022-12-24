@@ -8,7 +8,7 @@ module Pwm_tb;
 
 	wire clk;
 	reg reset;
-	wire en;
+	wire clk_en;
 	reg [PERIOD_BITS-1:0] period;
 	reg [PERIOD_BITS-1:0] on_time;
 
@@ -23,9 +23,10 @@ module Pwm_tb;
 	) freq_div (
 		.clk(clk),
 		.reset(reset),
+		.clk_en(1),
 		.en(1),
 		.div(2),
-		.out(en)
+		.out(clk_en)
 	);
 
 	Pwm #(
@@ -33,7 +34,7 @@ module Pwm_tb;
 	) UUT (
 		.clk(clk),
 		.reset(reset),
-		.en(en),
+		.clk_en(clk_en),
 		.period(period),
 		.on_time(on_time),
 		.out(out)

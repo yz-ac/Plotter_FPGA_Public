@@ -6,6 +6,7 @@
 * :param DIV_BITS: Field size of div signal.
 * :input clk: System clock.
 * :input reset: Resets the module.
+* :input clk_en: Logic enabling clock.
 * :input en: Enables the module.
 * :input div: The number by which frequency is divided.
 * :output out: Output signal.
@@ -16,6 +17,7 @@ module FreqDivider #(
 (
 	input logic clk,
 	input logic reset,
+	input logic clk_en,
 	input logic en,
 	input [DIV_BITS-1:0] div,
 
@@ -30,7 +32,7 @@ module FreqDivider #(
 			_counter <= 0;
 			_last_div <= div;
 		end
-		else if (en) begin
+		else if (clk_en) begin
 			_counter <= _counter + 1;
 			_last_div <= _last_div;
 			if (!_last_div) begin
@@ -49,7 +51,7 @@ module FreqDivider #(
 	end // always_ff
 
 	always_comb begin
-		if (!_last_div) begin
+		if (~|_last_div) begin
 			out = 0;
 		end
 		else if (_last_div == 1) begin
@@ -58,7 +60,7 @@ module FreqDivider #(
 		else begin
 			out = 0;
 			if (_counter == _last_div - 1) begin
-				out = 1;
+				out = en;
 			end
 		end
 	end // always_comb

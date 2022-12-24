@@ -7,9 +7,9 @@
 * :param PULSE_WIDTH_BITS: Field width of pulse width.
 * :input clk: System clock.
 * :input reset: Resets the module.
-* :input en: Enables the module.
+* :input clk_en: Logic enabling clock.
 * :input pulse_num: Number of pulses.
-* :input pulse_width: Width of pulses (in clocks * en).
+* :input pulse_width: Width of pulses (in clk_en's).
 * :input trigger: Triggers the pulses.
 * :output out: Output signal.
 * :output done: Logic is finished and awaits new trigger.
@@ -21,7 +21,7 @@ module PulseGen #(
 (
 	input logic clk,
 	input logic reset,
-	input logic en,
+	input logic clk_en,
 	input logic [PULSE_NUM_BITS-1:0] pulse_num,
 	input logic [PULSE_WIDTH_BITS-1:0] pulse_width,
 	input logic trigger,
@@ -47,7 +47,7 @@ module PulseGen #(
 	PulseGen_FSM _fsm (
 		.clk(clk),
 		.reset(reset),
-		.en(en),
+		.clk_en(clk_en),
 		.trigger(trigger),
 		.counters_reached_target(_counters_reached_target),
 		.prepare(_prepare),
@@ -81,7 +81,7 @@ module PulseGen #(
 			_num_counter <= 0;
 			_width_counter <= 0;
 		end
-		else if (en) begin
+		else if (clk_en) begin
 			_last_pulse_num <= pulse_num;
 			_last_pulse_width <= pulse_width;
 			_num_counter <= 0;

@@ -1,11 +1,9 @@
-`include "common/common.svh"
-
 /**
 * Module to control stepper motors.
 *
 * :input clk: System clock.
 * :input reset: Resets the module.
-* :input en: Enables the module.
+* :input clk_en: Logic enabling clock.
 * :iface intf: Stepper control interface.
 * :output out: Output signal to stepper driver.
 * :output dir: Direction signal to stepper driver.
@@ -13,7 +11,7 @@
 module StepperCtrl (
 	input logic clk,
 	input logic reset,
-	input logic en,
+	input logic clk_en,
 	StepperCtrl_IF intf,
 	output logic out,
 	output logic dir
@@ -34,7 +32,7 @@ module StepperCtrl (
 	) _pulse_gen (
 		.clk(clk),
 		.reset(reset),
-		.en(en),
+		.clk_en(clk_en),
 		.pulse_num(_abs_pulse_num),
 		.pulse_width(intf.pulse_width),
 		.trigger(intf.trigger),

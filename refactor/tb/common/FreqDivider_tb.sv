@@ -21,6 +21,7 @@ module FreqDivider_tb;
 	) UUT (
 		.clk(clk),
 		.reset(reset),
+		.clk_en(1),
 		.en(en),
 		.div(div),
 		.out(out)

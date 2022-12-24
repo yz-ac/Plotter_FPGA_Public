@@ -9,7 +9,7 @@ module StepperCtrl_tb;
 
 	wire clk;
 	reg reset;
-	wire en;
+	wire clk_en;
 
 	wire out;
 	wire dir;
@@ -23,9 +23,10 @@ module StepperCtrl_tb;
 	) freq_div (
 		.clk(clk),
 		.reset(reset),
+		.clk_en(1),
 		.en(1),
 		.div(2),
-		.out(en)
+		.out(clk_en)
 	);
 
 	StepperCtrl_IF #(
@@ -36,7 +37,7 @@ module StepperCtrl_tb;
 	StepperCtrl UUT (
 		.clk(clk),
 		.reset(reset),
-		.en(en),
+		.clk_en(clk_en),
 		.intf(intf.slave),
 		.out(out),
 		.dir(dir)
