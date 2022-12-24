@@ -7,12 +7,16 @@
 * :input reset: Resets the module.
 * :input en: Enables the module.
 * :iface intf: Stepper control interface.
+* :output out: Output signal to stepper driver.
+* :output dir: Direction signal to stepper driver.
 */
 module StepperCtrl (
 	input logic clk,
 	input logic reset,
 	input logic en,
-	StepperCtrl_IF intf
+	StepperCtrl_IF intf,
+	output logic out,
+	output logic dir
 );
 
 	wire [intf.PULSE_NUM_BITS-2:0] _abs_pulse_num;
@@ -34,10 +38,10 @@ module StepperCtrl (
 		.pulse_num(_abs_pulse_num),
 		.pulse_width(intf.pulse_width),
 		.trigger(intf.trigger),
-		.out(intf.out),
+		.out(out),
 		.done(intf.done)
 	);
 
-	assign intf.dir = intf.pulse_num[intf.PULSE_NUM_BITS-1];
+	assign dir = intf.pulse_num[intf.PULSE_NUM_BITS-1];
 
 endmodule : StepperCtrl

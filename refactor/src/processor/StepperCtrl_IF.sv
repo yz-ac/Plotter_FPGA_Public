@@ -15,11 +15,7 @@
 interface StepperCtrl_IF #(
 	PULSE_NUM_BITS = `BYTE_BITS,
 	PULSE_WIDTH_BITS = `BYTE_BITS
-)
-(
-	output logic out,
-	output logic dir
-);
+) ();
 
 	logic [PULSE_NUM_BITS-1:0] pulse_num;
 	logic [PULSE_WIDTH_BITS-1:0] pulse_width;
@@ -30,18 +26,14 @@ interface StepperCtrl_IF #(
 		output trigger,
 		output pulse_num,
 		output pulse_width,
-		input done,
-		output out,
-		output dir
+		input done
 	);
 
 	modport slave(
 		input trigger,
 		input pulse_num,
 		input pulse_width,
-		output done,
-		output out,
-		output dir
+		output done
 	);
 
 endinterface : StepperCtrl_IF

@@ -31,16 +31,15 @@ module StepperCtrl_tb;
 	StepperCtrl_IF #(
 		.PULSE_NUM_BITS(PULSE_NUM_BITS),
 		.PULSE_WIDTH_BITS(PULSE_WIDTH_BITS)
-	) intf (
-		.out(out),
-		.dir(dir)
-	);
+	) intf ();
 
 	StepperCtrl UUT (
 		.clk(clk),
 		.reset(reset),
 		.en(en),
-		.intf(intf.slave)
+		.intf(intf.slave),
+		.out(out),
+		.dir(dir)
 	);
 
 	initial begin
