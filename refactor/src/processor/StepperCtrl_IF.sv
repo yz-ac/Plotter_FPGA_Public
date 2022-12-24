@@ -5,16 +5,14 @@
 *
 * :param PULSE_NUM_BITS: Field width of number of pulses.
 * :param PULSE_WIDTH_BITS: Field width for pulses widths to motors.
-* :output out: Output signal to motors.
-* :output dir: Direction signal to motors.
 * :port pulse_num: Number of pulses.
 * :port pulse_width: Width of pulses (in clocks * en).
 * :port trigger: Triggers pulses to motors.
 * :port done: Done sending pulses to motors.
 */
 interface StepperCtrl_IF #(
-	PULSE_NUM_BITS = `BYTE_BITS,
-	PULSE_WIDTH_BITS = `BYTE_BITS
+	parameter PULSE_NUM_BITS = `BYTE_BITS,
+	parameter PULSE_WIDTH_BITS = `BYTE_BITS
 ) ();
 
 	logic [PULSE_NUM_BITS-1:0] pulse_num;

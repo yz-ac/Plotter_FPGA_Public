@@ -15,8 +15,8 @@
 * :output done: Logic is finished and awaits new trigger.
 */
 module PulseGen #(
-	PULSE_NUM_BITS = `BYTE_BITS,
-	PULSE_WIDTH_BITS = `BYTE_BITS
+	parameter PULSE_NUM_BITS = `BYTE_BITS,
+	parameter PULSE_WIDTH_BITS = `BYTE_BITS
 )
 (
 	input logic clk,

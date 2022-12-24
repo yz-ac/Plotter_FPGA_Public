@@ -11,7 +11,7 @@
 * :output out: Output signal.
 */
 module FreqDivider #(
-	DIV_BITS = `BYTE_BITS
+	parameter DIV_BITS = `BYTE_BITS
 )
 (
 	input logic clk,

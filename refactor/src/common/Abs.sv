@@ -8,7 +8,7 @@
 * :output out: The unsigned number.
 */
 module Abs #(
-	NUM_BITS = `BYTE_BITS
+	parameter NUM_BITS = `BYTE_BITS
 )
 (
 	input logic [NUM_BITS-1:0] num,
