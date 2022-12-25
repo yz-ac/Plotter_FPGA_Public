@@ -1,27 +1,20 @@
-typedef enum {
-	PULSE_GEN_IDLE,
-	PULSE_GEN_PREPARE,
-	PULSE_GEN_WORKING
-} PulseGen_state;
-
 /**
-* FSM for PulseGen Module.
+* Triggered Timer FSM.
 *
 * :input clk: System clock.
-* :input reset: Resets the module.
-* :input clk_en: Logic enabling clock.
-* :input trigger: Triggers pulse logic.
-* :input counters_reached_target: PulseGen internal counters reached requested numbers.
-* :output prepare: Logic in preparation state (buffer against races).
-* :output done: Logic is finished.
+* :input reset: Resets the FSM.
+* :input clk_en: Module enabling clock.
+* :input trigger: Triggers the logic.
+* :input reached_zero: Timer reached zero.
+* :output done: Counting is done.
 * :output rdy: Ready to accept new triggers.
 */
-module PulseGen_FSM (
+module TriggeredTimer_FSM (
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
 	input logic trigger,
-	input logic counters_reached_target,
+	input logic reached_zero,
 
 	output logic done,
 	output logic rdy
@@ -31,10 +24,10 @@ module PulseGen_FSM (
 		IDLE,
 		WORKING,
 		DONE
-	} PulseGen_state;
+	} TriggeredTimer_state;
 
-	PulseGen_state _cur_state;
-	PulseGen_state _nxt_state;
+	TriggeredTimer_state _cur_state;
+	TriggeredTimer_state _nxt_state;
 
 	always_comb begin
 		case (_cur_state)
@@ -51,7 +44,7 @@ module PulseGen_FSM (
 			_nxt_state = WORKING;
 			done = 0;
 			rdy = 0;
-			if (counters_reached_target) begin
+			if (reached_zero) begin
 				_nxt_state = DONE;
 				done = 1;
 			end
@@ -81,4 +74,4 @@ module PulseGen_FSM (
 		end
 	end // always_ff
 
-endmodule : PulseGen_FSM
+endmodule : TriggeredTimer_FSM

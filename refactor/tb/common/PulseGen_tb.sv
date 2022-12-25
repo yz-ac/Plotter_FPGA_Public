@@ -16,6 +16,7 @@ module PulseGen_tb;
 
 	wire out;
 	wire done;
+	wire rdy;
 
 	SimClock sim_clk (
 		.out(clk)
@@ -43,7 +44,8 @@ module PulseGen_tb;
 		.pulse_width(pulse_width),
 		.trigger(trigger),
 		.out(out),
-		.done(done)
+		.done(done),
+		.rdy(rdy)
 	);
 
 	initial begin

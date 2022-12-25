@@ -1,7 +1,7 @@
 `include "tb/simulation.svh"
 `include "common/common.svh"
 
-module Timer_tb;
+module TriggeredTimer_tb;
 
 	localparam DIV_BITS = `BYTE_BITS;
 	localparam COUNTER_BITS = `BYTE_BITS;
@@ -13,6 +13,7 @@ module Timer_tb;
 	reg [COUNTER_BITS-1:0] count;
 	reg trigger;
 	wire done;
+	wire rdy;
 
 	SimClock sim_clk (
 		.out(clk)
@@ -29,7 +30,7 @@ module Timer_tb;
 		.out(clk_en)
 	);
 
-	Timer #(
+	TriggeredTimer #(
 		.COUNTER_BITS(COUNTER_BITS)
 	) UUT (
 		.clk(clk),
@@ -38,7 +39,8 @@ module Timer_tb;
 		.en(en),
 		.count(count),
 		.trigger(trigger),
-		.done(done)
+		.done(done),
+		.rdy(rdy)
 	);
 
 	initial begin
@@ -75,4 +77,4 @@ module Timer_tb;
 		$stop;
 	end // intial
 
-endmodule : Timer_tb
+endmodule : TriggeredTimer_tb
