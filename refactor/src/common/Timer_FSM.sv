@@ -1,41 +1,39 @@
-typedef enum {
-	TIMER_IDLE,
-	TIMER_WORKING
-} Timer_state;
-
 module Timer_FSM (
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
 	input logic trigger,
-	input logic reached_target,
+	input logic reached_zero,
 
 	output logic working
 );
+
+	typedef enum {
+		IDLE,
+		WORKING
+	} Timer_state;
 
 	Timer_state _cur_state;
 	Timer_state _nxt_state;
 
 	always_comb begin
 		case (_cur_state)
-		TIMER_IDLE: begin
-			_nxt_state = TIMER_IDLE;
+		IDLE: begin
+			_nxt_state = IDLE;
 			working = 0;
 			if (trigger) begin
-				_nxt_state = TIMER_WORKING;
-				working = 1;
+				_nxt_state = WORKING;
 			end
 		end
-		TIMER_WORKING: begin
-			_nxt_state = TIMER_WORKING;
+		WORKING: begin
+			_nxt_state = WORKING;
 			working = 1;
-			if (reached_target) begin
-				_nxt_state = TIMER_IDLE;
-				working = 0;
+			if (reached_zero) begin
+				_nxt_state = IDLE;
 			end
 		end
 		default: begin
-			_nxt_state = TIMER_IDLE;
+			_nxt_state = IDLE;
 			working = 0;
 		end
 		endcase
@@ -43,7 +41,7 @@ module Timer_FSM (
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
-			_cur_state <= TIMER_IDLE;
+			_cur_state <= IDLE;
 		end
 		else if (clk_en) begin
 			_cur_state <= _nxt_state;
