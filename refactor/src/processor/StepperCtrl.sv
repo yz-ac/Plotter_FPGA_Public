@@ -37,7 +37,8 @@ module StepperCtrl (
 		.pulse_width(intf.pulse_width),
 		.trigger(intf.trigger),
 		.out(out),
-		.done(intf.done)
+		.done(intf.done),
+		.rdy(intf.rdy)
 	);
 
 	assign dir = intf.pulse_num[intf.PULSE_NUM_BITS-1];
