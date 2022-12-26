@@ -1,0 +1,22 @@
+`ifndef __STEPPER_SVH__
+`define __STEPPER_SVH__
+
+`include "common/common.svh"
+
+`ifdef SIM_DEBUG
+
+`define STEPPER_PULSE_NUM_X_BITS (`WORD_BITS)
+`define STEPPER_PULSE_NUM_Y_BITS (`WORD_BITS)
+`define STEPPER_PULSE_WIDTH_BITS (`WORD_BITS)
+`define STEPPER_PULSE_WIDTH (5_000)
+
+`else // SIM_DEBUG
+
+`define STEPPER_PULSE_NUM_X_BITS (`WORD_BITS)
+`define STEPPER_PULSE_NUM_Y_BITS (`WORD_BITS)
+`define STEPPER_PULSE_WIDTH_BITS (`DWORD_BITS)
+`define STEPPER_PULSE_WIDTH (5_000_000)
+
+`endif // SIM_DEBUG
+
+`endif // __STEPPER_SVH__
