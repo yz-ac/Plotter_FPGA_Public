@@ -3,7 +3,6 @@ module StepperCtrlXY (
 	input logic reset,
 	input logic clk_en,
 	StepperCtrlXY_IF intf,
-
 	output logic out_x,
 	output logic dir_x,
 	output logic out_y,

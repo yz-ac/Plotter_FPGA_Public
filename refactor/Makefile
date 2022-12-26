@@ -16,7 +16,7 @@ PARSER_DIR =parser
 PROC_DIR =processor
 
 VINCLUDE :=+incdir+$(IDIR) +incdir+.
-VFLAGS :=-O0 -sv -sv12compat -s $(VINCLUDE)
+VFLAGS :=-O0 +acc=npr -sv -sv12compat -s $(VINCLUDE)
 
 TOP :=
 
