@@ -47,155 +47,64 @@ module StepperCtrlXY_tb;
 	);
 
 	typedef enum {
-		TB_IDLE,
-		TB_TRIGGER_1,
-		TB_RDY_1,
-		TB_TRIGGER_2,
-		TB_RDY_2,
-		TB_TRIGGER_3,
-		TB_RDY_3,
-		TB_TRIGGER_4,
-		TB_RDY_4,
-		TB_DONE
-	} StepperCtrlXY_tb_state;
+		TB_BAD,
+		TB_TEST_1,
+		TB_TEST_2,
+		TB_TEST_3,
+		TB_TEST_4
+	} StepperCtrlXY_tb_test;
 
-	StepperCtrlXY_tb_state cur_state;
-	StepperCtrlXY_tb_state nxt_state;
+	StepperCtrlXY_tb_test _test;
 
-	always_ff @(posedge clk) begin
-		if (reset) begin
-			cur_state <= TB_IDLE;
-		end
-		else begin
-			cur_state <= nxt_state;
-		end
+	always_ff @(negedge reset) begin
+		_test <= TB_TEST_1;
+		intf.master.pulse_num_x <= 0;
+		intf.master.pulse_num_y <= 0;
+		intf.master.trigger <= 1;
 	end
 
-	always_comb begin
-		intf.master.trigger = 0;
-		intf.master.pulse_width = `STEPPER_PULSE_WIDTH;
-		intf.master.pulse_num_x = 0;
-		intf.master.pulse_num_y = 0;
-		case (cur_state)
-		TB_IDLE: begin
-			nxt_state = TB_TRIGGER_1;
+	always_ff @(negedge intf.master.rdy) begin
+		intf.master.trigger <= 0;
+	end
+
+	always_ff @(posedge intf.master.rdy) begin
+		case (_test)
+		TB_TEST_1: begin
+			intf.master.pulse_num_x <= -3;
+			intf.master.trigger <= 1;
+			_test <= TB_TEST_2;
 		end
-		TB_TRIGGER_1: begin
-			nxt_state = TB_TRIGGER_1;
-			intf.master.trigger = 1;
-			if (intf.master.done == 0) begin
-				nxt_state = TB_RDY_1;
-			end
+		TB_TEST_2: begin
+			intf.master.pulse_num_y <= 2;
+			intf.master.trigger <= 1;
+			_test <= TB_TEST_3;
 		end
-		TB_RDY_1: begin
-			nxt_state = TB_RDY_1;
-			intf.master.trigger = 0;
-			if (intf.master.rdy == 1) begin
-				nxt_state = TB_TRIGGER_2;
-			end
+		TB_TEST_3: begin
+			intf.master.pulse_num_x <= 0;
+			intf.master.trigger <= 1;
+			_test <= TB_TEST_4;
 		end
-		TB_TRIGGER_2: begin
-			nxt_state = TB_TRIGGER_2;
-			intf.master.trigger = 1;
-			intf.master.pulse_num_x = -3;
-			if (intf.master.done == 0) begin
-				nxt_state = TB_RDY_2;
-			end
-		end
-		TB_RDY_2: begin
-			nxt_state = TB_RDY_2;
-			intf.master.trigger = 0;
-			intf.master.pulse_num_x = -3;
-			if (intf.master.rdy == 1) begin
-				nxt_state = TB_TRIGGER_3;
-			end
-		end
-		TB_TRIGGER_3: begin
-			nxt_state = TB_TRIGGER_3;
-			intf.master.trigger = 1;
-			intf.master.pulse_num_x = -3;
-			intf.master.pulse_num_y = 2;
-			if (intf.master.done == 0) begin
-				nxt_state = TB_RDY_3;
-			end
-		end
-		TB_RDY_3: begin
-			nxt_state = TB_RDY_3;
-			intf.master.trigger = 0;
-			intf.master.pulse_num_x = -3;
-			intf.master.pulse_num_y = 2;
-			if (intf.master.rdy == 1) begin
-				nxt_state = TB_TRIGGER_4;
-			end
-		end
-		TB_TRIGGER_4: begin
-			nxt_state = TB_TRIGGER_4;
-			intf.master.trigger = 1;
-			intf.master.pulse_num_x = 0;
-			intf.master.pulse_num_y = 2;
-			if (intf.master.done == 0) begin
-				nxt_state = TB_RDY_4;
-			end
-		end
-		TB_RDY_4: begin
-			nxt_state = TB_RDY_4;
-			intf.master.trigger = 0;
-			intf.master.pulse_num_x = 0;
-			intf.master.pulse_num_y = 2;
-			if (intf.master.rdy == 1) begin
-				nxt_state = TB_DONE;
-			end
-		end
-		TB_DONE: begin
+		TB_TEST_4: begin
 			$stop;
+		end
+		default: begin
+			intf.master.trigger <= 0;
+			intf.master.pulse_num_x <= 0;
+			intf.master.pulse_num_y <= 0;
+			_test <= TB_BAD;
 		end
 		endcase
 	end
 
 	initial begin
+		intf.master.pulse_width = `STEPPER_PULSE_WIDTH;
+		intf.master.trigger = 0;
+		intf.master.pulse_num_x = 0;
+		intf.master.pulse_num_y = 0;
 		reset = 1;
 		#(`CLOCK_PERIOD * 2);
 
 		reset = 0;
 	end
-
-	// initial begin
-	// 	reset = 1;
-	// 	intf.master.trigger = 0;
-	// 	intf.master.pulse_width = `STEPPER_PULSE_WIDTH;
-	// 	intf.master.pulse_num_x = 0;
-	// 	intf.master.pulse_num_y = 0;
-	// 	#(`CLOCK_PERIOD * 2);
-
-	// 	reset = 0;
-	// 	intf.master.trigger = 1;
-	// 	wait(_done_down == 1);
-
-	// 	intf.master.trigger = 0;
-	// 	wait(_rdy_up == 1);
-
-	// 	intf.master.pulse_num_x = 3;
-	// 	intf.master.trigger = 1;
-	// 	wait(_done_down == 2);
-
-	// 	intf.master.trigger = 0;
-	// 	wait(_rdy_up == 2);
-
-	// 	intf.master.pulse_num_y = 2;
-	// 	intf.master.trigger = 1;
-	// 	wait(_done_down == 3);
-
-	// 	intf.master.trigger = 0;
-	// 	wait(_rdy_up == 3);
-
-	// 	intf.master.pulse_num_x = 0;
-	// 	intf.master.trigger = 1;
-	// 	wait(_done_down == 4);
-
-	// 	intf.master.trigger = 0;
-	// 	wait(_rdy_up == 4);
-
-	// 	$stop;
-	// end // initial
 
 endmodule : StepperCtrlXY_tb
