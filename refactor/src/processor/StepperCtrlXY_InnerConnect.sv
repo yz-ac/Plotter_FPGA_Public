@@ -1,3 +1,10 @@
+/**
+* Module to connect XY interface with 2 separate stepper motor interfaces.
+*
+* :iface intf_xy: Stepper motor XY interface.
+* :iface intf_x: Interface of X stepper motor.
+* :iface intf_y: Interface of Y stepper motor.
+*/
 module StepperCtrlXY_InnerConnect (
 	StepperCtrlXY_IF intf_xy,
 	StepperCtrl_IF intf_x,

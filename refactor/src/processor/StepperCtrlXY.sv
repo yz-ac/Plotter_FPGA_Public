@@ -1,3 +1,15 @@
+/**
+* Module for controlling stepper motors in X and Y directions.
+*
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input clk_en: Module enabling clock.
+* :iface intf: Interface for controlling XY stepper motors.
+* :output out_x: Pulses to X motor.
+* :output dir_x: Direction of X motor.
+* :output out_y: Pulses to Y motor.
+* :output dir_y: Direction of Y motor.
+*/
 module StepperCtrlXY (
 	input logic clk,
 	input logic reset,
