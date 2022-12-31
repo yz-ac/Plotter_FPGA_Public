@@ -36,11 +36,6 @@ VFILES += $(PROC_DIR)/StepperCtrl_IF.sv
 VFILES += $(PROC_DIR)/StepperCtrlXY.sv
 VFILES += $(PROC_DIR)/StepperCtrlXY_InnerConnect.sv
 VFILES += $(PROC_DIR)/StepperCtrlXY_IF.sv
-# VFILES += $(PROC_DIR)/Servo_P.sv
-# VFILES += $(PROC_DIR)/ServoCtrl.sv
-# VFILES += $(PROC_DIR)/ServoCtrl_FSM.sv
-# VFILES += $(PROC_DIR)/ServoCtrl_IF.sv
-# VFILES += $(PROC_DIR)/ServoMovToPwm.sv
 
 TB_FILES :=
 TB_FILES += SimClock.sv
@@ -51,7 +46,6 @@ TB_FILES += $(COMMON_DIR)/Pwm_tb.sv
 TB_FILES += $(COMMON_DIR)/TriggeredTimer_tb.sv
 TB_FILES += $(PROC_DIR)/StepperCtrl_tb.sv
 TB_FILES += $(PROC_DIR)/StepperCtrlXY_tb.sv
-# TB_FILES += $(PROC_DIR)/ServoCtrl_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _TB_FILES = $(patsubst %.sv,$(TDIR)/%.sv,$(TB_FILES))
