@@ -36,6 +36,13 @@ VFILES += $(PROC_DIR)/StepperCtrl_IF.sv
 VFILES += $(PROC_DIR)/StepperCtrlXY.sv
 VFILES += $(PROC_DIR)/StepperCtrlXY_InnerConnect.sv
 VFILES += $(PROC_DIR)/StepperCtrlXY_IF.sv
+VFILES += $(PROC_DIR)/ServoCtrl_IF.sv
+VFILES += $(PROC_DIR)/ServoCtrl_FSM.sv
+VFILES += $(PROC_DIR)/ServoCtrl_DirToPwm.sv
+VFILES += $(PROC_DIR)/ServoCtrl.sv
+
+PKG_FILES := 
+PKG_FILES += $(PROC_DIR)/Servo_PKG.sv
 
 TB_FILES :=
 TB_FILES += SimClock.sv
@@ -46,11 +53,13 @@ TB_FILES += $(COMMON_DIR)/Pwm_tb.sv
 TB_FILES += $(COMMON_DIR)/TriggeredTimer_tb.sv
 TB_FILES += $(PROC_DIR)/StepperCtrl_tb.sv
 TB_FILES += $(PROC_DIR)/StepperCtrlXY_tb.sv
+TB_FILES += $(PROC_DIR)/ServoCtrl_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
+_PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
 _TB_FILES = $(patsubst %.sv,$(TDIR)/%.sv,$(TB_FILES))
 
-FILES = $(_VFILES) $(_TB_FILES)
+FILES = $(_PKG_FILES) $(_VFILES) $(_TB_FILES)
 
 .PHONY: all
 all: debug

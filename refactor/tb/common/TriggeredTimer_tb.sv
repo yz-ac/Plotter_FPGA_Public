@@ -4,13 +4,13 @@
 module TriggeredTimer_tb;
 
 	localparam DIV_BITS = `BYTE_BITS;
-	localparam COUNTER_BITS = `BYTE_BITS;
+	localparam TIMER_BITS = `BYTE_BITS;
 
 	wire clk;
 	reg reset;
 	wire clk_en;
 	reg en;
-	reg [COUNTER_BITS-1:0] count;
+	reg [TIMER_BITS-1:0] count;
 	reg trigger;
 	wire done;
 	wire rdy;
@@ -31,7 +31,7 @@ module TriggeredTimer_tb;
 	);
 
 	TriggeredTimer #(
-		.COUNTER_BITS(COUNTER_BITS)
+		.TIMER_BITS(TIMER_BITS)
 	) UUT (
 		.clk(clk),
 		.reset(reset),

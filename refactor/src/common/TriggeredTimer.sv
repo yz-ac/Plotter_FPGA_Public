@@ -3,7 +3,7 @@
 /**
 * Timer that can be triggered.
 *
-* :param COUNTER_BITS: Field with of count signal.
+* :param TIMER_BITS: Field with of count signal.
 * :input clk: System clock.
 * :input reset: Resets the module.
 * :input clk_en: Module enabling clock.
@@ -14,21 +14,21 @@
 * :output rdy: Ready to accept new triggers.
 */
 module TriggeredTimer #(
-	parameter COUNTER_BITS = `BYTE_BITS
+	parameter TIMER_BITS = `BYTE_BITS
 )
 (
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
 	input logic en,
-	input [COUNTER_BITS-1:0] count,
+	input [TIMER_BITS-1:0] count,
 	input logic trigger,
 
 	output logic done,
 	output logic rdy
 );
 
-	reg [COUNTER_BITS-1:0] _counter;
+	reg [TIMER_BITS-1:0] _counter;
 	wire _reached_zero;
 	wire _done;
 	wire _rdy;
