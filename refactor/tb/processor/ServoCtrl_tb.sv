@@ -6,8 +6,6 @@ import Servo_PKG::SERVO_POS_DOWN;
 
 module ServoCtrl_tb;
 
-	localparam DIV_BITS = 2;
-
 	wire clk;
 	reg reset;
 	ServoCtrl_IF intf();

@@ -40,6 +40,10 @@ VFILES += $(PROC_DIR)/ServoCtrl_IF.sv
 VFILES += $(PROC_DIR)/ServoCtrl_FSM.sv
 VFILES += $(PROC_DIR)/ServoCtrl_DirToPwm.sv
 VFILES += $(PROC_DIR)/ServoCtrl.sv
+VFILES += $(PROC_DIR)/MotorsCtrl_IF.sv
+VFILES += $(PROC_DIR)/MotorsCtrl.sv
+VFILES += $(PROC_DIR)/MotorsCtrl_InnerConnect.sv
+VFILES += $(PROC_DIR)/MotorsCtrl_FSM.sv
 
 PKG_FILES := 
 PKG_FILES += $(PROC_DIR)/Servo_PKG.sv
@@ -54,6 +58,7 @@ TB_FILES += $(COMMON_DIR)/TriggeredTimer_tb.sv
 TB_FILES += $(PROC_DIR)/StepperCtrl_tb.sv
 TB_FILES += $(PROC_DIR)/StepperCtrlXY_tb.sv
 TB_FILES += $(PROC_DIR)/ServoCtrl_tb.sv
+TB_FILES += $(PROC_DIR)/MotorsCtrl_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
