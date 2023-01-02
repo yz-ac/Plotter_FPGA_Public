@@ -104,6 +104,13 @@ module MotorsCtrl_FSM (
 			servo_trigger = 0;
 			steppers_trigger = 0;
 		end
+		default: begin
+			_nxt_state = IDLE;
+			motors_done = 1;
+			motors_rdy = 1;
+			servo_trigger = 0;
+			steppers_trigger = 0;
+		end
 		endcase
 	end // always_comb
 

@@ -44,8 +44,12 @@ VFILES += $(PROC_DIR)/MotorsCtrl_IF.sv
 VFILES += $(PROC_DIR)/MotorsCtrl.sv
 VFILES += $(PROC_DIR)/MotorsCtrl_InnerConnect.sv
 VFILES += $(PROC_DIR)/MotorsCtrl_FSM.sv
+VFILES += $(PROC_DIR)/OpHandler_IF.sv
+VFILES += $(PROC_DIR)/DummyOpHandler_FSM.sv
+VFILES += $(PROC_DIR)/DummyOpHandler.sv
 
 PKG_FILES := 
+PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
 PKG_FILES += $(PROC_DIR)/Servo_PKG.sv
 
 TB_FILES :=
@@ -59,6 +63,7 @@ TB_FILES += $(PROC_DIR)/StepperCtrl_tb.sv
 TB_FILES += $(PROC_DIR)/StepperCtrlXY_tb.sv
 TB_FILES += $(PROC_DIR)/ServoCtrl_tb.sv
 TB_FILES += $(PROC_DIR)/MotorsCtrl_tb.sv
+TB_FILES += $(PROC_DIR)/DummyOpHandler_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
