@@ -1,5 +1,3 @@
-import Op_PKG::Op_st;
-
 /**
 * Interface for opcode handlers.
 *
@@ -10,20 +8,17 @@ import Op_PKG::Op_st;
 */
 interface OpHandler_IF ();
 
-	Op_st op;
 	logic trigger;
 	logic done;
 	logic rdy;
 
 	modport master (
-		output op,
 		output trigger,
 		input done,
 		input rdy
 	);
 
 	modport slave (
-		input op,
 		input trigger,
 		output done,
 		output rdy

@@ -11,4 +11,14 @@ package Op_PKG;
 		bit [`OP_FLAGS_BITS-1:0] flags;
 	} Op_st;
 
+	typedef enum {
+		OP_CMD_G00 = 0,
+		OP_CMD_G01 = 1,
+		OP_CMD_G02 = 2,
+		OP_CMD_G03 = 3,
+		OP_CMD_M05 = 4,
+		OP_CMD_G90 = 5,
+		OP_CMD_G91 = 6
+	} OpCmd_t;
+
 endpackage : Op_PKG

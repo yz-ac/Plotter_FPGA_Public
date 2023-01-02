@@ -1,3 +1,13 @@
+/**
+* FSM for dummy opcode handler.
+*
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input clk_en: Module enabling clock.
+* :input trigger: Triggers logic.
+* :output done: Is logic done.
+* :output rdy: Is ready to accept triggers.
+*/
 module DummyOpHandler_FSM (
 	input logic clk,
 	input logic reset,
