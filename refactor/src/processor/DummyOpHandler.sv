@@ -1,4 +1,3 @@
-import Op_PKG::Op_st;
 import Servo_PKG::SERVO_POS_UP;
 
 /**
@@ -9,14 +8,15 @@ import Servo_PKG::SERVO_POS_UP;
 * :input clk_en: Module enabling clock.
 * :iface handler_intf: Opcode handler interface (from parser side).
 * :iface motors_intf: Motors controlling interface (to motors side).
+* :iface update_pos_intf: Interface to update current position.
 */
 module DummyOpHandler (
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
-	input Op_st op,
 	OpHandler_IF handler_intf,
-	MotorsCtrl_IF motors_intf
+	MotorsCtrl_IF motors_intf,
+	PositionUpdate_IF pos_update_intf
 );
 
 	DummyOpHandler_FSM _fsm (
@@ -33,5 +33,10 @@ module DummyOpHandler (
 	assign motors_intf.servo_pos = SERVO_POS_UP;
 	assign motors_intf.trigger = 0;
 	// motors done and rdy are disconnected
+	
+	assign pos_update_intf.new_x = 0;
+	assign pos_update_intf.new_y = 0;
+	assign pos_update_intf.update = 0;
+	// never updates
 
 endmodule : DummyOpHandler
