@@ -50,38 +50,58 @@ module OpHandlerOutputChooser (
 				out.new_y = in.new_y; \
 				out.update = in.update
 
+	`define ZERO_MOTORS_RETURN_SIGNALS(intf) \
+				intf.done = 0; \
+				intf.rdy = 0
+
 	always_comb begin
 		case (op.cmd)
 		OP_CMD_G00: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(circ_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(dummy_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, lin_pos_update_intf_in);
 		end
 		OP_CMD_G01: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(circ_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(dummy_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, lin_pos_update_intf_in);
 		end
 		OP_CMD_G02: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, circ_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(dummy_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, circ_pos_update_intf_in);
 		end
 		OP_CMD_G03: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, circ_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(dummy_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, circ_pos_update_intf_in);
 		end
 		OP_CMD_M05: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, dummy_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(circ_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, dummy_pos_update_intf_in);
 		end
 		OP_CMD_G90: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, dummy_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(circ_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, dummy_pos_update_intf_in);
 		end
 		OP_CMD_G91: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, dummy_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(circ_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, dummy_pos_update_intf_in);
 		end
 		default: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, dummy_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
+			`ZERO_MOTORS_RETURN_SIGNALS(circ_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, dummy_pos_update_intf_in);
 		end
 		endcase
@@ -89,5 +109,6 @@ module OpHandlerOutputChooser (
 
 	`undef CONNECT_MOTORS_INTERFACES
 	`undef CONNECT_POS_UPDATE_INTERFACES
+	`undef ZERO_MOTORS_RETURN_SIGNALS
 
 endmodule : OpHandlerOutputChooser

@@ -50,6 +50,7 @@ VFILES += $(PROC_DIR)/DummyOpHandler_FSM.sv
 VFILES += $(PROC_DIR)/DummyOpHandler.sv
 VFILES += $(PROC_DIR)/PositionUpdate_IF.sv
 VFILES += $(PROC_DIR)/PositionKeeper.sv
+VFILES += $(PROC_DIR)/OpHandlerInputChooser.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -69,6 +70,7 @@ TB_FILES += $(PROC_DIR)/MotorsCtrl_tb.sv
 TB_FILES += $(PROC_DIR)/DummyOpHandler_tb.sv
 TB_FILES += $(PROC_DIR)/OpHandlerOutputChooser_tb.sv
 TB_FILES += $(PROC_DIR)/PositionKeeper_tb.sv
+TB_FILES += $(PROC_DIR)/OpHandlerInputChooser_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
