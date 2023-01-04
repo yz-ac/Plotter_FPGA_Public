@@ -1,11 +1,15 @@
 `include "tb/simulation.svh"
+`include "processor/processor.svh"
 
 module DummyOpHandler_tb;
 
 	wire clk;
 	reg reset;
 	OpHandler_IF handler_intf ();
-	MotorsCtrl_IF motors_intf ();
+	MotorsCtrl_IF #(
+		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+	) motors_intf ();
 	PositionUpdate_IF pos_update_intf ();
 
 	wire done;

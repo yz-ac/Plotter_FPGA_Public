@@ -1,4 +1,5 @@
 `include "tb/simulation.svh"
+`include "processor/processor.svh"
 
 import Servo_PKG::SERVO_POS_UP;
 import Servo_PKG::SERVO_POS_DOWN;
@@ -7,7 +8,10 @@ module MotorsCtrl_tb;
 
 	wire clk;
 	reg reset;
-	MotorsCtrl_IF intf ();
+	MotorsCtrl_IF #(
+		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+	) intf ();
 	wire out_x;
 	wire dir_x;
 	wire out_y;

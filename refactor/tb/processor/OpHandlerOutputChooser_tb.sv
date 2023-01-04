@@ -1,4 +1,5 @@
 `include "tb/simulation.svh"
+`include "processor/processor.svh"
 
 import Servo_PKG::SERVO_POS_UP;
 import Servo_PKG::SERVO_POS_DOWN;
@@ -13,10 +14,22 @@ import Op_PKG::OP_CMD_G91;
 
 module OpHandlerOutputChooser_tb;
 
-	MotorsCtrl_IF lin_motors_intf ();
-	MotorsCtrl_IF circ_motors_intf ();
-	MotorsCtrl_IF dummy_motors_intf ();
-	MotorsCtrl_IF motors_intf ();
+	MotorsCtrl_IF #(
+		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+	) lin_motors_intf ();
+	MotorsCtrl_IF #(
+		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+	) circ_motors_intf ();
+	MotorsCtrl_IF #(
+		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+	) dummy_motors_intf ();
+	MotorsCtrl_IF #(
+		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+	) motors_intf ();
 
 	PositionUpdate_IF lin_pos_update_intf();
 	PositionUpdate_IF circ_pos_update_intf();
