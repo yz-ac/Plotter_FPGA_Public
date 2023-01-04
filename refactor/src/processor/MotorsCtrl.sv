@@ -38,8 +38,8 @@ module MotorsCtrl (
 	wire _steppers_rdy;
 
 	StepperCtrlXY_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS),
+		.PULSE_NUM_X_BITS(intf.PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(intf.PULSE_NUM_Y_BITS),
 		.PULSE_WIDTH_BITS(`STEPPER_PULSE_WIDTH_BITS)
 	) _intf_xy ();
 

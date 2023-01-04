@@ -12,10 +12,13 @@ import Servo_PKG::ServoPos_t;
 * :port done: Movements done.
 * :port rdy: ready to accept triggers.
 */
-interface MotorsCtrl_IF ();
+interface MotorsCtrl_IF #(
+	parameter PULSE_NUM_X_BITS = `STEPPER_PULSE_NUM_X_BITS,
+	parameter PULSE_NUM_Y_BITS = `STEPPER_PULSE_NUM_Y_BITS
+) ();
 
-	logic [`STEPPER_PULSE_NUM_X_BITS-1:0] pulse_num_x;
-	logic [`STEPPER_PULSE_NUM_Y_BITS-1:0] pulse_num_y;
+	logic [PULSE_NUM_X_BITS-1:0] pulse_num_x;
+	logic [PULSE_NUM_Y_BITS-1:0] pulse_num_y;
 	ServoPos_t servo_pos;
 	logic trigger;
 	logic done;
