@@ -5,10 +5,10 @@ import Servo_PKG::SERVO_POS_UP;
 
 module PulseNumMultiplier_tb;
 
-	localparam IN_X_BITS = `STEPPER_PULSE_NUM_X_BITS;
-	localparam IN_Y_BITS = `STEPPER_PULSE_NUM_Y_BITS;
-	localparam OUT_X_BITS = `STEPPER_PULSE_NUM_X_BITS + `STEPPER_PULSE_NUM_X_FACTOR_BITS - 1;
-	localparam OUT_Y_BITS = `STEPPER_PULSE_NUM_Y_BITS + `STEPPER_PULSE_NUM_Y_FACTOR_BITS - 1;
+	localparam IN_X_BITS = `POS_X_BITS;
+	localparam IN_Y_BITS = `POS_Y_BITS;
+	localparam OUT_X_BITS = `STEPPER_PULSE_NUM_X_BITS;
+	localparam OUT_Y_BITS = `STEPPER_PULSE_NUM_Y_BITS;
 
 	MotorsCtrl_IF #(
 		.PULSE_NUM_X_BITS(IN_X_BITS),

@@ -49,9 +49,12 @@ VFILES += $(PROC_DIR)/OpHandlerOutputChooser.sv
 VFILES += $(PROC_DIR)/DummyOpHandler_FSM.sv
 VFILES += $(PROC_DIR)/DummyOpHandler.sv
 VFILES += $(PROC_DIR)/PositionUpdate_IF.sv
+VFILES += $(PROC_DIR)/PositionState_IF.sv
 VFILES += $(PROC_DIR)/PositionKeeper.sv
 VFILES += $(PROC_DIR)/OpHandlerInputChooser.sv
 VFILES += $(PROC_DIR)/PulseNumMultiplier.sv
+VFILES += $(PROC_DIR)/LinearOpHandler.sv
+VFILES += $(PROC_DIR)/LinearOpHandler_FSM.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -73,6 +76,7 @@ TB_FILES += $(PROC_DIR)/OpHandlerOutputChooser_tb.sv
 TB_FILES += $(PROC_DIR)/PositionKeeper_tb.sv
 TB_FILES += $(PROC_DIR)/OpHandlerInputChooser_tb.sv
 TB_FILES += $(PROC_DIR)/PulseNumMultiplier_tb.sv
+TB_FILES += $(PROC_DIR)/LinearOpHandler_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))

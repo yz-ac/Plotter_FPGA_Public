@@ -1,4 +1,4 @@
-`include "processor/position.svh"
+`include "processor/processor.svh"
 
 /**
 * Interface for updating position.

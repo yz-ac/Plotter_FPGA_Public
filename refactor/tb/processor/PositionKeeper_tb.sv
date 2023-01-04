@@ -17,6 +17,11 @@ module PositionKeeper_tb;
 		.POS_Y_BITS(`POS_Y_BITS)
 	) update_intf();
 
+	PositionState_IF #(
+		.POS_X_BITS(`POS_X_BITS),
+		.POS_Y_BITS(`POS_Y_BITS)
+	) state_intf ();
+
 	wire [`POS_X_BITS-1:0] cur_x;
 	wire [`POS_Y_BITS-1:0] cur_y;
 	wire is_absolute;
@@ -31,10 +36,11 @@ module PositionKeeper_tb;
 		.clk_en(1),
 		.op(op),
 		.update_intf(update_intf.slave),
-		.cur_x(cur_x),
-		.cur_y(cur_y),
-		.is_absolute(is_absolute)
+		.state_intf(state_intf.master)
 	);
+	assign cur_x = state_intf.slave.cur_x;
+	assign cur_y = state_intf.slave.cur_y;
+	assign is_absolute = state_intf.slave.is_absolute;
 
 	initial begin
 		reset = 1;

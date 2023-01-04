@@ -20,19 +20,16 @@ module PositionKeeper (
 	input logic clk_en,
 	input Op_st op,
 	PositionUpdate_IF update_intf,
-
-	output logic [update_intf.POS_X_BITS-1:0] cur_x,
-	output logic [update_intf.POS_Y_BITS-1:0] cur_y,
-	output logic is_absolute
+	PositionState_IF state_intf
 );
 
-	reg [update_intf.POS_X_BITS-1:0] _cur_x;
-	reg [update_intf.POS_Y_BITS-1:0] _cur_y;
+	reg [state_intf.POS_X_BITS-1:0] _cur_x;
+	reg [state_intf.POS_Y_BITS-1:0] _cur_y;
 	reg _is_absolute;
 
-	assign cur_x = _cur_x;
-	assign cur_y = _cur_y;
-	assign is_absolute = _is_absolute;
+	assign state_intf.cur_x = _cur_x;
+	assign state_intf.cur_y = _cur_y;
+	assign state_intf.is_absolute = _is_absolute;
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
