@@ -57,10 +57,13 @@ VFILES += $(PROC_DIR)/OpHandlerInputChooser.sv
 VFILES += $(PROC_DIR)/PulseNumMultiplier.sv
 VFILES += $(PROC_DIR)/LinearOpHandler.sv
 VFILES += $(PROC_DIR)/LinearOpHandler_FSM.sv
+VFILES += $(PROC_DIR)/CircularOpHandler_QuadrantFinder.sv
+VFILES += $(PROC_DIR)/CircularOpHandler_DirectionFinder.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
 PKG_FILES += $(PROC_DIR)/Servo_PKG.sv
+PKG_FILES += $(PROC_DIR)/Position_PKG.sv
 
 TB_FILES :=
 TB_FILES += SimClock.sv
@@ -80,6 +83,8 @@ TB_FILES += $(PROC_DIR)/PositionKeeper_tb.sv
 TB_FILES += $(PROC_DIR)/OpHandlerInputChooser_tb.sv
 TB_FILES += $(PROC_DIR)/PulseNumMultiplier_tb.sv
 TB_FILES += $(PROC_DIR)/LinearOpHandler_tb.sv
+TB_FILES += $(PROC_DIR)/CircularOpHandler_QuadrantFinder_tb.sv
+TB_FILES += $(PROC_DIR)/CircularOpHandler_DirectionFinder_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
