@@ -60,6 +60,9 @@ VFILES += $(PROC_DIR)/LinearOpHandler_FSM.sv
 VFILES += $(PROC_DIR)/CircularOpHandler_QuadrantFinder.sv
 VFILES += $(PROC_DIR)/CircularOpHandler_DirectionFinder.sv
 VFILES += $(PROC_DIR)/CircularOpHandler_NumStepsCalculator.sv
+VFILES += $(PROC_DIR)/CircularOpHandler_InnerLogic.sv
+VFILES += $(PROC_DIR)/CircularOpHandler_FSM.sv
+VFILES += $(PROC_DIR)/CircularOpHandler.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -87,6 +90,7 @@ TB_FILES += $(PROC_DIR)/LinearOpHandler_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_QuadrantFinder_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_DirectionFinder_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_NumStepsCalculator_tb.sv
+TB_FILES += $(PROC_DIR)/CircularOpHandler_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))

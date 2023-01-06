@@ -1,3 +1,22 @@
+/**
+* FSM for CircularOpHandler module.
+*
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input clk_en: Module enabling clock.
+* :input trigger: Triggers circular motion.
+* :input sqrt_done: Is sqrt module finished calculating.
+* :input sqrt_rdy: Is sqrt module ready to accept triggers.
+* :input motors_done: Is motors control module done.
+* :input motors_rdy: Is motors control module ready to accept triggers.
+* :input reached_num_steps: Reached number of steps in the circular motion.
+* :output sqrt_trigger: Triggers sqrt module.
+* :output motors_trigger: Trigger motors control module.
+* :output update_counter: Update steps counter.
+* :output update_pos: Update current position.
+* :output done: Movement done.
+* :output rdy: Ready to accept triggers.
+*/
 module CircularOpHandler_FSM (
 	input logic clk,
 	input logic reset,
@@ -31,8 +50,8 @@ module CircularOpHandler_FSM (
 		DONE
 	} CircularOpHandler_state;
 
-	CircularOpHandler_stat _cur_state;
-	CircularOpHandler_stat _nxt_state;
+	CircularOpHandler_state _cur_state;
+	CircularOpHandler_state _nxt_state;
 
 	always_comb begin
 		case (_cur_state)

@@ -5,6 +5,18 @@ import Position_PKG::PosQuadrant_t;
 import Position_PKG::PosDirection_t;
 import Servo_PKG::SERVO_POS_DOWN;
 
+/**
+* Handler for circular motion commands (G02, G03).
+*
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input clk_en: Module enabling clock.
+* :input op: Opcode currently being processed.
+* :iface handler_intf: Interface for opcode handlers.
+* :iface state_intf: Interface to current position and mode (absolute / relative).
+* :iface update_intf: Interface to update current position.
+* :iface motors_intf: Interface to motor control.
+*/
 module CircularOpHandler (
 	input logic clk,
 	input logic reset,
@@ -42,12 +54,12 @@ module CircularOpHandler (
 
 	wire [NUM_BITS-1:0] _cur_r_squared;
 	PosQuadrant_t _cur_quadrant;
-	PosDirection_y _nxt_dir;
+	PosDirection_t _nxt_dir;
 
 	wire _is_last_mvt;
 
 	wire [STEP_BITS-1:0] _num_steps;
-	reg [STEPS_BITS-1:0] _steps_counter;
+	reg [STEP_BITS-1:0] _steps_counter;
 	wire _reached_num_steps;
 
 	// modules
@@ -117,7 +129,7 @@ module CircularOpHandler (
 		.reset(reset),
 		.clk_en(clk_en),
 		.num_in(_r_squared),
-		.trigger(_trigger_sqrt),
+		.trigger(_sqrt_trigger),
 		.sqrt_out(_r),
 		.done(_sqrt_done),
 		.rdy(_sqrt_rdy)
@@ -139,9 +151,10 @@ module CircularOpHandler (
 		.update_counter(_update_counter),
 		.update_pos(update_intf.update),
 		.done(handler_intf.done),
-		.rdy(handler_intf.rdy)
+		.rdy(_rdy)
 	);
 
+	assign handler_intf.rdy = _rdy;
 	assign _reached_num_steps = (_num_steps == _steps_counter) ? 1 : 0;
 	assign motors_intf.servo_pos = SERVO_POS_DOWN;
 

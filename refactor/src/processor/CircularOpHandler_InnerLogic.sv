@@ -10,6 +10,34 @@ import Position_PKG::POS_DIR_DOWN;
 import Position_PKG::POS_DIR_LEFT;
 import Position_PKG::POS_DIR_RIGHT;
 
+/**
+* Inner connections and logic of CircularOpHandler module.
+*
+* :parameter NUM_BITS: Field width of numbers for calculation.
+* :parameter PULSE_NUM_X_BITS: Field width of X pulse number to motors.
+* :parameter PULSE_NUM_Y_BITS: Field width of Y pulse number to motors.
+* :parameter POS_X_BITS: Field width of X position coordinate.
+* :parameter POS_Y_BITS: Field width of Y position coordinate.
+* :input op: Opcode currently being processed.
+* :iface state_intf: Interface for acquiring current position.
+* :input last_x: X position when module was triggered.
+* :input last_y: Y position when module was triggered.
+* :input dir: Direction of next movement.
+* :input is_last_mvt: Is the last movement in the circular motion.
+* :output pulse_num_x: Number of pulses in X for motors.
+* :output pulse_num_x: Number of pulses in Y for motors.
+* :output new_x: New X coordinate after step.
+* :output new_y: New Y coordinate after step.
+* :output is_cw: Is clockwise movement.
+* :output start_x: Starting X position relative to circle center.
+* :output start_y: Starting Y position relative to circle center.
+* :output cur_x: Current X position relative to circle center.
+* :output cur_y: Current Y position relative to circle center.
+* :output end_x: Final X position relative to circle center.
+* :output end_y: Final Y position relative to circle center.
+* :output r_squared: Squared radius of circular motion.
+* :output cur_r_squared: Squared radius of current position (polar cooridnates).
+*/
 module CircularOpHandler_InnerLogic #(
 	parameter NUM_BITS = `BYTE_BITS,
 	parameter PULSE_NUM_X_BITS = `BYTE_BITS,
@@ -101,8 +129,10 @@ module CircularOpHandler_InnerLogic #(
 
 	always_comb begin : __set_motors_and_update_pos
 		if (is_last_mvt) begin
-			pulse_num_x = (_end_x - _cur_x)[PULSE_NUM_X_BITS-1:0];
-			pulse_num_y = (_end_y - _cur_y)[PULSE_NUM_Y_BITS-1:0];
+			// pulse_num_x = (_end_x - _cur_x)[PULSE_NUM_X_BITS-1:0];
+			// pulse_num_y = (_end_y - _cur_y)[PULSE_NUM_Y_BITS-1:0];
+			pulse_num_x = (_end_x - _cur_x);
+			pulse_num_y = (_end_y - _cur_y);
 			new_x = _end_x[POS_X_BITS-1:0];
 			new_y = _end_y[POS_Y_BITS-1:0];
 		end
@@ -112,24 +142,28 @@ module CircularOpHandler_InnerLogic #(
 				pulse_num_x = 0;
 				pulse_num_y = 1;
 				new_x = _cur_x[POS_X_BITS-1:0];
-				new_y = (_cur_y + 1)[POS_X_BITS-1:0];
+				// new_y = (_cur_y + 1)[POS_X_BITS-1:0];
+				new_y = (_cur_y + 1);
 			end
 			POS_DIR_DOWN: begin
 				pulse_num_x = 0;
 				pulse_num_y = -1;
 				new_x = _cur_x[POS_X_BITS-1:0];
-				new_y = (_cur_y - 1)[POS_X_BITS-1:0];
+				// new_y = (_cur_y - 1)[POS_X_BITS-1:0];
+				new_y = (_cur_y - 1);
 			end
 			POS_DIR_LEFT: begin
 				pulse_num_x = -1;
 				pulse_num_y = 0;
-				new_x = (_cur_x - 1)[POS_X_BITS-1:0];
+				// new_x = (_cur_x - 1)[POS_X_BITS-1:0];
+				new_x = (_cur_x - 1);
 				new_y = _cur_y[POS_X_BITS-1:0];
 			end
 			default: begin
 				pulse_num_x = 1;
 				pulse_num_y = 0;
-				new_x = (_cur_x + 1)[POS_X_BITS-1:0];
+				// new_x = (_cur_x + 1)[POS_X_BITS-1:0];
+				new_x = (_cur_x + 1);
 				new_y = _cur_y[POS_X_BITS-1:0];
 			end
 			endcase
