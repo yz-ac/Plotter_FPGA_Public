@@ -6,6 +6,18 @@ import Position_PKG::POS_QUADRANT_2;
 import Position_PKG::POS_QUADRANT_3;
 import Position_PKG::POS_QUADRANT_4;
 
+/**
+* Calculates the number of steps for the requested rotation.
+*
+* :param NUM_BITS: Field width of numbers.
+* :input is_cw: Is clockwise rotation.
+* :input start_x: Start X coordinate.
+* :input start_y: Start Y coordinate.
+* :input end_x: End X coordinate.
+* :input end_y: End Y coordinate.
+* :input r: Radius of circular path.
+* :output num_steps: Number of steps in the path.
+*/
 module CircularOpHandler_NumStepsCalculator #(
 	parameter NUM_BITS = `BYTE_BITS,
 	localparam STEP_BITS = NUM_BITS + 3 // Max is r * 8
