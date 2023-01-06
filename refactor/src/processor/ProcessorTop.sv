@@ -126,9 +126,9 @@ module ProcessorTop (
 		.lin_motors_intf_in(_lin_motors_intf.slave),
 		.circ_motors_intf_in(_circ_motors_intf.slave),
 		.dummy_motors_intf_in(_dummy_motors_intf.slave),
-		.lin_update_intf_in(_lin_update_intf.slave),
-		.circ_update_intf_in(_circ_update_intf.slave),
-		.dummy_update_intf_in(_dummy_update_intf.slave),
+		.lin_pos_update_intf_in(_lin_update_intf.slave),
+		.circ_pos_update_intf_in(_circ_update_intf.slave),
+		.dummy_pos_update_intf_in(_dummy_update_intf.slave),
 		.motors_intf_out(_small_motors_intf.master),
 		.pos_update_intf_out(_update_intf.master)
 	);

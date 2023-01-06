@@ -103,7 +103,7 @@ module CircularOpHandler_InnerLogic #(
 	assign _y = {{NUM_BITS-`OP_ARG_2_BITS{op.arg_2[`OP_ARG_2_BITS-1]}}, op.arg_2[`OP_ARG_2_BITS-1:0]};
 	assign _i = {{NUM_BITS-`OP_ARG_3_BITS{op.arg_3[`OP_ARG_3_BITS-1]}}, op.arg_3[`OP_ARG_3_BITS-1:0]};
 	assign _j = {{NUM_BITS-`OP_ARG_4_BITS{op.arg_4[`OP_ARG_4_BITS-1]}}, op.arg_4[`OP_ARG_4_BITS-1:0]};
-	assign r_squared = square_num(_x - _i) + square_num(_y - _j);
+	assign r_squared = square_num(_i) + square_num(_j);
 	assign is_cw = (op.cmd == OP_CMD_G02) ? 1 : 0;
 
 	assign _start_x = {{NUM_BITS-state_intf.POS_X_BITS{last_x[state_intf.POS_X_BITS-1]}}, last_x[state_intf.POS_X_BITS-1:0]};
@@ -113,8 +113,9 @@ module CircularOpHandler_InnerLogic #(
 	assign _end_x = (state_intf.is_absolute) ? (_x) : (_start_x + _x);
 	assign _end_y = (state_intf.is_absolute) ? (_y) : (_start_y + _y);
 
-	assign _circ_center_x = (state_intf.is_absolute) ? (_i) : (_start_x + _i);
-	assign _circ_center_y = (state_intf.is_absolute) ? (_j) : (_start_y + _j);
+	// Circle center is ALWAYS relative
+	assign _circ_center_x = _start_x + _i;
+	assign _circ_center_y = _start_y + _j;
 
 	assign start_x = _start_x - _circ_center_x;
 	assign start_y = _start_y - _circ_center_y;

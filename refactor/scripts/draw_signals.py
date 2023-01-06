@@ -7,6 +7,8 @@ MAX_X = 512
 MIN_Y = 0
 MAX_Y = 512
 
+DELAY_MS = 5
+
 class ParseError(Exception):
 	pass
 
@@ -54,6 +56,7 @@ def draw_once(canvas, pos, cmd):
 
 def main(path):
 	pos = Position(0, 0)
+	delay = 0
 
 	root = tk.Tk()
 	canvas = tk.Canvas(master=root, width=MAX_X, height=MAX_Y)
@@ -67,7 +70,10 @@ def main(path):
 
 		cmds.sort(key=lambda x: x.t)
 		for cmd in cmds:
-			draw_once(canvas, pos, cmd)
+			root.after(delay, draw_once, canvas, pos, cmd)
+			delay += DELAY_MS
+
+		root.after(delay, print, "DONE")
 
 	root.mainloop()
 

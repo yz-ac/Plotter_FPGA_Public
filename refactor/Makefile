@@ -93,6 +93,7 @@ TB_FILES += $(PROC_DIR)/CircularOpHandler_QuadrantFinder_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_DirectionFinder_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_NumStepsCalculator_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_tb.sv
+TB_FILES += $(PROC_DIR)/ProcessorTop_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))

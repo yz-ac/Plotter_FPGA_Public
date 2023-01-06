@@ -112,7 +112,7 @@ module CircularOpHandler_tb;
 			op.arg_1 <= 100;
 			op.arg_2 <= 0;
 			op.arg_3 <= 0;
-			op.arg_4 <= 0;
+			op.arg_4 <= -100;
 			handler_intf.master.trigger <= 1;
 		end
 		TB_TEST_3: begin
