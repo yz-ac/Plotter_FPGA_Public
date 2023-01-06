@@ -128,43 +128,38 @@ module CircularOpHandler_InnerLogic #(
 	assign cur_r_squared = square_num(_cur_rel_x) + square_num(_cur_rel_y);
 
 	always_comb begin : __set_motors_and_update_pos
+		// note that signals are being truncated here (and it's OK)
 		if (is_last_mvt) begin
-			// pulse_num_x = (_end_x - _cur_x)[PULSE_NUM_X_BITS-1:0];
-			// pulse_num_y = (_end_y - _cur_y)[PULSE_NUM_Y_BITS-1:0];
 			pulse_num_x = (_end_x - _cur_x);
 			pulse_num_y = (_end_y - _cur_y);
-			new_x = _end_x[POS_X_BITS-1:0];
-			new_y = _end_y[POS_Y_BITS-1:0];
+			new_x = _end_x;
+			new_y = _end_y;
 		end
 		else begin
 			case (dir)
 			POS_DIR_UP: begin
 				pulse_num_x = 0;
 				pulse_num_y = 1;
-				new_x = _cur_x[POS_X_BITS-1:0];
-				// new_y = (_cur_y + 1)[POS_X_BITS-1:0];
+				new_x = _cur_x;
 				new_y = (_cur_y + 1);
 			end
 			POS_DIR_DOWN: begin
 				pulse_num_x = 0;
 				pulse_num_y = -1;
-				new_x = _cur_x[POS_X_BITS-1:0];
-				// new_y = (_cur_y - 1)[POS_X_BITS-1:0];
+				new_x = _cur_x;
 				new_y = (_cur_y - 1);
 			end
 			POS_DIR_LEFT: begin
 				pulse_num_x = -1;
 				pulse_num_y = 0;
-				// new_x = (_cur_x - 1)[POS_X_BITS-1:0];
 				new_x = (_cur_x - 1);
-				new_y = _cur_y[POS_X_BITS-1:0];
+				new_y = _cur_y;
 			end
 			default: begin
 				pulse_num_x = 1;
 				pulse_num_y = 0;
-				// new_x = (_cur_x + 1)[POS_X_BITS-1:0];
 				new_x = (_cur_x + 1);
-				new_y = _cur_y[POS_X_BITS-1:0];
+				new_y = _cur_y;
 			end
 			endcase
 		end

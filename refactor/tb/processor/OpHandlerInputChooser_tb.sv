@@ -5,7 +5,6 @@ import Op_PKG::OP_CMD_G00;
 import Op_PKG::OP_CMD_G01;
 import Op_PKG::OP_CMD_G02;
 import Op_PKG::OP_CMD_G03;
-import Op_PKG::OP_CMD_M05;
 import Op_PKG::OP_CMD_G90;
 import Op_PKG::OP_CMD_G91;
 
@@ -28,10 +27,7 @@ module OpHandlerInputChooser_tb;
 
 	initial begin
 		handler_intf.master.trigger = 1;
-		op = {OP_CMD_M05, 0, 0, 0, 0, 0};
-		#(`CLOCK_PERIOD * 2);
-
-		op.cmd = OP_CMD_G00;
+		op = {OP_CMD_G00, 0, 0, 0, 0, 0};
 		#(`CLOCK_PERIOD * 2);
 
 		op.cmd = OP_CMD_G02;

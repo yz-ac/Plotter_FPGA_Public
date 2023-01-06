@@ -63,6 +63,8 @@ VFILES += $(PROC_DIR)/CircularOpHandler_NumStepsCalculator.sv
 VFILES += $(PROC_DIR)/CircularOpHandler_InnerLogic.sv
 VFILES += $(PROC_DIR)/CircularOpHandler_FSM.sv
 VFILES += $(PROC_DIR)/CircularOpHandler.sv
+VFILES += $(PROC_DIR)/ProcessorTopInnerConnector.sv
+VFILES += $(PROC_DIR)/ProcessorTop.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv

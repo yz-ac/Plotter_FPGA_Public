@@ -3,7 +3,6 @@ import Op_PKG::OP_CMD_G00;
 import Op_PKG::OP_CMD_G01;
 import Op_PKG::OP_CMD_G02;
 import Op_PKG::OP_CMD_G03;
-import Op_PKG::OP_CMD_M05;
 import Op_PKG::OP_CMD_G90;
 import Op_PKG::OP_CMD_G91;
 
@@ -79,12 +78,6 @@ module OpHandlerOutputChooser (
 			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
 			`ZERO_MOTORS_RETURN_SIGNALS(dummy_motors_intf_in);
 			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, circ_pos_update_intf_in);
-		end
-		OP_CMD_M05: begin
-			`CONNECT_MOTORS_INTERFACES(motors_intf_out, dummy_motors_intf_in);
-			`ZERO_MOTORS_RETURN_SIGNALS(lin_motors_intf_in);
-			`ZERO_MOTORS_RETURN_SIGNALS(circ_motors_intf_in);
-			`CONNECT_POS_UPDATE_INTERFACES(pos_update_intf_out, dummy_pos_update_intf_in);
 		end
 		OP_CMD_G90: begin
 			`CONNECT_MOTORS_INTERFACES(motors_intf_out, dummy_motors_intf_in);

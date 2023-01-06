@@ -16,9 +16,8 @@ package Op_PKG;
 		OP_CMD_G01 = 1,
 		OP_CMD_G02 = 2,
 		OP_CMD_G03 = 3,
-		OP_CMD_M05 = 4,
-		OP_CMD_G90 = 5,
-		OP_CMD_G91 = 6
+		OP_CMD_G90 = 4,
+		OP_CMD_G91 = 5
 	} OpCmd_t;
 
 endpackage : Op_PKG

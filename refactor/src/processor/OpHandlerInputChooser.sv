@@ -3,7 +3,6 @@ import Op_PKG::OP_CMD_G00;
 import Op_PKG::OP_CMD_G01;
 import Op_PKG::OP_CMD_G02;
 import Op_PKG::OP_CMD_G03;
-import Op_PKG::OP_CMD_M05;
 import Op_PKG::OP_CMD_G90;
 import Op_PKG::OP_CMD_G91;
 
@@ -57,11 +56,6 @@ module OpHandlerInputChooser (
 				`CONNECT_HANDLER_INTERFACES(circ_handler_intf_out, handler_intf_in);
 				`ZERO_HANDLER_FORWARD_SIGNALS(lin_handler_intf_out);
 				`ZERO_HANDLER_FORWARD_SIGNALS(dummy_handler_intf_out);
-			end
-			OP_CMD_M05: begin
-				`CONNECT_HANDLER_INTERFACES(dummy_handler_intf_out, handler_intf_in);
-				`ZERO_HANDLER_FORWARD_SIGNALS(lin_handler_intf_out);
-				`ZERO_HANDLER_FORWARD_SIGNALS(circ_handler_intf_out);
 			end
 			OP_CMD_G90: begin
 				`CONNECT_HANDLER_INTERFACES(dummy_handler_intf_out, handler_intf_in);
