@@ -127,6 +127,7 @@ tests: setup
 .PHONY: clean
 clean:
 	$(VDEL) -all -lib $(LIB_NAME)
+	rm -rf $(TESTS_PATH)
 	rm -rf vsim.wlf
 
 .PHONY: sim
