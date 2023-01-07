@@ -1,0 +1,10 @@
+time:                 1800, X, test:           2, dir: 1
+time:                 5800, X, test:           2, dir: 1
+time:                 9800, X, test:           2, dir: 1
+time:                14600, X, test:           3, dir: 1
+time:                14600, Y, test:           3, dir: 0
+time:                22600, X, test:           3, dir: 1
+time:                26600, Y, test:           3, dir: 0
+time:                30600, X, test:           3, dir: 1
+time:                39400, Y, test:           4, dir: 0
+time:                43400, Y, test:           4, dir: 0

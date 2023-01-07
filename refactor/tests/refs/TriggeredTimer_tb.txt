@@ -1,0 +1,4 @@
+time:                    0, count:   3
+time:                 3800, count:   3
+time:                 5000, count:   0
+time:                 9400, count:   5

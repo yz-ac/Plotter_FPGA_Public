@@ -2,6 +2,7 @@
 `include "common/common.svh"
 
 module TriggeredTimer_tb;
+	int fd;
 
 	localparam DIV_BITS = `BYTE_BITS;
 	localparam TIMER_BITS = `BYTE_BITS;
@@ -43,7 +44,13 @@ module TriggeredTimer_tb;
 		.rdy(rdy)
 	);
 
+	always_ff @(posedge done) begin
+		`FWRITE(("time: %t, count: %d", $time, count))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/TriggeredTimer_tb.txt")
+
 		reset = 1;
 		en = 0;
 		count = 3;
@@ -74,7 +81,8 @@ module TriggeredTimer_tb;
 		trigger = 0;
 		#(`CLOCK_PERIOD * 20);
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // intial
 
 endmodule : TriggeredTimer_tb

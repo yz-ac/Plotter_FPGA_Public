@@ -1,7 +1,11 @@
 `include "tb/simulation.svh"
 `include "common/common.svh"
 
+`define LOG() \
+		`FWRITE(("time: %t, r: %d, is_cw: %d, start: (%d, %d), end: (%d, %d), num_steps: %d", $time, r, is_cw, start_x, start_y, end_x, end_y, num_steps))
+
 module CircularOpHandler_NumStepsCalculator_tb;
+	int fd;
 
 	localparam NUM_BITS = `BYTE_BITS;
 	localparam STEP_BITS = NUM_BITS + 3;
@@ -27,6 +31,8 @@ module CircularOpHandler_NumStepsCalculator_tb;
 	);
 
 	initial begin
+		`FOPEN("tests/tests/CircularOpHandler_NumStepsCalculator_tb.txt")
+
 		r = 2;
 		is_cw = 0;
 
@@ -35,18 +41,21 @@ module CircularOpHandler_NumStepsCalculator_tb;
 		end_x = 0;
 		end_y = 2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		start_x = 0;
 		start_y = 2;
 		end_x = 0;
 		end_y = -2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		start_x = 0;
 		start_y = 2;
 		end_x = 0;
 		end_y = 2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		is_cw = 1;
 
@@ -55,20 +64,24 @@ module CircularOpHandler_NumStepsCalculator_tb;
 		end_x = 0;
 		end_y = 2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		start_x = 0;
 		start_y = 2;
 		end_x = 0;
 		end_y = -2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		start_x = 0;
 		start_y = 2;
 		end_x = 0;
 		end_y = 2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : CircularOpHandler_NumStepsCalculator_tb

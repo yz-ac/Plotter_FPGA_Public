@@ -2,6 +2,7 @@
 `include "common/common.svh"
 
 module Pwm_tb;
+	int fd;
 
 	localparam DIV_BITS = `BYTE_BITS;
 	localparam PERIOD_BITS = `BYTE_BITS;
@@ -40,7 +41,13 @@ module Pwm_tb;
 		.out(out)
 	);
 
+	always_ff @(posedge out) begin
+		`FWRITE(("time: %t, period: %d, on_time: %d", $time, period, on_time))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/Pwm_tb.txt")
+
 		reset = 1;
 		period = 0;
 		on_time = 0;
@@ -59,7 +66,8 @@ module Pwm_tb;
 		on_time = 2;
 		#(`CLOCK_PERIOD * 100);
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : Pwm_tb

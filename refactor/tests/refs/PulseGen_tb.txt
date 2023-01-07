@@ -1,0 +1,5 @@
+time:                 1800, pulse_num:   3, pulse_width:   2
+time:                 3400, pulse_num:   3, pulse_width:   2
+time:                 5000, pulse_num:   3, pulse_width:   2
+time:                10200, pulse_num:   2, pulse_width:   5
+time:                14200, pulse_num:   2, pulse_width:   5

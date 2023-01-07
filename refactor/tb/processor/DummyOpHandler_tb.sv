@@ -2,6 +2,7 @@
 `include "processor/processor.svh"
 
 module DummyOpHandler_tb;
+	int fd;
 
 	wire clk;
 	reg reset;
@@ -31,7 +32,13 @@ module DummyOpHandler_tb;
 	assign done = handler_intf.master.done;
 	assign rdy = handler_intf.master.rdy;
 
+	always_ff @(posedge done) begin
+		`FWRITE(("time: %t", $time))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/DummyOpHandler_tb.txt")
+
 		reset = 1;
 		handler_intf.master.trigger = 0;
 		#(`CLOCK_PERIOD * 2);
@@ -43,7 +50,8 @@ module DummyOpHandler_tb;
 		handler_intf.master.trigger = 0;
 		#(`CLOCK_PERIOD * 10);
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : DummyOpHandler_tb

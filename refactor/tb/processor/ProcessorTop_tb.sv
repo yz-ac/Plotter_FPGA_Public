@@ -169,10 +169,8 @@ module ProcessorTop_tb;
 			trigger = 1;
 		end
 		TB_TEST_13: begin
-			if (fd) begin
-				$fclose(fd);
-				$stop;
-			end
+			`FCLOSE
+			`STOP
 		end
 		default: begin
 			_test <= TB_BAD;
@@ -183,23 +181,16 @@ module ProcessorTop_tb;
 	end
 
 	always_ff @(posedge out_x) begin
-		if (fd) begin
-			$fdisplay(fd, "%t : X : %d : %d", $time, dir_x, UUT._large_motors_intf.slave.servo_pos);
-		end
+		`FWRITE(("%t : X : %d : %d", $time, dir_x, UUT._large_motors_intf.slave.servo_pos))
 	end
 
 	always_ff @(posedge out_y) begin
-		if (fd) begin
-			$fdisplay(fd, "%t : Y : %d : %d", $time, dir_y, UUT._large_motors_intf.slave.servo_pos);
-		end
+		`FWRITE(("%t : Y : %d : %d", $time, dir_y, UUT._large_motors_intf.slave.servo_pos))
 	end
 
 	initial begin
+		`FOPEN("tests/tests/ProcessorTop_tb.txt")
 		reset = 1;
-		fd = $fopen(`TEST_OUT_FILE, "w");
-		if (!fd) begin
-			$stop;
-		end
 		#(`CLOCK_PERIOD * 2);
 
 		reset = 0;

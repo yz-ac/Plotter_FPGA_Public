@@ -1,0 +1,6 @@
+time:                 1800, pulse_num: 252, pulse_width:   2, dir: 1
+time:                 3400, pulse_num: 252, pulse_width:   2, dir: 1
+time:                 5000, pulse_num: 252, pulse_width:   2, dir: 1
+time:                 6600, pulse_num: 252, pulse_width:   2, dir: 1
+time:                10200, pulse_num:   2, pulse_width:   3, dir: 0
+time:                12600, pulse_num:   2, pulse_width:   3, dir: 0

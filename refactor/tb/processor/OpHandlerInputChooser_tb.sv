@@ -8,7 +8,11 @@ import Op_PKG::OP_CMD_G03;
 import Op_PKG::OP_CMD_G90;
 import Op_PKG::OP_CMD_G91;
 
+`define LOG() \
+		`FWRITE(("time: %t, cmd: %d, lin: %d, circ: %d, dummy: %d", $time, op.cmd, lin_handler_intf.slave.trigger, circ_handler_intf.slave.trigger, dummy_handler_intf.slave.trigger))
+
 module OpHandlerInputChooser_tb;
+	int fd;
 
 	OpHandler_IF handler_intf ();
 	OpHandler_IF lin_handler_intf ();
@@ -26,26 +30,35 @@ module OpHandlerInputChooser_tb;
 	);
 
 	initial begin
+		`FOPEN("tests/tests/OpHandlerInputChooser_tb.txt")
+
 		handler_intf.master.trigger = 1;
 		op = {OP_CMD_G00, 0, 0, 0, 0, 0};
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G02;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G90;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G01;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G03;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G91;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : OpHandlerInputChooser_tb

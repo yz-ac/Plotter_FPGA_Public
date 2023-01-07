@@ -2,6 +2,7 @@
 `include "common/common.svh"
 
 module PulseGen_tb;
+	int fd;
 
 	localparam DIV_BITS = `BYTE_BITS;
 	localparam PULSE_NUM_BITS = `BYTE_BITS;
@@ -48,7 +49,13 @@ module PulseGen_tb;
 		.rdy(rdy)
 	);
 
+	always_ff @(posedge out) begin
+		`FWRITE(("time: %t, pulse_num: %d, pulse_width: %d", $time, pulse_num, pulse_width))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/PulseGen_tb.txt")
+
 		reset = 1;
 		pulse_num = 0;
 		pulse_width = 0;
@@ -84,7 +91,8 @@ module PulseGen_tb;
 		trigger = 0;
 		#(`CLOCK_PERIOD * 40);
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : PulseGen_tb

@@ -3,7 +3,11 @@
 
 import Position_PKG::PosQuadrant_t;
 
+`define LOG() \
+		`FWRITE(("time: %t, rel: (%d, %d), quadrant: %d", $time, rel_x, rel_y, quadrant))
+
 module CircularOpHandler_QuadrantFinder_tb;
+	int fd;
 
 	localparam NUM_BITS = `BYTE_BITS;
 
@@ -20,27 +24,35 @@ module CircularOpHandler_QuadrantFinder_tb;
 	);
 
 	initial begin
+		`FOPEN("tests/tests/CircularOpHandler_QuadrantFinder_tb.txt")
+
 		rel_x = 0;
 		rel_y = 0;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		rel_x = 1;
 		rel_y = 2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		rel_x = -4;
 		rel_y = 2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		rel_x = -5;
 		rel_y = -4;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		rel_x = 2;
 		rel_y = -2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : CircularOpHandler_QuadrantFinder_tb

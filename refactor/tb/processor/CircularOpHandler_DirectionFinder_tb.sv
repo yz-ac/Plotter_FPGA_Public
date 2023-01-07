@@ -8,7 +8,11 @@ import Position_PKG::POS_QUADRANT_3;
 import Position_PKG::POS_QUADRANT_4;
 import Position_PKG::PosDirection_t;
 
+`define LOG() \
+		`FWRITE(("time: %t, r2: %d, cur_r2: %d, quadrant: %d, dir: %d", $time, r_squared, cur_r_squared, quadrant, dir))
+
 module CircularOpHandler_DirectionFinder_tb;
+	int fd;
 
 	localparam NUM_BITS = `BYTE_BITS;
 
@@ -29,66 +33,85 @@ module CircularOpHandler_DirectionFinder_tb;
 	);
 
 	initial begin
+		`FOPEN("tests/tests/CircularOpHandler_DirectionFinder_tb.txt")
+
 		r_squared = 10;
 		is_cw = 0;
 		quadrant = POS_QUADRANT_1;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		quadrant = POS_QUADRANT_2;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		quadrant = POS_QUADRANT_3;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		quadrant = POS_QUADRANT_4;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		is_cw = 1;
 		quadrant = POS_QUADRANT_1;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		quadrant = POS_QUADRANT_2;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		quadrant = POS_QUADRANT_3;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		quadrant = POS_QUADRANT_4;
 		cur_r_squared = 15;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		cur_r_squared = 5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : CircularOpHandler_DirectionFinder_tb

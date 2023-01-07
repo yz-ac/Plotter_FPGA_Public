@@ -5,6 +5,7 @@ import Servo_PKG::SERVO_POS_UP;
 import Servo_PKG::SERVO_POS_DOWN;
 
 module ServoCtrl_tb;
+	int fd;
 
 	wire clk;
 	reg reset;
@@ -63,7 +64,8 @@ module ServoCtrl_tb;
 				intf.master.pos <= SERVO_POS_UP;
 			end
 			TB_TEST_4: begin
-				$stop;
+				`FCLOSE
+				`STOP
 			end
 			default: begin
 				_test <= TB_BAD;
@@ -73,7 +75,13 @@ module ServoCtrl_tb;
 		endcase
 	end
 
+	always_ff @(posedge out) begin
+		`FWRITE(("time: %t, test: %d, pos: %d", $time, _test, intf.pos))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/ServoCtrl_tb.txt")
+
 		reset = 1;
 		intf.master.trigger = 0;
 		intf.master.pos = SERVO_POS_UP;

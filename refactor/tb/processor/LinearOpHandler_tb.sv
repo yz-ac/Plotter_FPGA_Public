@@ -8,6 +8,7 @@ import Op_PKG::OP_CMD_G90;
 import Op_PKG::OP_CMD_G91;
 
 module LinearOpHandler_tb;
+	int fd;
 
 	wire clk;
 	reg reset;
@@ -108,7 +109,8 @@ module LinearOpHandler_tb;
 			handler_intf.master.trigger <= 1;
 		end
 		TB_TEST_3: begin
-			$stop;
+			`FCLOSE
+			`STOP
 		end
 		default: begin
 			_test <= TB_BAD;
@@ -118,7 +120,16 @@ module LinearOpHandler_tb;
 		endcase
 	end
 
+	always_ff @(posedge out_x) begin
+		`FWRITE(("%t : X : %d : %d", $time, dir_x, out_servo))
+	end
+	
+	always_ff @(posedge out_y) begin
+		`FWRITE(("%t : Y : %d : %d", $time, dir_y, out_servo))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/LinearOpHandler_tb.txt")
 		reset = 1;
 		handler_intf.master.trigger = 0;
 		#(`CLOCK_PERIOD * 2);

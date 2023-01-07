@@ -1,3 +1,4 @@
 *.sw*
 out
 vsim.wlf
+tests/tests

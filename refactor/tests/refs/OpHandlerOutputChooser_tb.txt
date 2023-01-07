@@ -1,0 +1,6 @@
+time:                  400, cmd:   0, trigger: 1, pulse_num_x:      1, pulse_num_y:      1, new_x:    1, new_y:    1
+time:                  800, cmd:   2, trigger: 0, pulse_num_x:      2, pulse_num_y:      2, new_x:    2, new_y:    2
+time:                 1200, cmd:   4, trigger: 1, pulse_num_x:      3, pulse_num_y:      3, new_x:    3, new_y:    3
+time:                 1600, cmd:   1, trigger: 1, pulse_num_x:      1, pulse_num_y:      1, new_x:    1, new_y:    1
+time:                 2000, cmd:   3, trigger: 0, pulse_num_x:      2, pulse_num_y:      2, new_x:    2, new_y:    2
+time:                 2400, cmd:   5, trigger: 1, pulse_num_x:      3, pulse_num_y:      3, new_x:    3, new_y:    3

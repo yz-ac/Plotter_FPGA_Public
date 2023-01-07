@@ -1,0 +1,5 @@
+div:   3, time:                 1600
+div:   3, time:                 2200
+div:   3, time:                 2800
+div:   5, time:                 3400
+div:   5, time:                 4400

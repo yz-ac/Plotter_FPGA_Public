@@ -116,10 +116,8 @@ module CircularOpHandler_tb;
 			handler_intf.master.trigger <= 1;
 		end
 		TB_TEST_3: begin
-			if (fd) begin
-				$fclose(fd);
-			end
-			$stop;
+			`FCLOSE
+			`STOP
 		end
 		default: begin
 			_test <= TB_BAD;
@@ -130,24 +128,17 @@ module CircularOpHandler_tb;
 	end
 
 	always_ff @(posedge out_x) begin
-		if (fd) begin
-			$fdisplay(fd, "%t : X : %d : %d", $time, dir_x, motors_intf.slave.servo_pos);
-		end
+		`FWRITE(("%t : X : %d : %d", $time, dir_x, motors_intf.slave.servo_pos))
 	end
 
 	always_ff @(posedge out_y) begin
-		if (fd) begin
-			$fdisplay(fd, "%t : Y : %d : %d", $time, dir_y, motors_intf.slave.servo_pos);
-		end
+		`FWRITE(("%t : Y : %d : %d", $time, dir_y, motors_intf.slave.servo_pos))
 	end
 
 	initial begin
+		`FOPEN("tests/tests/CircularOpHandler_tb.txt")
 		reset = 1;
 		handler_intf.master.trigger = 0;
-		fd = $fopen(`TEST_OUT_FILE, "w");
-		if (!fd) begin
-			$stop;
-		end
 		#(`CLOCK_PERIOD * 2);
 
 		reset = 0;

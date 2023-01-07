@@ -2,6 +2,7 @@
 `include "common/common.svh"
 
 module FreqDivider_tb;
+	int fd;
 
 	localparam DIV_BITS = `BYTE_BITS;
 
@@ -27,7 +28,13 @@ module FreqDivider_tb;
 		.out(out)
 	);
 
+	always_ff @(posedge out) begin
+		`FWRITE(("div: %d, time: %t", div, $time))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/FreqDivider_tb.txt")
+
 		reset = 1;
 		en = 0;
 		div = 0;
@@ -46,7 +53,8 @@ module FreqDivider_tb;
 		en = 0;
 		#(`CLOCK_PERIOD * 4);
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : FreqDivider_tb

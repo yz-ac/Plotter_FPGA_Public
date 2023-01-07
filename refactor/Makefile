@@ -6,6 +6,7 @@ VCOM :=vlog
 VSIM :=vsim
 
 LIB_NAME =out
+TESTS_PATH =tests/tests
 IDIR =include
 SDIR =src
 TDIR =tb
@@ -107,6 +108,7 @@ all: debug
 .PHONY: setup
 setup:
 	$(VLIB) $(LIB_NAME)
+	mkdir -p $(TESTS_PATH)
 
 .PHONY: debug
 debug: VFLAGS += +define+SIM_DEBUG
@@ -115,6 +117,11 @@ debug: setup
 
 .PHONY: release
 release: setup
+	$(VCOM) $(VFLAGS) -work $(LIB_NAME) $(FILES)
+
+.PHONY: tests
+tests: VFLAGS += +define+SIM_DEBUG +define+SIM_TESTS
+tests: setup
 	$(VCOM) $(VFLAGS) -work $(LIB_NAME) $(FILES)
 
 .PHONY: clean
@@ -129,3 +136,7 @@ sim:
 .PHONY: sim_manual
 sim_manual:
 	$(VSIM) $(SIM_FLAGS) $(LIB_NAME).$(TOP)
+
+.PHONY: run_tests
+run_tests:
+	python scripts/run_tests.py

@@ -3,6 +3,7 @@
 `include "processor/processor.svh"
 
 module StepperCtrlXY_tb;
+	int fd;
 
 	localparam DIV_BITS = `BYTE_BITS;
 
@@ -85,7 +86,8 @@ module StepperCtrlXY_tb;
 			_test <= TB_TEST_4;
 		end
 		TB_TEST_4: begin
-			$stop;
+			`FCLOSE
+			`STOP
 		end
 		default: begin
 			intf.master.trigger <= 0;
@@ -96,7 +98,17 @@ module StepperCtrlXY_tb;
 		endcase
 	end
 
+	always_ff @(posedge out_x) begin
+		`FWRITE(("time: %t, X, test: %d, dir: %d", $time, _test, dir_x))
+	end
+
+	always_ff @(posedge out_y) begin
+		`FWRITE(("time: %t, Y, test: %d, dir: %d", $time, _test, dir_y))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/StepperCtrlXY_tb.txt")
+
 		intf.master.pulse_width = `STEPPER_PULSE_WIDTH;
 		intf.master.trigger = 0;
 		intf.master.pulse_num_x = 0;

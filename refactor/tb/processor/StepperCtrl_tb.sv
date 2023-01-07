@@ -2,6 +2,7 @@
 `include "common/common.svh"
 
 module StepperCtrl_tb;
+	int fd;
 
 	localparam DIV_BITS = `BYTE_BITS;
 	localparam PULSE_NUM_BITS = `BYTE_BITS;
@@ -43,7 +44,13 @@ module StepperCtrl_tb;
 		.dir(dir)
 	);
 
+	always_ff @(posedge out) begin
+		`FWRITE(("time: %t, pulse_num: %d, pulse_width: %d, dir: %d", $time, intf.slave.pulse_num, intf.slave.pulse_width, dir))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/StepperCtrl_tb.txt")
+
 		reset = 1;
 		intf.master.trigger = 0;
 		intf.master.pulse_num = 0;
@@ -73,7 +80,8 @@ module StepperCtrl_tb;
 		intf.master.trigger = 0;
 		#(`CLOCK_PERIOD * 30);
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : StepperCtrl_tb

@@ -1,0 +1,16 @@
+time:                  400, r2:  10, cur_r2:  15, quadrant:           1, dir:           2
+time:                  800, r2:  10, cur_r2:   5, quadrant:           1, dir:           0
+time:                 1200, r2:  10, cur_r2:  15, quadrant:           2, dir:           1
+time:                 1600, r2:  10, cur_r2:   5, quadrant:           2, dir:           2
+time:                 2000, r2:  10, cur_r2:  15, quadrant:           3, dir:           3
+time:                 2400, r2:  10, cur_r2:   5, quadrant:           3, dir:           1
+time:                 2800, r2:  10, cur_r2:  15, quadrant:           4, dir:           0
+time:                 3200, r2:  10, cur_r2:   5, quadrant:           4, dir:           3
+time:                 3600, r2:  10, cur_r2:  15, quadrant:           1, dir:           1
+time:                 4000, r2:  10, cur_r2:   5, quadrant:           1, dir:           3
+time:                 4400, r2:  10, cur_r2:  15, quadrant:           2, dir:           3
+time:                 4800, r2:  10, cur_r2:   5, quadrant:           2, dir:           0
+time:                 5200, r2:  10, cur_r2:  15, quadrant:           3, dir:           0
+time:                 5600, r2:  10, cur_r2:   5, quadrant:           3, dir:           2
+time:                 6000, r2:  10, cur_r2:  15, quadrant:           4, dir:           2
+time:                 6400, r2:  10, cur_r2:   5, quadrant:           4, dir:           1

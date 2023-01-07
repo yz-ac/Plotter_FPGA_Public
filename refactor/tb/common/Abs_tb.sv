@@ -3,6 +3,8 @@
 
 module Abs_tb;
 
+	int fd;
+
 	localparam NUM_BITS = `BYTE_BITS;
 
 	reg [NUM_BITS-1:0] num;
@@ -17,16 +19,22 @@ module Abs_tb;
 	);
 
 	initial begin
+		`FOPEN("tests/tests/Abs_tb.txt")
+
 		num = -3;
 		#(`CLOCK_PERIOD * 2);
+		`FWRITE(("in: %d, out: %d", num, out))
 
 		num = 3;
 		#(`CLOCK_PERIOD * 2)
+		`FWRITE(("in: %d, out: %d", num, out))
 
 		num = -5;
 		#(`CLOCK_PERIOD * 2)
+		`FWRITE(("in: %d, out: %d", num, out))
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : Abs_tb

@@ -3,7 +3,11 @@
 
 import Servo_PKG::SERVO_POS_UP;
 
+`define LOG() \
+		`FWRITE(("time: %t, in: (%d, %d), out: (%d, %d)", $time, pulse_num_x_in, pulse_num_y_in, pulse_num_x_out, pulse_num_y_out))
+
 module PulseNumMultiplier_tb;
+	int fd;
 
 	localparam IN_X_BITS = `POS_X_BITS;
 	localparam IN_Y_BITS = `POS_Y_BITS;
@@ -42,19 +46,25 @@ module PulseNumMultiplier_tb;
 	assign pulse_num_y_out = intf_out.slave.pulse_num_y;
 
 	initial begin
+		`FOPEN("tests/tests/PulseNumMultiplier_tb.txt")
+
 		pulse_num_x_in = 3;
 		pulse_num_y_in = 2;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		pulse_num_x_in = 4;
 		pulse_num_y_in = -5;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		pulse_num_x_in = -1;
 		pulse_num_y_in = 0;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : PulseNumMultiplier_tb

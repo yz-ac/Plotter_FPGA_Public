@@ -2,6 +2,7 @@
 `include "common/common.svh"
 
 module IntSqrt_tb;
+	int fd;
 
 	localparam NUM_BITS = `BYTE_BITS;
 
@@ -30,7 +31,13 @@ module IntSqrt_tb;
 		.rdy(rdy)
 	);
 
+	always_ff @(posedge done) begin
+		`FWRITE(("time: %t, num: %d, result: %d", $time, num_in, sqrt_out))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/IntSqrt_tb.txt")
+
 		reset = 1;
 		trigger = 0;
 		num_in = 0;
@@ -64,7 +71,8 @@ module IntSqrt_tb;
 		trigger = 0;
 		#(`CLOCK_PERIOD * 20);
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : IntSqrt_tb

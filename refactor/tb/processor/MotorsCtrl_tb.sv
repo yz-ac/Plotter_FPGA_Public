@@ -5,6 +5,7 @@ import Servo_PKG::SERVO_POS_UP;
 import Servo_PKG::SERVO_POS_DOWN;
 
 module MotorsCtrl_tb;
+	int fd;
 
 	wire clk;
 	reg reset;
@@ -64,7 +65,8 @@ module MotorsCtrl_tb;
 			intf.master.trigger <= 1;
 		end
 		TB_TEST_2: begin
-			$stop;
+			`FCLOSE
+			`STOP
 		end
 		default: begin
 			_test <= TB_BAD;
@@ -76,7 +78,17 @@ module MotorsCtrl_tb;
 		endcase
 	end
 
+	always_ff @(posedge out_x) begin
+		`FWRITE(("%t : X : %d : %d", $time, dir_x, out_servo))
+	end
+
+	always_ff @(posedge out_y) begin
+		`FWRITE(("%t : Y : %d : %d", $time, dir_y, out_servo))
+	end
+
 	initial begin
+		`FOPEN("tests/tests/MotorsCtrl_tb.txt")
+
 		reset = 1;
 		intf.master.pulse_num_x = 0;
 		intf.master.pulse_num_y = 0;

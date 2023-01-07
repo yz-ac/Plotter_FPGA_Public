@@ -11,7 +11,11 @@ import Op_PKG::OP_CMD_G03;
 import Op_PKG::OP_CMD_G90;
 import Op_PKG::OP_CMD_G91;
 
+`define LOG() \
+		`FWRITE(("time: %t, cmd: %d, trigger: %d, pulse_num_x: %d, pulse_num_y: %d, new_x: %d, new_y: %d", $time, op.cmd, motors_intf.slave.trigger, motors_intf.slave.pulse_num_x, motors_intf.slave.pulse_num_y, pos_update_intf.slave.new_x, pos_update_intf.slave.new_y))
+
 module OpHandlerOutputChooser_tb;
+	int fd;
 
 	MotorsCtrl_IF #(
 		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
@@ -50,6 +54,8 @@ module OpHandlerOutputChooser_tb;
 	);
 
 	initial begin
+		`FOPEN("tests/tests/OpHandlerOutputChooser_tb.txt")
+
 		lin_motors_intf.master.pulse_num_x = 1;
 		lin_motors_intf.master.pulse_num_y = 1;
 		lin_motors_intf.master.servo_pos = SERVO_POS_UP;
@@ -79,23 +85,30 @@ module OpHandlerOutputChooser_tb;
 
 		op = {OP_CMD_G00, 0, 0, 0, 0, 0};
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G02;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G90;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G01;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G03;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
 		op.cmd = OP_CMD_G91;
 		#(`CLOCK_PERIOD * 2);
+		`LOG
 
-		$stop;
+		`FCLOSE
+		`STOP
 	end // initial
 
 endmodule : OpHandlerOutputChooser_tb
