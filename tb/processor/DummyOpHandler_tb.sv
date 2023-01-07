@@ -8,8 +8,8 @@ module DummyOpHandler_tb;
 	reg reset;
 	OpHandler_IF handler_intf ();
 	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+		.PULSE_NUM_X_BITS(`POS_X_BITS),
+		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) motors_intf ();
 	PositionUpdate_IF pos_update_intf ();
 

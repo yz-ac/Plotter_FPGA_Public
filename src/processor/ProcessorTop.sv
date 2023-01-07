@@ -2,6 +2,18 @@
 
 import Op_PKG::Op_st;
 
+/**
+* Processor TOP module.
+*
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input clk_en: Module enabling clock.
+* :input op: Opcode to process.
+* :input trigger: Triggers processing logic.
+* :iface motors_intf: Interface to peripherals (originally motors).
+* :output done: Processing is done.
+* :output rdy: Ready to accept triggers.
+*/
 module ProcessorTop (
 	input logic clk,
 	input logic reset,
@@ -9,11 +21,7 @@ module ProcessorTop (
 	input Op_st op,
 	input logic trigger,
 
-	output logic out_x,
-	output logic dir_x,
-	output logic out_y,
-	output logic dir_y,
-	output logic out_servo,
+	MotorsCtrl_IF motors_intf,
 	output logic done,
 	output logic rdy
 );
@@ -61,10 +69,6 @@ module ProcessorTop (
 		.PULSE_NUM_X_BITS(`POS_X_BITS),
 		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) _small_motors_intf ();
-	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
-	) _large_motors_intf ();
 
 	ProcessorTopInnerConnector _inner_connect (
 		.trigger(trigger),
@@ -135,19 +139,7 @@ module ProcessorTop (
 
 	PulseNumMultiplier _pulse_num_multiplier (
 		.intf_in(_small_motors_intf.slave),
-		.intf_out(_large_motors_intf.master)
-	);
-
-	MotorsCtrl _motors_ctrl (
-		.clk(clk),
-		.reset(reset),
-		.clk_en(clk_en),
-		.intf(_large_motors_intf.slave),
-		.out_x(out_x),
-		.dir_x(dir_x),
-		.out_y(out_y),
-		.dir_y(dir_y),
-		.out_servo(out_servo)
+		.intf_out(motors_intf)
 	);
 
 endmodule : ProcessorTop

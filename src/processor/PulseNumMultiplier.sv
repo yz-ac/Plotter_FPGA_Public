@@ -1,3 +1,4 @@
+`include "peripherals/peripherals.svh"
 `include "processor/processor.svh"
 
 /**

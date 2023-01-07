@@ -1,4 +1,5 @@
 `include "tb/simulation.svh"
+`include "peripherals/peripherals.svh"
 `include "processor/processor.svh"
 
 import Servo_PKG::SERVO_POS_UP;

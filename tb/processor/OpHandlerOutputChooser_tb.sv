@@ -18,20 +18,20 @@ module OpHandlerOutputChooser_tb;
 	int fd;
 
 	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+		.PULSE_NUM_X_BITS(`POS_X_BITS),
+		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) lin_motors_intf ();
 	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+		.PULSE_NUM_X_BITS(`POS_X_BITS),
+		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) circ_motors_intf ();
 	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+		.PULSE_NUM_X_BITS(`POS_X_BITS),
+		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) dummy_motors_intf ();
 	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+		.PULSE_NUM_X_BITS(`POS_X_BITS),
+		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) motors_intf ();
 
 	PositionUpdate_IF lin_pos_update_intf();

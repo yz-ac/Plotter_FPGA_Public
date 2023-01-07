@@ -11,6 +11,13 @@ COMMON_TESTS = [
 		"TriggeredTimer_tb"
 		]
 
+PERIPHERALS_TESTS = [
+		"MotorsCtrl_tb",
+		"ServoCtrl_tb",
+		"StepperCtrlXY_tb",
+		"StepperCtrl_tb"
+		]
+
 PROCESSOR_TESTS = [
 		"CircularOpHandler_DirectionFinder_tb",
 		"CircularOpHandler_NumStepsCalculator_tb",
@@ -18,18 +25,14 @@ PROCESSOR_TESTS = [
 		"CircularOpHandler_tb",
 		"DummyOpHandler_tb",
 		"LinearOpHandler_tb",
-		"MotorsCtrl_tb",
 		"OpHandlerInputChooser_tb",
 		"OpHandlerOutputChooser_tb",
 		"PositionKeeper_tb",
 		"ProcessorTop_tb",
-		"PulseNumMultiplier_tb",
-		"ServoCtrl_tb",
-		"StepperCtrlXY_tb",
-		"StepperCtrl_tb"
+		"PulseNumMultiplier_tb"
 		]
 
-TESTS = COMMON_TESTS + PROCESSOR_TESTS
+TESTS = COMMON_TESTS + PERIPHERALS_TESTS + PROCESSOR_TESTS
 
 REFS_DIR = "tests/refs"
 TESTS_DIR = "tests/tests"

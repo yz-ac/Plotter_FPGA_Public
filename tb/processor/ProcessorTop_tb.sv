@@ -1,4 +1,5 @@
 `include "tb/simulation.svh"
+`include "peripherals/peripherals.svh"
 
 import Op_PKG::Op_st;
 import Op_PKG::OP_CMD_G00;
@@ -25,8 +26,25 @@ module ProcessorTop_tb;
 	wire done;
 	wire rdy;
 
+	MotorsCtrl_IF #(
+		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+	) motors_intf ();
+
 	SimClock sim_clk (
 		.out(clk)
+	);
+
+	MotorsCtrl motors_ctrl (
+		.clk(clk),
+		.reset(reset),
+		.clk_en(1),
+		.intf(motors_intf.slave),
+		.out_x(out_x),
+		.dir_x(dir_x),
+		.out_y(out_y),
+		.dir_y(dir_y),
+		.out_servo(out_servo)
 	);
 
 	ProcessorTop UUT (
@@ -36,11 +54,7 @@ module ProcessorTop_tb;
 		.op(op),
 		.trigger(trigger),
 		
-		.out_x(out_x),
-		.dir_x(dir_x),
-		.out_y(out_y),
-		.dir_y(dir_y),
-		.out_servo(out_servo),
+		.motors_intf(motors_intf.master),
 		.done(done),
 		.rdy(rdy)
 	);
@@ -181,11 +195,11 @@ module ProcessorTop_tb;
 	end
 
 	always_ff @(posedge out_x) begin
-		`FWRITE(("%t : X : %d : %d", $time, dir_x, UUT._large_motors_intf.slave.servo_pos))
+		`FWRITE(("%t : X : %d : %d", $time, dir_x, motors_intf.slave.servo_pos))
 	end
 
 	always_ff @(posedge out_y) begin
-		`FWRITE(("%t : Y : %d : %d", $time, dir_y, UUT._large_motors_intf.slave.servo_pos))
+		`FWRITE(("%t : Y : %d : %d", $time, dir_y, motors_intf.slave.servo_pos))
 	end
 
 	initial begin

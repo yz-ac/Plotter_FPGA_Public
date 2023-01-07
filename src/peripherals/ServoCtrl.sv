@@ -1,4 +1,4 @@
-`include "processor/processor.svh"
+`include "peripherals/peripherals.svh"
 
 import Servo_PKG::ServoDir_t;
 

@@ -1,4 +1,4 @@
-`include "processor/processor.svh"
+`include "peripherals/peripherals.svh"
 
 /**
 * Inner connections between motors interfaces.
