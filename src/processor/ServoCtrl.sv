@@ -1,54 +1,71 @@
-`include "../common/common.svh"
-`include "../processor/servo.svh"
+`include "processor/processor.svh"
 
-import Servo_p::ServoPosition_t;
+import Servo_PKG::ServoDir_t;
 
 /**
-* Controls the servo motor via PWM.
-* Compatible with sg90 servo.
+* Module for controlling modified continuous servo.
 *
-* :param PERIOD_BITS: Number of bits in the servo pwm period.
 * :input clk: System clock.
 * :input reset: Resets the module.
-* :input pos: Servo motor position.
-* :output out: PWM output for the servo.
+* :input clk_en: Module enabling clock.
+* :iface intf: Interface for controlling the servo.
+* :output out: PWM output for servo.
 */
-module ServoCtrl #(
-	parameter PERIOD_BITS = `BYTE_BITS
-)
-(
+module ServoCtrl (
 	input logic clk,
 	input logic reset,
-	input Servo_p::ServoPosition_t pos,
-
+	input logic clk_en,
+	ServoCtrl_IF intf,
 	output logic out
 );
 
-	wire servo_clk_en;
-	wire [PERIOD_BITS-1:0] duty_cycle;
-
-	// Clk_en for servo pwm is separate to ensure timing according to datasheet.
-	ClockEnabler #(
-		.PERIOD_BITS(`SERVO_CLK_EN_BITS)
-	) servo_clk_enabler (
-		.clk(clk),
-		.reset(reset),
-		.enable(1),
-		.period(`SERVO_CLK_EN),
-		.out(servo_clk_en)
-	);
+	wire [`SERVO_PWM_BITS-1:0] _on_time;
+	ServoDir_t _dir;
+	wire _timer_trigger;
+	wire _timer_done;
+	wire _timer_rdy;
 
 	Pwm #(
-		.PERIOD_BITS(PERIOD_BITS)
-	) servo_pwm (
+		.PERIOD_BITS(`SERVO_PWM_BITS)
+	) _pwm (
 		.clk(clk),
 		.reset(reset),
-		.clk_en(servo_clk_en),
-		.period(`SERVO_PERIOD),
-		.duty_cycle(duty_cycle),
+		.clk_en(clk_en),
+		.period(`SERVO_PWM_PERIOD),
+		.on_time(_on_time),
 		.out(out)
 	);
 
-	assign duty_cycle = (pos == Servo_p::SERVO_POS_UP) ? (`SERVO_DUTY_UP) : (`SERVO_DUTY_DOWN);
+	ServoCtrl_DirToPwm _dir_to_pwm (
+		.dir(_dir),
+		.on_time(_on_time)
+	);
+
+	TriggeredTimer #(
+		.TIMER_BITS(`SERVO_TIMER_BITS)
+	) _timer (
+		.clk(clk),
+		.reset(reset),
+		.clk_en(clk_en),
+		.en(1),
+		.count(`SERVO_TIMER_COUNT),
+		.trigger(_timer_trigger),
+		.done(_timer_done),
+		.rdy(_timer_rdy)
+	);
+
+	ServoCtrl_FSM _fsm (
+		.clk(clk),
+		.reset(reset),
+		.clk_en(clk_en),
+		.trigger(intf.trigger),
+		.timer_done(_timer_done),
+		.timer_rdy(_timer_rdy),
+		.servo_pos(intf.pos),
+		.timer_trigger(_timer_trigger),
+		.servo_dir(_dir),
+		.done(intf.done),
+		.rdy(intf.rdy)
+	);
 
 endmodule : ServoCtrl

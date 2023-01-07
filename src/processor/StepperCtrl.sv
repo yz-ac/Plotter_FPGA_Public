@@ -1,127 +1,46 @@
-`include "../common/common.svh"
-
 /**
-* Module for controlling stepper motors.
-* Outputs the needed number of pulses in order to rotate the motor 'num_steps'
-* steps after a trigger.
+* Module to control stepper motors.
 *
-* :param COUNT_BITS: Number of bits for the number of steps.
-* :param WIDTH_BITS: Number of bits for the pulse width.
-* :input clk: The clock of the system.
+* :input clk: System clock.
 * :input reset: Resets the module.
-* :input clk_en: Module enabling clock.
-* :input trigger: Triggers the pulses for the stepper motor driver.
-* :input num_steps: Number of steps for the stepper motor.
-* :input pulse_width: Pulse width (in clk_en's).
-* :output out: The pulses for the motor driver.
-* :output dir: Direction of rotation.
-* :output done: Is the sequence of pulses finished
-* 				(NOTE: this does NOT mean the mechanical parts have finished moving).
+* :input clk_en: Logic enabling clock.
+* :iface intf: Stepper control interface.
+* :output out: Output signal to stepper driver.
+* :output dir: Direction signal to stepper driver.
 */
-module StepperCtrl #(
-	COUNT_BITS = `BYTE_BITS,
-	WIDTH_BITS = `BYTE_BITS
-)
-(
+module StepperCtrl (
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
-	input logic trigger,
-	input logic [COUNT_BITS-1:0] num_steps,
-	input logic [WIDTH_BITS-1:0] pulse_width,
-
+	StepperCtrl_IF intf,
 	output logic out,
-	output logic dir,
-	output logic done
+	output logic dir
 );
 
-	reg [COUNT_BITS-1:0] saved_num_steps;
-	reg [WIDTH_BITS-1:0] saved_pulse_width;
-
-	wire [COUNT_BITS-2:0] abs_num_steps;
-	wire reset_pulse_num_counter;
-	wire reset_pulse_width_counter;
-	wire enable_pulse_num_counter;
-	wire enable_pulse_width_counter;
-	wire [COUNT_BITS-1:0] pulse_num_count;
-	wire [WIDTH_BITS-1:0] pulse_width_count;
-	wire working;
-	wire pulse_num_count_reached_target;
-	wire pulse_width_count_reached_target;
-	wire pulse_width_is_zero;
-
-	Counter #(
-		.COUNTER_BITS(COUNT_BITS)
-	) pulse_num_counter (
-		.clk(clk),
-		.reset(reset),
-		.clk_en(clk_en),
-		.enable(enable_pulse_num_counter),
-		.sync_reset(reset_pulse_num_counter),
-		.start_from_one(1),
-		.out(pulse_num_count)
-	);
-
-	Counter #(
-		.COUNTER_BITS(WIDTH_BITS)
-	) pulse_width_counter (
-		.clk(clk),
-		.reset(reset),
-		.clk_en(clk_en),
-		.enable(enable_pulse_width_counter),
-		.sync_reset(reset_pulse_width_counter),
-		.start_from_one(1),
-		.out(pulse_width_count)
-	);
-
-	StepperCtrl_FSM fsm (
-		.clk(clk),
-		.reset(reset),
-		.clk_en(clk_en),
-		.trigger(trigger),
-		.pulse_num_count_reached_target(pulse_num_count_reached_target),
-		.pulse_width_count_reached_target(pulse_width_count_reached_target),
-		.pulse_width_is_zero(pulse_width_is_zero),
-		.working(working),
-		.reset_pulse_num_counter(reset_pulse_num_counter),
-		.reset_pulse_width_counter(reset_pulse_width_counter),
-		.enable_pulse_num_counter(enable_pulse_num_counter),
-		.enable_pulse_width_counter(enable_pulse_width_counter)
-	);
-
-	assign done = ~working;
-	assign dir = saved_num_steps[COUNT_BITS-1];
-	// Stepper needs pulses (clk_en's = num_steps x2)
-	assign out = ~(pulse_num_count[0]);
-
-	assign pulse_num_count_reached_target = (pulse_num_count[COUNT_BITS-1:1] == abs_num_steps) ? 1 : 0;
-	assign pulse_width_count_reached_target = (pulse_width_count == saved_pulse_width) ? 1 : 0;
-	assign pulse_width_is_zero = (~|saved_pulse_width) ? 1 : 0;
+	wire [intf.PULSE_NUM_BITS-2:0] _abs_pulse_num;
 
 	Abs #(
-		.BITS(COUNT_BITS)
-	) num_steps_to_abs (
-		.in(saved_num_steps),
-		.out(abs_num_steps)
+		.NUM_BITS(intf.PULSE_NUM_BITS)
+	) _abs (
+		.num(intf.pulse_num),
+		.out(_abs_pulse_num)
 	);
 
-	always_ff @(posedge clk) begin
-		if (reset) begin
-			saved_num_steps <= num_steps;
-			saved_pulse_width <= pulse_width;
-		end
-		else if (clk_en) begin
-			saved_num_steps <= num_steps;
-			saved_pulse_width <= pulse_width;
-			if (working) begin
-				saved_num_steps <= saved_num_steps;
-				saved_pulse_width <= saved_pulse_width;
-			end
-		end
-		else begin
-			saved_num_steps <= saved_num_steps;
-			saved_pulse_width <= saved_pulse_width;
-		end
-	end // always_ff
+	PulseGen #(
+		.PULSE_NUM_BITS(intf.PULSE_NUM_BITS-1),
+		.PULSE_WIDTH_BITS(intf.PULSE_WIDTH_BITS)
+	) _pulse_gen (
+		.clk(clk),
+		.reset(reset),
+		.clk_en(clk_en),
+		.pulse_num(_abs_pulse_num),
+		.pulse_width(intf.pulse_width),
+		.trigger(intf.trigger),
+		.out(out),
+		.done(intf.done),
+		.rdy(intf.rdy)
+	);
+
+	assign dir = intf.pulse_num[intf.PULSE_NUM_BITS-1];
 
 endmodule : StepperCtrl

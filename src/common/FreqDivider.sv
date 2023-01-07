@@ -1,69 +1,68 @@
-`include "./common.svh"
+`include "common/common.svh"
 
 /**
-* Divides the frequency of the given signal.
-* (NOTE: duty cycle is NOT preserved).
-* Division value can only be changed when output is high to prevent glitches.
-*
-* :param DIV_BITS: Number of bits for the division value.
+* Frequency divider for enable signals.
+* 
+* :param DIV_BITS: Field size of div signal.
 * :input clk: System clock.
 * :input reset: Resets the module.
-* :input signal_in: Signal whose frequency is being divided.
-* :input div_val: Value by which the frequency is divided.
-* :output signal_out: The new signal with lower frequency.
+* :input clk_en: Logic enabling clock.
+* :input en: Enables the module.
+* :input div: The number by which frequency is divided.
+* :output out: Output signal.
 */
 module FreqDivider #(
-	DIV_BITS = `BYTE_BITS
+	parameter DIV_BITS = `BYTE_BITS
 )
 (
 	input logic clk,
 	input logic reset,
-	input logic signal_in,
-	input logic [DIV_BITS-1:0] div_val,
+	input logic clk_en,
+	input logic en,
+	input [DIV_BITS-1:0] div,
 
-	output logic signal_out
+	output logic out
 );
 
-	reg [DIV_BITS-1:0] counter;
-	reg [DIV_BITS-1:0] saved_div_val;
-
-	always_comb begin
-		signal_out = 0;
-		// If reached counter, output rises for one clk
-		if (counter == saved_div_val) begin
-			signal_out = 1;
-		end
-
-		// If div_val is 0, output is always 0
-		if (~|saved_div_val) begin
-			signal_out = 0;
-		end
-
-		// If div val is 1, output is equal to input
-		if (div_val == 1) begin
-			signal_out = signal_in;
-		end
-	end // always_comb
+	reg [DIV_BITS-1:0] _counter;
+	reg [DIV_BITS-1:0] _last_div;
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
-			counter <= 1;
-			saved_div_val <= div_val;
+			_counter <= 0;
+			_last_div <= div;
 		end
-		else if (signal_in) begin
-			counter <= counter + 1;
-			saved_div_val <= saved_div_val;
-
-			if (counter == saved_div_val) begin
-				counter <= 1;
-				saved_div_val <= div_val;
+		else if (clk_en) begin
+			_counter <= _counter + 1;
+			_last_div <= _last_div;
+			if (!_last_div) begin
+				_counter <= 0;
+				_last_div <= div;
 			end
-
+			if (_counter == _last_div - 1) begin
+				_counter <= 0;
+				_last_div <= div;
+			end
 		end
 		else begin
-			counter <= counter;
-			saved_div_val <= saved_div_val;
+			_counter <= _counter;
+			_last_div <= _last_div;
 		end
 	end // always_ff
+
+	always_comb begin
+		if (~|_last_div) begin
+			out = 0;
+		end
+		else if (_last_div == 1) begin
+			out = clk & en;
+		end
+		else begin
+			out = 0;
+			if (_counter == _last_div - 1) begin
+				out = en;
+			end
+		end
+	end // always_comb
 
 endmodule : FreqDivider
