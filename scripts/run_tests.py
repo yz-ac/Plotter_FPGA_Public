@@ -8,7 +8,8 @@ COMMON_TESTS = [
 		"IntSqrt_tb",
 		"PulseGen_tb",
 		"Pwm_tb",
-		"TriggeredTimer_tb"
+		"TriggeredTimer_tb",
+		"Bram_tb"
 		]
 
 PERIPHERALS_TESTS = [
@@ -68,7 +69,6 @@ def run_all_tests():
 	passed = 0
 	failed = 0
 	for test in TESTS:
-		print("RUNNING test '{0}'".format(test))
 		result = run_one_test(REFS_DIR, TESTS_DIR, test)
 		if result:
 			print("[PASSED] {0}".format(test))

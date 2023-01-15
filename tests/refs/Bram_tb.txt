@@ -1,0 +1,4 @@
+time:                  400, rd_addr: 0, rd_data:   5, wr_addr: 0, wr_data:   5, wr_en: 1
+time:                  800, rd_addr: 0, rd_data:   5, wr_addr: 1, wr_data:   3, wr_en: 1
+time:                 1200, rd_addr: 1, rd_data:   3, wr_addr: 0, wr_data:   3, wr_en: 0
+time:                 1600, rd_addr: 0, rd_data:   5, wr_addr: 0, wr_data:   3, wr_en: 0
