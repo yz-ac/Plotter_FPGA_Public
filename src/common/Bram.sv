@@ -1,5 +1,17 @@
 `include "common/common.svh"
 
+/**
+* Block RAM module.
+*
+* :param ROWS: Number of rows in the bram.
+* :param COLS: Number of bits in each row.
+* :input clk: System clock.
+* :input rd_addr: Address to read.
+* :input wr_en: Enable write.
+* :input wr_addr: Address to write to.
+* :input wr_data: Data to write to 'wr_addr'.
+* :output rd_data: Data read from 'rd_addr'.
+*/
 module Bram #(
 	parameter ROWS = `BYTE_BITS,
 	parameter COLS = `BYTE_BITS,
