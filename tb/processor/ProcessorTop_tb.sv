@@ -1,5 +1,5 @@
 `include "tb/simulation.svh"
-`include "peripherals/peripherals.svh"
+`include "processor/processor.svh"
 
 import Op_PKG::Op_st;
 import Op_PKG::OP_CMD_G00;
@@ -27,8 +27,8 @@ module ProcessorTop_tb;
 	wire rdy;
 
 	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
+		.PULSE_NUM_X_BITS(`POS_X_BITS),
+		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) motors_intf ();
 
 	SimClock sim_clk (

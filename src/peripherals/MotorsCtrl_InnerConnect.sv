@@ -23,6 +23,7 @@ module MotorsCtrl_InnerConnect (
 	MotorsCtrl_IF intf_motors,
 	StepperCtrlXY_IF intf_xy,
 	ServoCtrl_IF intf_servo,
+	output logic motors_trigger,
 	output logic servo_done,
 	output logic servo_rdy,
 	output logic steppers_done,
@@ -39,6 +40,7 @@ module MotorsCtrl_InnerConnect (
 
 	assign intf_motors.done = motors_done;
 	assign intf_motors.rdy = motors_rdy;
+	assign motors_trigger = intf_motors.trigger;
 
 	assign servo_done = intf_servo.done;
 	assign servo_rdy = intf_servo.rdy;

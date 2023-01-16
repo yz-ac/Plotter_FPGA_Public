@@ -65,10 +65,6 @@ module ProcessorTop (
 		.PULSE_NUM_X_BITS(`POS_X_BITS),
 		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
 	) _dummy_motors_intf ();
-	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`POS_X_BITS),
-		.PULSE_NUM_Y_BITS(`POS_Y_BITS)
-	) _small_motors_intf ();
 
 	ProcessorTopInnerConnector _inner_connect (
 		.trigger(trigger),
@@ -133,13 +129,8 @@ module ProcessorTop (
 		.lin_pos_update_intf_in(_lin_update_intf.slave),
 		.circ_pos_update_intf_in(_circ_update_intf.slave),
 		.dummy_pos_update_intf_in(_dummy_update_intf.slave),
-		.motors_intf_out(_small_motors_intf.master),
+		.motors_intf_out(motors_intf),
 		.pos_update_intf_out(_update_intf.master)
-	);
-
-	PulseNumMultiplier _pulse_num_multiplier (
-		.intf_in(_small_motors_intf.slave),
-		.intf_out(motors_intf)
 	);
 
 endmodule : ProcessorTop
