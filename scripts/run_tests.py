@@ -9,7 +9,8 @@ COMMON_TESTS = [
 		"PulseGen_tb",
 		"Pwm_tb",
 		"TriggeredTimer_tb",
-		"Bram_tb"
+		"Bram_tb",
+		"BramFifoCtrl_tb"
 		]
 
 PERIPHERALS_TESTS = [
