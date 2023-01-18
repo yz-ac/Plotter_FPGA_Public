@@ -23,7 +23,8 @@ module Bram_tb;
 
 	Bram #(
 		.ROWS(ROWS),
-		.COLS(COLS)
+		.COLS(COLS),
+		.INIT_FILE("")
 	) UUT (
 		.clk(clk),
 		.rd_addr(rd_addr),

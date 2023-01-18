@@ -5,6 +5,7 @@
 *
 * :param ROWS: Number of rows in the bram.
 * :param COLS: Number of bits in each row.
+* :param INIT_FILE: Hex file to initialize the BRAM with.
 * :input clk: System clock.
 * :input rd_addr: Address to read.
 * :input wr_en: Enable write.
@@ -15,6 +16,7 @@
 module Bram #(
 	parameter ROWS = `BYTE_BITS,
 	parameter COLS = `BYTE_BITS,
+	parameter INIT_FILE = "",
 	localparam ADDR_BITS = $clog2(ROWS)
 )
 (
@@ -31,6 +33,12 @@ module Bram #(
 
 	// Not overflow safe.
 	assign rd_data = _mem[rd_addr];
+
+	initial begin
+		if (INIT_FILE != "") begin
+			$readmemh(INIT_FILE, _mem);
+		end
+	end // initial
 
 	always_ff @(posedge clk) begin
 		// If not wr_en _mem stays the same is inferred.
