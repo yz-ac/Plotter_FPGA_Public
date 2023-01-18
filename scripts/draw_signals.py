@@ -54,7 +54,7 @@ def draw_once(canvas, pos, cmd):
 	pos.x = nxt_x
 	pos.y = nxt_y
 
-def main(path):
+def main(path, should_delay=False):
 	pos = Position(0, 0)
 	delay = 0
 
@@ -70,19 +70,28 @@ def main(path):
 
 		cmds.sort(key=lambda x: x.t)
 		for cmd in cmds:
-			root.after(delay, draw_once, canvas, pos, cmd)
+			if should_delay:
+				root.after(delay, draw_once, canvas, pos, cmd)
+			else:
+				draw_once(canvas, pos, cmd)
 			delay += DELAY_MS
 
-		root.after(delay, print, "DONE")
+		if should_delay:
+			root.after(delay, print, "DONE")
 
 	root.mainloop()
 
 USAGE = """
-python {0} <signals_file.txt>
+python {0} <signals_file.txt> [delay]
+	signals_file - file of motor signals after simulation
+	delay - should use delayed drawing
 """
 
 if __name__ == "__main__":
-	if len(sys.argv) != 2:
+	if len(sys.argv) < 2:
 		print(USAGE.format(sys.argv[0]))
 	else:
-		main(sys.argv[1])
+		should_delay = False
+		if len(sys.argv) == 3:
+			should_delay = True
+		main(sys.argv[1], should_delay)

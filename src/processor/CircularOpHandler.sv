@@ -155,8 +155,9 @@ module CircularOpHandler (
 	);
 
 	assign handler_intf.rdy = _rdy;
-	assign _reached_num_steps = (_num_steps == _steps_counter) ? 1 : 0;
+	assign _reached_num_steps = ((_num_steps == _steps_counter) | (~|_num_steps) | (_num_steps[STEP_BITS-1])) ? 1 : 0;
 	assign motors_intf.servo_pos = SERVO_POS_DOWN;
+	assign _is_last_mvt = _reached_num_steps;
 
 	// sync logic
 	always_ff @(posedge clk) begin

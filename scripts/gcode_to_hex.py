@@ -1,46 +1,65 @@
 import sys
 import re
 
-REGEXP = r"^(G\d\d).*?(?:X ([0-9\.\-]+)).*?(?:Y ([0-9\.\-]+)).*?(?:I ([0-9\.\-]+)).*?(?:J ([0-9\.\-]+)).*?$"
+def parse_linear(line):
+	match = re.match(r"^G\d\d.*?X ([0-9\.\-]+).*?Y ([0-9\.\-]+).*?$", line)
+	if not match:
+		raise ParseError(line)
+
+	x = int(float(match.groups()[0]))
+	y = int(float(match.groups()[1]))
+
+	return x, y, 0, 0
+
+def parse_circular(line):
+	match = re.match(r"^G\d\d.*?X ([0-9\.\-]+).*?Y ([0-9\.\-]+).*?I ([0-9\.\-]+).*?J ([0-9\.\-]+).*?$", line)
+	if not match:
+		raise ParseError(line)
+
+	x = int(float(match.groups()[0]))
+	y = int(float(match.groups()[1]))
+	i = int(float(match.groups()[2]))
+	j = int(float(match.groups()[3]))
+
+	return x, y, i, j
+
 CMDS = {
-		"G00": 0,
-		"G01": 1,
-		"G02": 2,
-		"G03": 3,
-		"G90": 4,
-		"G91": 5
+		"G00": (0, parse_linear),
+		"G01": (1, parse_linear),
+		"G02": (2, parse_circular),
+		"G03": (3, parse_circular),
+		"G90": (4, None),
+		"G91": (5, None)
 		}
 
 class ParseError(Exception):
 	pass
 
 def parse_line(line):
-	match = re.match(REGEXP, line)
+	match = re.match(r"^(G\d\d).*?$", line)
 	if not match:
 		return
 	code = match.groups()[0]
-	x = 0
-	y = 0
-	i = 0
-	j = 0
+	if code not in CMDS:
+		return
+
+	cmd = CMDS[code][0]
+	arg1 = 0
+	arg2 = 0
+	arg3 = 0
+	arg4 = 0
 
 	try:
-		x = int(float(match.groups()[1]))
-		y = int(float(match.groups()[2]))
-		i = int(float(match.groups()[3]))
-		j = int(float(match.groups()[4]))
-	except IndexError:
-		pass
-
-	cmd = CMDS.get(code)
-	if cmd is None:
+		if CMDS[code][1] is not None:
+			arg1, arg2, arg3, arg4 = CMDS[code][1](line)
+	except ParseError:
 		return
 
 	op = (cmd & 0b11111111) << 56
-	op |= (x & 0b111111111111) << 44
-	op |= (y & 0b111111111111) << 32
-	op |= (i & 0b111111111111) << 20
-	op |= (j & 0b111111111111) << 8
+	op |= (arg1 & 0b111111111111) << 44
+	op |= (arg2 & 0b111111111111) << 32
+	op |= (arg3 & 0b111111111111) << 20
+	op |= (arg4 & 0b111111111111) << 8
 
 	hex_op = hex(op)[2:].rjust(16, "0")
 

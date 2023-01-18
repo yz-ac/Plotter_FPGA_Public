@@ -8,7 +8,7 @@ module BramReader_tb;
 	int fd;
 
 	localparam COLS = `OP_BITS;
-	localparam ROWS = 621;
+	localparam ROWS = 314;
 	localparam MAX_ROWS = ROWS;
 	localparam PRELOADED_ROWS = ROWS;
 	localparam DATA_BITS = COLS;
@@ -149,7 +149,7 @@ module BramReader_tb;
 	end
 
 	always_ff @(posedge out_y) begin
-		`FWRITE(("%t : Y : %d : %d", $time, dir_x, motors_intf.servo_pos))
+		`FWRITE(("%t : Y : %d : %d", $time, dir_y, motors_intf.servo_pos))
 	end
 
 	initial begin
