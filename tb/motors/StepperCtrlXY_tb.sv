@@ -1,6 +1,6 @@
 `include "tb/simulation.svh"
 `include "common/common.svh"
-`include "peripherals/peripherals.svh"
+`include "motors/motors.svh"
 
 module StepperCtrlXY_tb;
 	int fd;

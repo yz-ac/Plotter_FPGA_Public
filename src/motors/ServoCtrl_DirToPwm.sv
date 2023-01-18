@@ -1,4 +1,4 @@
-`include "peripherals/peripherals.svh"
+`include "motors/motors.svh"
 
 import Servo_PKG::ServoDir_t;
 import Servo_PKG::SERVO_DIR_UP;

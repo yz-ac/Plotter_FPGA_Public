@@ -1,5 +1,5 @@
 `include "tb/simulation.svh"
-`include "peripherals/peripherals.svh"
+`include "motors/motors.svh"
 
 import Servo_PKG::SERVO_POS_UP;
 import Servo_PKG::SERVO_POS_DOWN;

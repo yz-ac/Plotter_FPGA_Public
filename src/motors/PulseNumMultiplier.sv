@@ -1,5 +1,4 @@
-`include "peripherals/peripherals.svh"
-`include "processor/processor.svh"
+`include "motors/motors.svh"
 
 /**
 * Multiplies pulse number to stepper motors to fit mechanics precision.

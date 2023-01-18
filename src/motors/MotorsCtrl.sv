@@ -1,4 +1,4 @@
-`include "peripherals/peripherals.svh"
+`include "motors/motors.svh"
 
 /**
 * Module to control all motors.

@@ -8,12 +8,15 @@ COMMON_TESTS = [
 		"IntSqrt_tb",
 		"PulseGen_tb",
 		"Pwm_tb",
-		"TriggeredTimer_tb",
+		"TriggeredTimer_tb"
+		]
+
+BRAM_TESTS = [
 		"Bram_tb",
 		"BramFifoCtrl_tb"
 		]
 
-PERIPHERALS_TESTS = [
+MOTORS_TESTS = [
 		"MotorsCtrl_tb",
 		"ServoCtrl_tb",
 		"StepperCtrlXY_tb",
@@ -34,7 +37,7 @@ PROCESSOR_TESTS = [
 		"PulseNumMultiplier_tb"
 		]
 
-TESTS = COMMON_TESTS + PERIPHERALS_TESTS + PROCESSOR_TESTS
+TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS
 
 REFS_DIR = "tests/refs"
 TESTS_DIR = "tests/tests"
