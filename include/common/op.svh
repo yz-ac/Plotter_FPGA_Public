@@ -7,5 +7,6 @@
 `define OP_ARG_3_BITS (12)
 `define OP_ARG_4_BITS (12)
 `define OP_FLAGS_BITS (8)
+`define OP_BITS (64)
 
 `endif // __OP_SVH__
