@@ -16,6 +16,8 @@ import Position_PKG::POS_QUADRANT_4;
 * :input end_x: End X coordinate.
 * :input end_y: End Y coordinate.
 * :input r: Radius of circular path.
+* :input precise_crossing_axes: Is crossing axes calculated with precise (non-integer) values.
+* :input is_full_circle: Is the command drawing a full circle.
 * :output num_steps: Number of steps in the path.
 */
 module CircularOpHandler_NumStepsCalculator #(
@@ -29,6 +31,8 @@ module CircularOpHandler_NumStepsCalculator #(
 	input logic [NUM_BITS-1:0] end_x,
 	input logic [NUM_BITS-1:0] end_y,
 	input logic [NUM_BITS-1:0] r,
+	input logic precise_crossing_axes,
+	input logic is_full_circle,
 
 	output logic [STEP_BITS-1:0] num_steps
 );
@@ -47,6 +51,7 @@ module CircularOpHandler_NumStepsCalculator #(
 	PosQuadrant_t _end_quadrant;
 
 	reg _is_crossing_axes;
+	reg _approx_crossing_axes;
 	reg [STEP_BITS-1:0] _full_quadrant_steps;
 	reg [STEP_BITS-1:0] _start_to_axis_steps;
 	reg [STEP_BITS-1:0] _axis_to_end_steps;
@@ -135,39 +140,40 @@ module CircularOpHandler_NumStepsCalculator #(
 	assign _abs_dy[STEP_BITS-1:NUM_BITS-1] = 0;
 	assign _same_quadrant_steps = _abs_dx + _abs_dy;
 
+	assign _is_crossing_axes = precise_crossing_axes & _approx_crossing_axes;
 	assign _steps_ccw = (_is_crossing_axes) ? (_full_quadrant_steps + _start_to_axis_steps + _axis_to_end_steps) : (_same_quadrant_steps);
-	assign _steps_cw = ((start_x == end_x) & (start_y == end_y)) ? (_steps_ccw) : (8 * _ext_r - _steps_ccw);
+	assign _steps_cw = ((start_x == end_x) & (start_y == end_y) & is_full_circle) ? (_steps_ccw) : (8 * _ext_r - _steps_ccw);
 	assign num_steps = (is_cw) ? (_steps_cw) : (_steps_ccw);
 
 	// Calculate if crossing axes in path.
 	always_comb begin : __crossing_axes_check
-		_is_crossing_axes = 0;
+		_approx_crossing_axes = 0;
 		if (_start_quadrant == _end_quadrant) begin
 			case (_start_quadrant)
 			POS_QUADRANT_1: begin
 				if ((_abs_end_x >= _abs_start_x) | (_abs_end_y <= _abs_start_y)) begin
-					_is_crossing_axes = 1;
+					_approx_crossing_axes = 1;
 				end
 			end
 			POS_QUADRANT_2: begin
 				if ((_abs_end_x <= _abs_start_x) | (_abs_end_y >= _abs_start_y)) begin
-					_is_crossing_axes = 1;
+					_approx_crossing_axes = 1;
 				end
 			end
 			POS_QUADRANT_3: begin
 				if ((_abs_end_x >= _abs_start_x) | (_abs_end_y <= _abs_start_y)) begin
-					_is_crossing_axes = 1;
+					_approx_crossing_axes = 1;
 				end
 			end
 			default: begin
 				if ((_abs_end_x <= _abs_start_x) | (_abs_end_y >= _abs_start_y)) begin
-					_is_crossing_axes = 1;
+					_approx_crossing_axes = 1;
 				end
 			end
 			endcase
 		end
 		else begin
-			_is_crossing_axes = 1;
+			_approx_crossing_axes = 1;
 		end
 	end : __crossing_axes_check
 

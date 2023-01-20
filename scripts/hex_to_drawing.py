@@ -234,7 +234,7 @@ class App(tk.Tk):
 	def _find_num_steps(self, x, y, i, j, flags, r, is_ccw):
 		num_steps_ccw = self._find_num_steps_ccw(x, y, i, j, flags, r)
 		num_steps_cw = 8 * r - num_steps_ccw
-		if num_steps_ccw == 8 * r:
+		if (num_steps_ccw == 8 * r) and (flags & 0b10):
 			num_steps_cw = num_steps_ccw
 
 		if is_ccw:

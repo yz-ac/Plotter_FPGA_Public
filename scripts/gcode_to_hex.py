@@ -89,6 +89,7 @@ def parse_circular(line):
 	end_quadrant = get_quadrant(rel_end_x, rel_end_y)
 
 	is_axis_crossing = False
+	is_full_circle = False
 	if start_quadrant != end_quadrant:
 		is_axis_crossing = True
 	else:
@@ -110,11 +111,15 @@ def parse_circular(line):
 			if abs_end_x < abs_start_x or abs_end_y > abs_start_y:
 				is_axis_crossing = True
 
-		if rel_start_x == rel_end_x and rel_start_y == rel_end_y:
+		if rel_start_x == rel_end_x and rel_start_y == rel_end_y and (i != 0 and j != 0):
 			is_axis_crossing = True
+			is_full_circle = True
 
 	if is_axis_crossing:
-		flags = 1
+		flags |= 1
+
+	if is_full_circle:
+		flags |= 2
 
 	POS.move(x, y)
 

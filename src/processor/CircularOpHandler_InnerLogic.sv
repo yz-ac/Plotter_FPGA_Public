@@ -37,6 +37,8 @@ import Position_PKG::POS_DIR_RIGHT;
 * :output end_y: Final Y position relative to circle center.
 * :output r_squared: Squared radius of circular motion.
 * :output cur_r_squared: Squared radius of current position (polar cooridnates).
+* :output precise_crossing_axes: Is crossing axes in path calculated using precise (non integer) values.
+* :output is_full_circle: Does command request drawing a full circle (in precise version).
 */
 module CircularOpHandler_InnerLogic #(
 	parameter NUM_BITS = `BYTE_BITS,
@@ -65,7 +67,9 @@ module CircularOpHandler_InnerLogic #(
 	output logic [NUM_BITS-1:0] end_x,
 	output logic [NUM_BITS-1:0] end_y,
 	output logic [NUM_BITS-1:0] r_squared,
-	output logic [NUM_BITS-1:0] cur_r_squared
+	output logic [NUM_BITS-1:0] cur_r_squared,
+	output logic precise_crossing_axes,
+	output logic is_full_circle
 );
 
 	// Wires
@@ -127,6 +131,9 @@ module CircularOpHandler_InnerLogic #(
 	assign end_y = _end_y - _circ_center_y;
 
 	assign cur_r_squared = square_num(_cur_rel_x) + square_num(_cur_rel_y);
+
+	assign precise_crossing_axes = op.flags[0];
+	assign is_full_circle = op.flags[1];
 
 	always_comb begin : __set_motors_and_update_pos
 		// note that signals are being truncated here (and it's OK)

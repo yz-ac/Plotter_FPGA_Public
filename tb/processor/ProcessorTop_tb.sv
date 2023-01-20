@@ -104,6 +104,7 @@ module ProcessorTop_tb;
 			op.arg_2 <= 100;
 			op.arg_3 <= 0;
 			op.arg_4 <= -20;
+			op.flags <= 3;
 			trigger = 1;
 		end
 		TB_TEST_3: begin
@@ -148,6 +149,7 @@ module ProcessorTop_tb;
 			op.arg_2 <= 100;
 			op.arg_3 <= 20;
 			op.arg_4 <= 0;
+			op.flags <= 1;
 			trigger = 1;
 		end
 		TB_TEST_9: begin
@@ -164,6 +166,7 @@ module ProcessorTop_tb;
 			op.arg_2 <= 60;
 			op.arg_3 <= 0;
 			op.arg_4 <= -20;
+			op.flags <= 1;
 			trigger = 1;
 		end
 		TB_TEST_11: begin
@@ -180,6 +183,7 @@ module ProcessorTop_tb;
 			op.arg_2 <= 190;
 			op.arg_3 <= -100;
 			op.arg_4 <= -1;
+			op.flags <= 1;
 			trigger = 1;
 		end
 		TB_TEST_13: begin

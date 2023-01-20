@@ -61,6 +61,8 @@ module CircularOpHandler (
 	wire [STEP_BITS-1:0] _num_steps;
 	reg [STEP_BITS-1:0] _steps_counter;
 	wire _reached_num_steps;
+	wire _precise_crossing_axes;
+	wire _is_full_circle;
 
 	// modules
 	CircularOpHandler_InnerLogic #(
@@ -89,7 +91,9 @@ module CircularOpHandler (
 		.end_x(_end_x),
 		.end_y(_end_y),
 		.r_squared(_r_squared),
-		.cur_r_squared(_cur_r_squared)
+		.cur_r_squared(_cur_r_squared),
+		.precise_crossing_axes(_precise_crossing_axes),
+		.is_full_circle(_is_full_circle)
 	);
 
 	CircularOpHandler_QuadrantFinder #(
@@ -119,6 +123,8 @@ module CircularOpHandler (
 		.end_x(_end_x),
 		.end_y(_end_y),
 		.r(_r),
+		.precise_crossing_axes(_precise_crossing_axes),
+		.is_full_circle(_is_full_circle),
 		.num_steps(_num_steps)
 	);
 
