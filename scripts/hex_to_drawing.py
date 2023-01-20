@@ -19,7 +19,7 @@ class App(tk.Tk):
 		self._canvas = tk.Canvas(master=self, height=MAX_H, width=MAX_W)
 		self._canvas.pack()
 		self._path = path
-		self._op_counter = 1
+		self._op_counter = 0
 
 	def move(self, x, y, pen_down=True):
 		if pen_down:
@@ -38,9 +38,6 @@ class App(tk.Tk):
 
 		if cmd not in App.HANDLERS:
 			return
-
-		if self._op_counter == 99:
-			import ipdb; ipdb.set_trace()
 
 		App.HANDLERS[cmd](self, arg_1, arg_2, arg_3, arg_4, flags)
 		self._op_counter += 1
@@ -196,6 +193,7 @@ class App(tk.Tk):
 			else:
 				if abs_end_x <= abs_start_x or abs_end_y >= abs_start_y:
 					is_axis_crossing = True
+
 		else:
 			is_axis_crossing = True
 

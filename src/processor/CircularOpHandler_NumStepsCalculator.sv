@@ -191,7 +191,7 @@ module CircularOpHandler_NumStepsCalculator #(
 		POS_QUADRANT_2: begin
 			_start_to_axis_steps = _ext_r - _abs_start_x + _abs_start_y;
 		end
-		POS_QUADRANT_2: begin
+		POS_QUADRANT_3: begin
 			_start_to_axis_steps = _abs_start_x - _abs_start_y + _ext_r;
 		end
 		default: begin
@@ -208,7 +208,7 @@ module CircularOpHandler_NumStepsCalculator #(
 		POS_QUADRANT_2: begin
 			_axis_to_end_steps = _abs_end_x - _abs_end_y + _ext_r;
 		end
-		POS_QUADRANT_2: begin
+		POS_QUADRANT_3: begin
 			_axis_to_end_steps = _ext_r - _abs_end_x + _abs_end_y;
 		end
 		default: begin

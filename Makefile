@@ -148,6 +148,10 @@ sim:
 sim_manual:
 	$(VSIM) $(SIM_FLAGS) $(LIB_NAME).$(TOP)
 
+.PHONY: sim_silent
+sim_silent:
+	$(VSIM) -c $(SIM_FLAGS) $(LIB_NAME).$(TOP) $(SIM_CMD)
+
 .PHONY: run_tests
 run_tests:
 	python scripts/run_tests.py

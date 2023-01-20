@@ -153,7 +153,7 @@ module CircularOpHandler_FSM (
 			end
 		end
 		LAST_WAIT_MOTORS: begin
-			_nxt_state = LAST_UPDATE_POS;
+			_nxt_state = LAST_WAIT_MOTORS;
 			sqrt_trigger = 0;
 			motors_trigger = 0;
 			update_counter = 0;
