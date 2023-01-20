@@ -153,7 +153,7 @@ class App(tk.Tk):
 		else:
 			self.move(self._pos.x + 1, self._pos.y, True)
 
-	def _find_num_steps_ccw(self, x, y, i, j, r):
+	def _find_num_steps_ccw(self, x, y, i, j, flags, r):
 		start_x = self._pos.x
 		start_y = self._pos.y
 		end_x = x
@@ -182,20 +182,25 @@ class App(tk.Tk):
 		is_axis_crossing = False
 		if end_quadrant == start_quadrant:
 			if start_quadrant == 1:
-				if abs_end_x >= abs_start_x or abs_end_y <= abs_start_y:
+				if abs_end_x > abs_start_x or abs_end_y < abs_start_y:
 					is_axis_crossing = True
 			elif start_quadrant == 2:
-				if abs_end_x <= abs_start_x or abs_end_y >= abs_start_y:
+				if abs_end_x < abs_start_x or abs_end_y > abs_start_y:
 					is_axis_crossing = True
 			elif start_quadrant == 3:
-				if abs_end_x >= abs_start_x or abs_end_y <= abs_start_y:
+				if abs_end_x > abs_start_x or abs_end_y < abs_start_y:
 					is_axis_crossing = True
 			else:
-				if abs_end_x <= abs_start_x or abs_end_y >= abs_start_y:
+				if abs_end_x < abs_start_x or abs_end_y > abs_start_y:
 					is_axis_crossing = True
+
+			if rel_start_x == rel_end_x and rel_start_y == rel_end_y:
+				is_axis_crossing = True
 
 		else:
 			is_axis_crossing = True
+
+		is_axis_crossing = is_axis_crossing and (flags & 0b1)
 
 		if is_axis_crossing:
 			tmp_end_quadrant = end_quadrant
@@ -226,8 +231,8 @@ class App(tk.Tk):
 
 		return num_steps
 
-	def _find_num_steps(self, x, y, i, j, r, is_ccw):
-		num_steps_ccw = self._find_num_steps_ccw(x, y, i, j, r)
+	def _find_num_steps(self, x, y, i, j, flags, r, is_ccw):
+		num_steps_ccw = self._find_num_steps_ccw(x, y, i, j, flags, r)
 		num_steps_cw = 8 * r - num_steps_ccw
 		if num_steps_ccw == 8 * r:
 			num_steps_cw = num_steps_ccw
@@ -254,7 +259,7 @@ class App(tk.Tk):
 		r2 = (i * i) + (j * j)
 		r = self._isqrt(r2)
 
-		num_steps = self._find_num_steps(x, y, i, j, r, is_ccw)
+		num_steps = self._find_num_steps(x, y, i, j, flags, r, is_ccw)
 		for step in range(num_steps):
 			rel_x = self._pos.x - center_x
 			rel_y = self._pos.y - center_y
