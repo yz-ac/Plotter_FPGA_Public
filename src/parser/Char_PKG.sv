@@ -9,7 +9,8 @@ package Char_PKG;
 		CHAR_J,
 		CHAR_WHITESPACE,
 		CHAR_DOT,
-		CHAR_NEWLINE
+		CHAR_NEWLINE,
+		CHAR_UNKNOWN
 	} Char_t;
 
 endpackage : Char_PKG

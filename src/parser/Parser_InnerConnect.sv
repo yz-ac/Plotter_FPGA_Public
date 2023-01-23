@@ -10,6 +10,8 @@ import Char_PKG::CHAR_J;
 import Char_PKG::CHAR_WHITESPACE;
 import Char_PKG::CHAR_DOT;
 import Char_PKG::CHAR_NEWLINE;
+import Char_PKG::CHAR_UNKNOWN;
+
 
 module Parser_InnerConnect (
 	input logic [`BYTE_BITS-1:0] char_in,
@@ -29,6 +31,24 @@ module Parser_InnerConnect (
 		end
 		else if (char_in == 89) begin
 			char_type = CHAR_Y;
+		end
+		else if (char_in == 73) begin
+			char_type = CHAR_I;
+		end
+		else if (char_in == 74) begin
+			char_type = CHAR_J;
+		end
+		else if ((char_in == 9) | (char_in == 32)) begin
+			char_type = CHAR_WHITESPACE;
+		end
+		else if (char_in == 46) begin
+			char_type = CHAR_DOT;
+		end
+		else if (char_in == 10) begin
+			char_type = CHAR_NEWLINE;
+		end
+		else begin
+			char_type = CHAR_UNKNOWN;
 		end
 	end : __char_type
 
