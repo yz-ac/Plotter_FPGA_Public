@@ -35,7 +35,7 @@ module PositionKeeper (
 		if (reset) begin
 			_cur_x <= 0;
 			_cur_y <= 0;
-			_is_absolute <= 0;
+			_is_absolute <= 1;
 		end
 		else if (clk_en) begin
 			_cur_x <= _cur_x;

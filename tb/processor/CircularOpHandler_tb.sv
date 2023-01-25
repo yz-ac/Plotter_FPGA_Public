@@ -99,8 +99,8 @@ module CircularOpHandler_tb;
 		TB_TEST_1: begin
 			_test <= TB_TEST_2;
 			op.cmd <= OP_CMD_G03;
-			op.arg_1 <= -50;
-			op.arg_2 <= 50;
+			op.arg_1 <= 0;
+			op.arg_2 <= 100;
 			op.arg_3 <= -50;
 			op.arg_4 <= 0;
 			op.flags <= 1;
@@ -108,11 +108,11 @@ module CircularOpHandler_tb;
 		end
 		TB_TEST_2: begin
 			_test <= TB_TEST_3;
-			op.cmd <= OP_CMD_G90;
+			op.cmd <= OP_CMD_G91;
 			#(`CLOCK_PERIOD * 10);
 			op.cmd <= OP_CMD_G02;
 			op.arg_1 <= 100;
-			op.arg_2 <= 0;
+			op.arg_2 <= -100;
 			op.arg_3 <= 0;
 			op.arg_4 <= -100;
 			op.flags <= 1;
