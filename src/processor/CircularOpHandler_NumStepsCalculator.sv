@@ -65,6 +65,8 @@ module CircularOpHandler_NumStepsCalculator #(
 	wire [STEP_BITS-1:0] _steps_ccw;
 	wire [STEP_BITS-1:0] _steps_cw;
 
+	wire _is_zero_steps;
+
 	Abs #(
 		.NUM_BITS(NUM_BITS)
 	) _find_abs_start_x (
@@ -141,8 +143,9 @@ module CircularOpHandler_NumStepsCalculator #(
 	assign _same_quadrant_steps = _abs_dx + _abs_dy;
 
 	assign _is_crossing_axes = precise_crossing_axes & _approx_crossing_axes;
+	assign _is_zero_steps = (~|_steps_ccw) ? 1 : 0;
 	assign _steps_ccw = (_is_crossing_axes) ? (_full_quadrant_steps + _start_to_axis_steps + _axis_to_end_steps) : (_same_quadrant_steps);
-	assign _steps_cw = ((start_x == end_x) & (start_y == end_y) & is_full_circle) ? (_steps_ccw) : (8 * _ext_r - _steps_ccw);
+	assign _steps_cw = ((start_x == end_x) & (start_y == end_y) & (is_full_circle | _is_zero_steps)) ? (_steps_ccw) : (8 * _ext_r - _steps_ccw);
 	assign num_steps = (is_cw) ? (_steps_cw) : (_steps_ccw);
 
 	// Calculate if crossing axes in path.
@@ -151,26 +154,30 @@ module CircularOpHandler_NumStepsCalculator #(
 		if (_start_quadrant == _end_quadrant) begin
 			case (_start_quadrant)
 			POS_QUADRANT_1: begin
-				if ((_abs_end_x >= _abs_start_x) | (_abs_end_y <= _abs_start_y)) begin
+				if ((_abs_end_x > _abs_start_x) | (_abs_end_y < _abs_start_y)) begin
 					_approx_crossing_axes = 1;
 				end
 			end
 			POS_QUADRANT_2: begin
-				if ((_abs_end_x <= _abs_start_x) | (_abs_end_y >= _abs_start_y)) begin
+				if ((_abs_end_x < _abs_start_x) | (_abs_end_y > _abs_start_y)) begin
 					_approx_crossing_axes = 1;
 				end
 			end
 			POS_QUADRANT_3: begin
-				if ((_abs_end_x >= _abs_start_x) | (_abs_end_y <= _abs_start_y)) begin
+				if ((_abs_end_x > _abs_start_x) | (_abs_end_y < _abs_start_y)) begin
 					_approx_crossing_axes = 1;
 				end
 			end
 			default: begin
-				if ((_abs_end_x <= _abs_start_x) | (_abs_end_y >= _abs_start_y)) begin
+				if ((_abs_end_x < _abs_start_x) | (_abs_end_y > _abs_start_y)) begin
 					_approx_crossing_axes = 1;
 				end
 			end
 			endcase
+
+			if ((_abs_end_x == _abs_start_x) & (_abs_end_y == _abs_start_y) & is_full_circle) begin
+				_approx_crossing_axes = 1;
+			end
 		end
 		else begin
 			_approx_crossing_axes = 1;
