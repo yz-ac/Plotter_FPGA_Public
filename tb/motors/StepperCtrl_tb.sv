@@ -14,6 +14,7 @@ module StepperCtrl_tb;
 
 	wire out;
 	wire dir;
+	wire n_en;
 
 	SimClock sim_clk (
 		.out(clk)
@@ -41,7 +42,8 @@ module StepperCtrl_tb;
 		.clk_en(clk_en),
 		.intf(intf.slave),
 		.out(out),
-		.dir(dir)
+		.dir(dir),
+		.n_en(n_en)
 	);
 
 	always_ff @(posedge out) begin

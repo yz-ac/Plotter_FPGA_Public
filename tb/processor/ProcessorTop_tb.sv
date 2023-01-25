@@ -20,8 +20,10 @@ module ProcessorTop_tb;
 
 	wire out_x;
 	wire dir_x;
+	wire n_en_x;
 	wire out_y;
 	wire dir_y;
+	wire n_en_y;
 	wire out_servo;
 	wire done;
 	wire rdy;
@@ -42,8 +44,10 @@ module ProcessorTop_tb;
 		.intf(motors_intf.slave),
 		.out_x(out_x),
 		.dir_x(dir_x),
+		.n_en_x(n_en_x),
 		.out_y(out_y),
 		.dir_y(dir_y),
+		.n_en_y(n_en_y),
 		.out_servo(out_servo)
 	);
 

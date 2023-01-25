@@ -9,8 +9,10 @@
 * :iface intf: Interface for controlling motors.
 * :output out_x: Output to X stepper motor.
 * :output dir_x: Direction output to X stepper motor.
+* :output n_en_x: Enable signal for X driver (active low) to prevent idle current.
 * :output out_y: Output to Y stepper motor.
 * :output dir_y: Direction output to Y stepper motor.
+* :output n_en_x: Enable signal for X driver (active low) to prevent idle current.
 * :output out_servo: PWM output to servo.
 */
 module MotorsCtrl (
@@ -21,8 +23,10 @@ module MotorsCtrl (
 
 	output logic out_x,
 	output logic dir_x,
+	output logic n_en_x,
 	output logic out_y,
 	output logic dir_y,
+	output logic n_en_y,
 	output logic out_servo
 );
 
@@ -63,8 +67,10 @@ module MotorsCtrl (
 		.intf(_intf_xy.slave),
 		.out_x(out_x),
 		.dir_x(dir_x),
+		.n_en_x(n_en_x),
 		.out_y(out_y),
-		.dir_y(dir_y)
+		.dir_y(dir_y),
+		.n_en_y(n_en_y)
 	);
 
 	ServoCtrl _servo_ctrl (
