@@ -3,5 +3,6 @@
 
 `include "common/types.svh"
 `include "common/op.svh"
+`include "common/position.svh"
 
 `endif // __COMMON_SVH__

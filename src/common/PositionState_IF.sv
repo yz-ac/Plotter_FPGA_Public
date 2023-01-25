@@ -1,4 +1,4 @@
-`include "processor/processor.svh"
+`include "common/common.svh"
 
 /**
 * Interface for keeping current position state.

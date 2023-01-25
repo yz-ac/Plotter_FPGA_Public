@@ -1,5 +1,5 @@
 `include "tb/simulation.svh"
-`include "processor/processor.svh"
+`include "common/common.svh"
 
 import Op_PKG::Op_st;
 import Op_PKG::OP_CMD_G00;

@@ -1,5 +1,5 @@
 `include "tb/simulation.svh"
-`include "processor/processor.svh"
+`include "common/common.svh"
 
 import Servo_PKG::SERVO_POS_UP;
 import Servo_PKG::SERVO_POS_DOWN;

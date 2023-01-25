@@ -8,7 +8,8 @@ COMMON_TESTS = [
 		"IntSqrt_tb",
 		"PulseGen_tb",
 		"Pwm_tb",
-		"TriggeredTimer_tb"
+		"TriggeredTimer_tb",
+		"PositionKeeper_tb"
 		]
 
 BRAM_TESTS = [
@@ -33,7 +34,6 @@ PROCESSOR_TESTS = [
 		"LinearOpHandler_tb",
 		"OpHandlerInputChooser_tb",
 		"OpHandlerOutputChooser_tb",
-		"PositionKeeper_tb",
 		"ProcessorTop_tb",
 		"PulseNumMultiplier_tb"
 		]

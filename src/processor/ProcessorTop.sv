@@ -1,4 +1,4 @@
-`include "processor/processor.svh"
+`include "common/common.svh"
 
 import Op_PKG::Op_st;
 

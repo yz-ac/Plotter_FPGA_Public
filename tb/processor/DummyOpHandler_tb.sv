@@ -1,5 +1,5 @@
 `include "tb/simulation.svh"
-`include "processor/processor.svh"
+`include "common/common.svh"
 
 module DummyOpHandler_tb;
 	int fd;
