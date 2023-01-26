@@ -3,6 +3,7 @@
 import Char_PKG::Char_t;
 import Char_PKG::CHAR_G;
 import Char_PKG::CHAR_NUM;
+import Char_PKG::CHAR_MINUS;
 import Char_PKG::CHAR_X;
 import Char_PKG::CHAR_Y;
 import Char_PKG::CHAR_I;
@@ -31,6 +32,9 @@ module CharDecoder (
 		end
 		else if ((char_in >= 48) && (char_in <= 57)) begin
 			char_type = CHAR_NUM;
+		end
+		else if (char_in == 45) begin
+			char_type = CHAR_MINUS;
 		end
 		else if (char_in == 88) begin
 			char_type = CHAR_X;

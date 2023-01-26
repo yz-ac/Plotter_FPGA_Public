@@ -28,6 +28,10 @@ module CharDecoder_tb;
 		#(`CLOCK_PERIOD * 2);
 		`LOG
 
+		char_in = 45; // '-'
+		#(`CLOCK_PERIOD * 2);
+		`LOG
+
 		char_in = 88; // 'X'
 		#(`CLOCK_PERIOD * 2);
 		`LOG

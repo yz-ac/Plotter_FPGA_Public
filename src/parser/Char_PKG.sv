@@ -3,6 +3,7 @@ package Char_PKG;
 	typedef enum {
 		CHAR_G,
 		CHAR_NUM,
+		CHAR_MINUS,
 		CHAR_X,
 		CHAR_Y,
 		CHAR_I,
