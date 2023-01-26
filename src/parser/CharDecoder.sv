@@ -13,13 +13,19 @@ import Char_PKG::CHAR_NEWLINE;
 import Char_PKG::CHAR_UNKNOWN;
 
 
-module Parser_InnerConnect (
+/**
+* Decodes an ascii char to a category for parsing.
+*
+* :input char_in: ASCII character.
+* :output char_type: Type of the character for parsing.
+*/
+module CharDecoder (
 	input logic [`BYTE_BITS-1:0] char_in,
 
 	output Char_t char_type
 );
 
-	always_comb begin : __char_type
+	always_comb begin
 		if (char_in == 71) begin
 			char_type = CHAR_G;
 		end
@@ -50,6 +56,6 @@ module Parser_InnerConnect (
 		else begin
 			char_type = CHAR_UNKNOWN;
 		end
-	end : __char_type
+	end
 
-endmodule : Parser_InnerConnect
+endmodule : CharDecoder

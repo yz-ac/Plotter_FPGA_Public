@@ -74,11 +74,13 @@ VFILES += $(PROC_DIR)/CircularOpHandler_FSM.sv
 VFILES += $(PROC_DIR)/CircularOpHandler.sv
 VFILES += $(PROC_DIR)/ProcessorTopInnerConnector.sv
 VFILES += $(PROC_DIR)/ProcessorTop.sv
+VFILES += $(PARSER_DIR)/CharDecoder.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
 PKG_FILES += $(COMMON_DIR)/Position_PKG.sv
 PKG_FILES += $(MOTORS_DIR)/Servo_PKG.sv
+PKG_FILES += $(PARSER_DIR)/Char_PKG.sv
 
 TB_FILES :=
 TB_FILES += SimClock.sv
@@ -107,6 +109,7 @@ TB_FILES += $(PROC_DIR)/CircularOpHandler_DirectionFinder_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_NumStepsCalculator_tb.sv
 TB_FILES += $(PROC_DIR)/CircularOpHandler_tb.sv
 TB_FILES += $(PROC_DIR)/ProcessorTop_tb.sv
+TB_FILES += $(PARSER_DIR)/CharDecoder_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
