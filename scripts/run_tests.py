@@ -15,7 +15,8 @@ COMMON_TESTS = [
 BRAM_TESTS = [
 		"Bram_tb",
 		"BramFifoCtrl_tb",
-		"BramReader_tb"
+		"BramReader_tb",
+		"FifoBuffer_tb"
 		]
 
 MOTORS_TESTS = [
