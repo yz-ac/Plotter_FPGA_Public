@@ -7,4 +7,6 @@
 `define DWORD_BITS (32)
 `define QWORD_BITS (64)
 
+`define DIGIT_BITS (`NIBBLE_BITS)
+
 `endif // __TYPES_SVH__

@@ -40,7 +40,8 @@ PROCESSOR_TESTS = [
 		]
 
 PARSER_TESTS = [
-		"CharDecoder_tb"
+		"CharDecoder_tb",
+		"AsciiToDigit_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS
