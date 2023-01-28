@@ -1,0 +1,9 @@
+time:                  400, num:        0, is_valid: 1
+time:                  800, num:      100, is_valid: 1
+time:                 1200, num: 16777116, is_valid: 1
+time:                 1600, num:     2047, is_valid: 1
+time:                 2000, num: 16775168, is_valid: 0
+time:                 2400, num:     2048, is_valid: 0
+time:                 2800, num: 16775167, is_valid: 0
+time:                 3200, num:     4096, is_valid: 0
+time:                 3600, num:     8192, is_valid: 0
