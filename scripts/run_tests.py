@@ -45,7 +45,8 @@ PARSER_TESTS = [
 		"NumberBuilder_tb",
 		"OpBuilder_tb",
 		"ArgSizeCheck_tb",
-		"CircularFlagsBuilder_tb"
+		"CircularFlagsBuilder_tb",
+		"GcodeToCmd_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS
