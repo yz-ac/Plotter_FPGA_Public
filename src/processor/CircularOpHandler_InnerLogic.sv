@@ -132,8 +132,8 @@ module CircularOpHandler_InnerLogic #(
 
 	assign cur_r_squared = square_num(_cur_rel_x) + square_num(_cur_rel_y);
 
-	assign precise_crossing_axes = op.flags[0];
-	assign is_full_circle = op.flags[1];
+	assign precise_crossing_axes = op.flags[`OP_FLAGS_AXES_CROSS_BIT];
+	assign is_full_circle = op.flags[`OP_FLAGS_FULL_CIRCLE_BIT];
 
 	always_comb begin : __set_motors_and_update_pos
 		// note that signals are being truncated here (and it's OK)

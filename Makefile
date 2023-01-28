@@ -77,6 +77,7 @@ VFILES += $(PROC_DIR)/ProcessorTop.sv
 VFILES += $(PARSER_DIR)/CharDecoder.sv
 VFILES += $(PARSER_DIR)/AsciiToDigit.sv
 VFILES += $(PARSER_DIR)/NumberBuilder.sv
+VFILES += $(PARSER_DIR)/OpBuilder.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -114,6 +115,7 @@ TB_FILES += $(PROC_DIR)/ProcessorTop_tb.sv
 TB_FILES += $(PARSER_DIR)/CharDecoder_tb.sv
 TB_FILES += $(PARSER_DIR)/AsciiToDigit_tb.sv
 TB_FILES += $(PARSER_DIR)/NumberBuilder_tb.sv
+TB_FILES += $(PARSER_DIR)/OpBuilder_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
