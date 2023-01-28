@@ -1,0 +1,4 @@
+time:                  400, cur_x:        0, cur_y:        0, x:        0, y:        0, i:        0, j:        0, flags:   0
+time:                  800, cur_x:        0, cur_y:        0, x:        0, y:        0, i:        1, j:        1, flags:   3
+time:                 1200, cur_x:        2, cur_y:        0, x: 67108863, y:        1, i: 67108862, j:        0, flags:   1
+time:                 1600, cur_x:        2, cur_y:        2, x:        1, y:        3, i: 67108862, j:        0, flags:   0

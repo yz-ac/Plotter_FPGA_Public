@@ -44,7 +44,8 @@ PARSER_TESTS = [
 		"AsciiToDigit_tb",
 		"NumberBuilder_tb",
 		"OpBuilder_tb",
-		"ArgSizeCheck_tb"
+		"ArgSizeCheck_tb",
+		"CircularFlagsBuilder_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS

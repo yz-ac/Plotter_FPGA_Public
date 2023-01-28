@@ -79,6 +79,7 @@ VFILES += $(PARSER_DIR)/AsciiToDigit.sv
 VFILES += $(PARSER_DIR)/NumberBuilder.sv
 VFILES += $(PARSER_DIR)/OpBuilder.sv
 VFILES += $(PARSER_DIR)/ArgSizeCheck.sv
+VFILES += $(PARSER_DIR)/CircularFlagsBuilder.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -118,6 +119,7 @@ TB_FILES += $(PARSER_DIR)/AsciiToDigit_tb.sv
 TB_FILES += $(PARSER_DIR)/NumberBuilder_tb.sv
 TB_FILES += $(PARSER_DIR)/OpBuilder_tb.sv
 TB_FILES += $(PARSER_DIR)/ArgSizeCheck_tb.sv
+TB_FILES += $(PARSER_DIR)/CircularFlagsBuilder_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
