@@ -9,7 +9,8 @@ COMMON_TESTS = [
 		"PulseGen_tb",
 		"Pwm_tb",
 		"TriggeredTimer_tb",
-		"PositionKeeper_tb"
+		"PositionKeeper_tb",
+		"QuadrantFinder_tb"
 		]
 
 BRAM_TESTS = [
@@ -29,7 +30,6 @@ MOTORS_TESTS = [
 PROCESSOR_TESTS = [
 		"CircularOpHandler_DirectionFinder_tb",
 		"CircularOpHandler_NumStepsCalculator_tb",
-		"CircularOpHandler_QuadrantFinder_tb",
 		"CircularOpHandler_tb",
 		"DummyOpHandler_tb",
 		"LinearOpHandler_tb",

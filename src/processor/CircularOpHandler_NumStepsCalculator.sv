@@ -95,7 +95,7 @@ module CircularOpHandler_NumStepsCalculator #(
 		.out(_abs_end_y[NUM_BITS-2:0])
 	);
 
-	CircularOpHandler_QuadrantFinder #(
+	QuadrantFinder #(
 		.NUM_BITS(NUM_BITS)
 	) _find_start_qudrant (
 		.relative_x(start_x),
@@ -103,7 +103,7 @@ module CircularOpHandler_NumStepsCalculator #(
 		.quadrant(_start_quadrant)
 	);
 
-	CircularOpHandler_QuadrantFinder #(
+	QuadrantFinder #(
 		.NUM_BITS(NUM_BITS)
 	) _find_end_quadrant (
 		.relative_x(end_x),

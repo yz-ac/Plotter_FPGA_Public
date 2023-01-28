@@ -96,7 +96,7 @@ module CircularOpHandler (
 		.is_full_circle(_is_full_circle)
 	);
 
-	CircularOpHandler_QuadrantFinder #(
+	QuadrantFinder #(
 		.NUM_BITS(NUM_BITS)
 	) _cur_quadrant_finder (
 		.relative_x(_cur_x),

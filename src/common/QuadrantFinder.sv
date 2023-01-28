@@ -14,7 +14,7 @@ import Position_PKG::POS_QUADRANT_4;
 * :input relative_y: Y relative to circle center.
 * :output quadrant: The quadrant containing the (x,y) coordinate.
 */
-module CircularOpHandler_QuadrantFinder #(
+module QuadrantFinder #(
 	parameter NUM_BITS = `BYTE_BITS
 )
 (
@@ -44,4 +44,4 @@ module CircularOpHandler_QuadrantFinder #(
 		end
 	end // always_comb
 
-endmodule : CircularOpHandler_QuadrantFinder
+endmodule : QuadrantFinder
