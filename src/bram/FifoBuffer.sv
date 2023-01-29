@@ -25,8 +25,7 @@ module FifoBuffer #(
 	parameter ROWS = `BYTE_BITS,
 	parameter COLS = `BYTE_BITS,
 	parameter INIT_FILE = "",
-	parameter PRELOADED_ROWS = 0,
-	localparam ADDR_BITS = $clog2(ROWS)
+	parameter PRELOADED_ROWS = 0
 )
 (
 	input logic clk,
@@ -44,6 +43,8 @@ module FifoBuffer #(
 	output logic wr_done,
 	output logic wr_rdy
 );
+
+	localparam ADDR_BITS = $clog2(ROWS);
 
 	wire [ADDR_BITS-1:0] _rd_addr;
 	wire [ADDR_BITS-1:0] _wr_addr;
