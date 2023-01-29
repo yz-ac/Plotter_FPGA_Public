@@ -47,7 +47,8 @@ PARSER_TESTS = [
 		"ArgSizeCheck_tb",
 		"CircularFlagsBuilder_tb",
 		"GcodeToCmd_tb",
-		"CmdSubparser_tb"
+		"CmdSubparser_tb",
+		"ArgSubparser_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS

@@ -84,6 +84,8 @@ VFILES += $(PARSER_DIR)/GcodeToCmd.sv
 VFILES += $(PARSER_DIR)/Subparser_IF.sv
 VFILES += $(PARSER_DIR)/CmdSubparser_FSM.sv
 VFILES += $(PARSER_DIR)/CmdSubparser.sv
+VFILES += $(PARSER_DIR)/ArgSubparser_FSM.sv
+VFILES += $(PARSER_DIR)/ArgSubparser.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -126,6 +128,7 @@ TB_FILES += $(PARSER_DIR)/ArgSizeCheck_tb.sv
 TB_FILES += $(PARSER_DIR)/CircularFlagsBuilder_tb.sv
 TB_FILES += $(PARSER_DIR)/GcodeToCmd_tb.sv
 TB_FILES += $(PARSER_DIR)/CmdSubparser_tb.sv
+TB_FILES += $(PARSER_DIR)/ArgSubparser_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
