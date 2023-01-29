@@ -2,7 +2,7 @@
 `include "common/common.svh"
 
 `define LOG() \
-		`FWRITE(("time: %t, gcode: %d, cmd: %d", $time, gcode, cmd))
+		`FWRITE(("time: %t, gcode: %d, cmd: %d, is_valid: %d", $time, gcode, cmd, is_valid))
 
 module GcodeToCmd_tb;
 	int fd;
@@ -11,12 +11,14 @@ module GcodeToCmd_tb;
 
 	reg [NUM_BITS-1:0] gcode;
 	wire [`OP_CMD_BITS-1:0] cmd;
+	wire is_valid;
 
 	GcodeToCmd #(
 		.NUM_BITS(NUM_BITS)
 	) UUT (
 		.gcode(gcode),
-		.cmd(cmd)
+		.cmd(cmd),
+		.is_valid(is_valid)
 	);
 
 	initial begin
