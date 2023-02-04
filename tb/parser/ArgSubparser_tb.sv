@@ -18,6 +18,7 @@ module ArgSubparser_tb;
 	wire [NUM_BITS-1:0] num;
 	wire [PRECISE_NUM_BITS-1:0] precise_num;
 	wire arg_too_big;
+	wire is_newline;
 
 	SimClock sim_clk (
 		.out(clk)
@@ -57,7 +58,8 @@ module ArgSubparser_tb;
 		.arg_title(arg_title),
 		.num(num),
 		.precise_num(precise_num),
-		.arg_too_big(arg_too_big)
+		.arg_too_big(arg_too_big),
+		.is_newline(is_newline)
 	);
 
 	always_ff @(negedge sub_intf.master.rdy) begin
@@ -69,7 +71,7 @@ module ArgSubparser_tb;
 	end
 
 	always_ff @(posedge sub_intf.master.rd_trigger or posedge sub_intf.slave.rd_done or posedge sub_intf.master.done) begin
-		`FWRITE(("time: %t, char_in: %d, num: %d, precise_num: %d, arg_too_big: %d, success: %d", $time, char_in, num, precise_num, arg_too_big, sub_intf.master.success))
+		`FWRITE(("time: %t, char_in: %d, num: %d, precise_num: %d, arg_too_big: %d, success: %d, is_newline: %d", $time, char_in, num, precise_num, arg_too_big, sub_intf.master.success, is_newline))
 	end
 
 	always_ff @(posedge sub_intf.master.done) begin

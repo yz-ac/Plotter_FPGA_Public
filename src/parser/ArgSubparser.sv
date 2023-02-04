@@ -2,6 +2,22 @@
 
 import Char_PKG::Char_t;
 
+/**
+* Module to parse arguments in a Gcode line.
+*
+* :param NUM_BITS: Field width of parsed number.
+* :param PRECISE_NUM_BITS: Field width of parsed precise number.
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input clk_en: Module enabling clock.
+* :iface sub_intf: Subparser interface.
+* :input char_in: Next character to parse.
+* :input arg_title: Type of argument to look for.
+* :output num: Parsed number.
+* :output precise_num: Parsed precise number.
+* :output arg_too_big: Argument number out of bounds.
+* :output is_newline: Encountered newline while parsing.
+*/
 module ArgSubparser #(
 	parameter NUM_BITS = `BYTE_BITS,
 	parameter PRECISE_NUM_BITS = `WORD_BITS
@@ -16,7 +32,8 @@ module ArgSubparser #(
 
 	output logic [NUM_BITS-1:0] num,
 	output logic [PRECISE_NUM_BITS-1:0] precise_num,
-	output logic arg_too_big
+	output logic arg_too_big,
+	output logic is_newline
 );
 
 	localparam WIDE_NUM_BITS = NUM_BITS * 2;
@@ -26,6 +43,7 @@ module ArgSubparser #(
 	reg [`BYTE_BITS-1:0] _stored_char;
 
 	reg _success;
+	reg _is_newline;
 	reg _arg_too_big;
 	reg _is_negative;
 	wire _zero;
@@ -35,6 +53,7 @@ module ArgSubparser #(
 	wire _set_success;
 	wire _set_too_big;
 	wire _set_negative;
+	wire _set_newline;
 	wire _is_valid;
 	wire [WIDE_NUM_BITS-1:0] _num;
 	wire [PRECISE_NUM_BITS-1:0] _precise_num;
@@ -101,6 +120,7 @@ module ArgSubparser #(
 		.advance_num(_advance_num),
 		.advance_precise_num(_advance_precise_num),
 		.set_negative(_set_negative),
+		.set_newline(_set_newline),
 		.zero(_zero),
 		.store(_store)
 	);
@@ -109,6 +129,7 @@ module ArgSubparser #(
 	assign precise_num = _precise_num;
 	assign arg_too_big = _arg_too_big;
 	assign sub_intf.success = _success;
+	assign is_newline = _is_newline;
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
@@ -116,12 +137,14 @@ module ArgSubparser #(
 			_arg_too_big <= 0;
 			_is_negative <= 0;
 			_stored_char <= char_in;
+			_is_newline <= 0;
 		end
 		else if (clk_en) begin
 			_success <= _success;
 			_arg_too_big <= _arg_too_big;
 			_is_negative <= _is_negative;
 			_stored_char <= _stored_char;
+			_is_newline <= _is_newline;
 
 			if (_store) begin
 				_stored_char <= char_in;
@@ -136,11 +159,15 @@ module ArgSubparser #(
 			if (_set_negative) begin
 				_is_negative <= 1;
 			end
+			if (_set_newline) begin
+				_is_newline <= 1;
+			end
 
 			if (_zero) begin
 				_success <= 0;
 				_arg_too_big <= 0;
 				_is_negative <= 0;
+				_is_newline <= 0;
 			end
 		end
 		else begin
@@ -148,6 +175,7 @@ module ArgSubparser #(
 			_arg_too_big <= _arg_too_big;
 			_is_negative <= _is_negative;
 			_stored_char <= _stored_char;
+			_is_newline <= _is_newline;
 		end
 	end // always_ff
 

@@ -5,6 +5,31 @@ import Char_PKG::CHAR_WHITESPACE;
 import Char_PKG::CHAR_DOT;
 import Char_PKG::CHAR_NEWLINE;
 
+/**
+* FSM for Argument Subparser module.
+*
+* :input clk: System clock.
+* :input reset: Resets the module.
+* :input clk_en: Module enabling clock.
+* :input trigger: Triggers parsing.
+* :input char_type: The type of the char being parsed.
+* :input arg_title: The argument type to look for.
+* :input rd_done: Reader done reading next char.
+* :input rd_rdy: Reader ready to accept triggers.
+* :input is_empty: Are there no more chars to read.
+* :input is_valid: Is parsed number within bounds.
+* :output done: Done parsing.
+* :output rdy: Ready to accept new triggers.
+* :output rd_trigger: Trigger reader to read next char.
+* :output set_success: Set parsing was successful flag.
+* :output set_too_big: Set flag to indicate argument is out of bounds.
+* :output advance_num: Add new digit to parsed number.
+* :output advance_precise_num: Add new digit to precise number.
+* :output set_negative: Set the negative flag.
+* :output set_newline: Set flag to indicate newline was encountered.
+* :output zero: Zero all buffers and flags.
+* :output store: Store next char for parsing.
+*/
 module ArgSubparser_FSM (
 	input logic clk,
 	input logic reset,
@@ -25,6 +50,7 @@ module ArgSubparser_FSM (
 	output logic advance_num,
 	output logic advance_precise_num,
 	output logic set_negative,
+	output logic set_newline,
 	output logic zero,
 	output logic store
 );
@@ -52,6 +78,8 @@ module ArgSubparser_FSM (
 		PRECISE_NUM_WAIT_DONE,
 		PRECISE_NUM_CHECK,
 		PRECISE_NUM_ADVANCE,
+		SET_NEWLINE_AND_FAIL,
+		SET_NEWLINE_AND_SUCCESS,
 		SET_SUCCESS,
 		DONE
 	} ArgSubparser_state;
@@ -71,6 +99,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 1;
 
@@ -89,6 +118,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 1;
 			store = 1;
 
@@ -106,6 +136,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -123,6 +154,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -140,6 +172,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -148,8 +181,7 @@ module ArgSubparser_FSM (
 			end
 
 			if (char_type == CHAR_NEWLINE) begin
-				_nxt_state = DONE;
-				done = 1;
+				_nxt_state = SET_NEWLINE_AND_FAIL;
 			end
 		end
 		SIGN_WAIT_RDY: begin
@@ -162,6 +194,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 1;
 
@@ -179,6 +212,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -196,6 +230,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -213,6 +248,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -232,6 +268,10 @@ module ArgSubparser_FSM (
 				_nxt_state = NUM_CHECK;
 				done = 0;
 			end
+			else if (char_type == CHAR_NEWLINE) begin
+				_nxt_state = SET_NEWLINE_AND_FAIL;
+				done = 0;
+			end
 		end
 		SET_NEGATIVE: begin
 			_nxt_state = NUM_WAIT_RDY;
@@ -243,6 +283,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 1;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 		end
@@ -256,6 +297,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 1;
 
@@ -273,6 +315,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -290,6 +333,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -307,6 +351,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -323,7 +368,7 @@ module ArgSubparser_FSM (
 				done = 0;
 			end
 			else if (char_type == CHAR_NEWLINE) begin
-				_nxt_state = SET_SUCCESS;
+				_nxt_state = SET_NEWLINE_AND_SUCCESS;
 				done = 0;
 			end
 		end
@@ -337,6 +382,7 @@ module ArgSubparser_FSM (
 			advance_num = 1;
 			advance_precise_num = 1;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 		end
@@ -350,6 +396,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -367,6 +414,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 		end
@@ -380,6 +428,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 1;
 
@@ -397,6 +446,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -414,6 +464,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -431,6 +482,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 
@@ -443,7 +495,7 @@ module ArgSubparser_FSM (
 				done = 0;
 			end
 			else if (char_type == CHAR_NEWLINE) begin
-				_nxt_state = SET_SUCCESS;
+				_nxt_state = SET_NEWLINE_AND_SUCCESS;
 				done = 0;
 			end
 		end
@@ -457,6 +509,35 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 1;
 			set_negative = 0;
+			set_newline = 0;
+			zero = 0;
+			store = 0;
+		end
+		SET_NEWLINE_AND_FAIL: begin
+			_nxt_state = DONE;
+			done = 0;
+			rdy = 0;
+			rd_trigger = 0;
+			set_success = 0;
+			set_too_big = 0;
+			advance_num = 0;
+			advance_precise_num = 0;
+			set_negative = 0;
+			set_newline = 1;
+			zero = 0;
+			store = 0;
+		end
+		SET_NEWLINE_AND_SUCCESS: begin
+			_nxt_state = DONE;
+			done = 0;
+			rdy = 0;
+			rd_trigger = 0;
+			set_success = 1;
+			set_too_big = 0;
+			advance_num = 0;
+			advance_precise_num = 0;
+			set_negative = 0;
+			set_newline = 1;
 			zero = 0;
 			store = 0;
 		end
@@ -470,6 +551,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 		end
@@ -483,6 +565,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 		end
@@ -496,6 +579,7 @@ module ArgSubparser_FSM (
 			advance_num = 0;
 			advance_precise_num = 0;
 			set_negative = 0;
+			set_newline = 0;
 			zero = 0;
 			store = 0;
 		end
