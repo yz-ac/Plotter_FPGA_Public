@@ -273,6 +273,16 @@ module CmdSubparser_FSM (
 			store = 0;
 		end
 		endcase
+		default: begin
+			_nxt_state = IDLE;
+			done = 1;
+			rdy = 1;
+			rd_trigger = 0;
+			set_success = 0;
+			advance_num = 0;
+			zero = 0;
+			store = 0;
+		end
 	end // always_comb
 
 	always_ff @(posedge clk) begin

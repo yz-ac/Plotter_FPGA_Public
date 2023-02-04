@@ -486,6 +486,19 @@ module ArgSubparser_FSM (
 			zero = 0;
 			store = 0;
 		end
+		default: begin
+			_nxt_state = IDLE;
+			done = 1;
+			rdy = 1;
+			rd_trigger = 0;
+			set_success = 0;
+			set_too_big = 0;
+			advance_num = 0;
+			advance_precise_num = 0;
+			set_negative = 0;
+			zero = 0;
+			store = 0;
+		end
 		endcase
 	end // always_comb
 
