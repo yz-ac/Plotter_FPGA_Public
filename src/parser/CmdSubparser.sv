@@ -19,7 +19,8 @@ module CmdSubparser (
 	Subparser_IF sub_intf,
 	input logic [`BYTE_BITS-1:0] char_in,
 
-	output [`OP_CMD_BITS-1:0] cmd
+	output logic [`OP_CMD_BITS-1:0] cmd,
+	output logic is_newline
 );
 
 	localparam CMD_BITS = `OP_CMD_BITS;
@@ -29,10 +30,12 @@ module CmdSubparser (
 	reg [`BYTE_BITS-1:0] _stored_char;
 
 	reg _success;
+	reg _is_newline;
 	wire _zero;
 	wire _store;
 	wire _advance_num;
 	wire _set_success;
+	wire _set_newline;
 	wire [CMD_BITS-1:0] _num;
 	wire _is_valid;
 
@@ -81,20 +84,24 @@ module CmdSubparser (
 		.rdy(sub_intf.rdy),
 		.rd_trigger(sub_intf.rd_trigger),
 		.set_success(_set_success),
+		.set_newline(_set_newline),
 		.advance_num(_advance_num),
 		.zero(_zero),
 		.store(_store)
 	);
 
 	assign sub_intf.success = _success;
+	assign is_newline = _is_newline;
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
 			_success <= 0;
+			_is_newline <= 0;
 			_stored_char <= char_in;
 		end
 		else if (clk_en) begin
 			_success <= _success;
+			_is_newline <= _is_newline;
 			_stored_char <= _stored_char;
 
 			if (_store) begin
@@ -105,12 +112,18 @@ module CmdSubparser (
 				_success <= 1;
 			end
 
+			if (_set_newline) begin
+				_is_newline <= 1;
+			end
+
 			if (_zero) begin
 				_success <= 0;
+				_is_newline <= 0;
 			end
 		end
 		else begin
 			_success <= _success;
+			_is_newline <= _is_newline;
 			_stored_char <= _stored_char;
 		end
 	end // always_ff

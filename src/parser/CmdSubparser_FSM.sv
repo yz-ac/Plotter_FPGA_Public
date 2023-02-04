@@ -1,6 +1,7 @@
 import Char_PKG::Char_t;
 import Char_PKG::CHAR_G;
 import Char_PKG::CHAR_NUM;
+import Char_PKG::CHAR_NEWLINE;
 
 /**
 * FSM for CmdSubparser.
@@ -18,6 +19,7 @@ import Char_PKG::CHAR_NUM;
 * :output rdy: Ready to accept triggers.
 * :output rd_trigger: Trigger character read.
 * :output set_success: Set success flag for parsing.
+* :output set_newline: Set newline encountered flag.
 * :output advance_num: Update number buffer with new digit.
 * :output zero: Zero all buffers and reset success state.
 * :output store: Store last char.
@@ -37,6 +39,7 @@ module CmdSubparser_FSM (
 	output logic rdy,
 	output logic rd_trigger,
 	output logic set_success,
+	output logic set_newline,
 	output logic advance_num,
 	output logic zero,
 	output logic store
@@ -57,6 +60,7 @@ module CmdSubparser_FSM (
 		NUM_ADVANCE_2,
 		NUM_CHECK,
 		SET_SUCCESS,
+		SET_NEWLINE,
 		DONE
 	} CmdSubparser_state;
 
@@ -71,6 +75,7 @@ module CmdSubparser_FSM (
 			rdy = 1;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 1;
@@ -86,6 +91,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 1;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 1;
 			store = 0;
@@ -100,6 +106,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
@@ -114,11 +121,15 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
 
-			if (char_type != CHAR_G) begin
+			if (char_type == CHAR_NEWLINE) begin
+				_nxt_state = SET_NEWLINE;
+			end
+			else if (char_type != CHAR_G) begin
 				_nxt_state = DONE;
 				done = 1;
 			end
@@ -129,6 +140,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 1;
@@ -143,6 +155,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 1;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
@@ -157,6 +170,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
@@ -171,11 +185,15 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 1;
 			zero = 0;
 			store = 0;
 
-			if (char_type != CHAR_NUM) begin
+			if (char_type == CHAR_NEWLINE) begin
+				_nxt_state = SET_NEWLINE;
+			end
+			else if (char_type != CHAR_NUM) begin
 				_nxt_state = DONE;
 				done = 1;
 			end
@@ -186,6 +204,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 1;
@@ -200,6 +219,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 1;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
@@ -214,6 +234,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
@@ -228,11 +249,15 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 1;
 			zero = 0;
 			store = 0;
 
-			if (char_type != CHAR_NUM) begin
+			if (char_type == CHAR_NEWLINE) begin
+				_nxt_state = SET_NEWLINE;
+			end
+			else if (char_type != CHAR_NUM) begin
 				_nxt_state = DONE;
 				done = 1;
 			end
@@ -243,6 +268,7 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
@@ -258,6 +284,18 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 1;
+			set_newline = 0;
+			advance_num = 0;
+			zero = 0;
+			store = 0;
+		end
+		SET_NEWLINE: begin
+			_nxt_state = DONE;
+			done = 0;
+			rdy = 0;
+			rd_trigger = 0;
+			set_success = 0;
+			set_newline = 1;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
@@ -268,11 +306,11 @@ module CmdSubparser_FSM (
 			rdy = 0;
 			rd_trigger = 0;
 			set_success = 0;
+			set_newline = 0;
 			advance_num = 0;
 			zero = 0;
 			store = 0;
 		end
-		endcase
 		default: begin
 			_nxt_state = IDLE;
 			done = 1;
@@ -283,6 +321,7 @@ module CmdSubparser_FSM (
 			zero = 0;
 			store = 0;
 		end
+		endcase
 	end // always_comb
 
 	always_ff @(posedge clk) begin
