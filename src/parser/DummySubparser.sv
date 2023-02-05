@@ -20,7 +20,6 @@ module DummySubparser (
 	input logic clk_en,
 	input logic [`OP_CMD_BITS-1:0] cmd,
 	Subparser_IF sub_intf,
-	PositionState_IF pos_intf,
 	PositionUpdate_IF update_intf,
 	output Op_st op
 );

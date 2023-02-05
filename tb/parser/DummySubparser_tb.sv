@@ -31,7 +31,7 @@ module DummySubparser_tb;
 		.reset(reset),
 		.clk_en(1),
 		.op(op),
-		.update_intf(update_intf.master),
+		.update_intf(update_intf.slave),
 		.state_intf(pos_intf.master)
 	);
 
@@ -41,8 +41,7 @@ module DummySubparser_tb;
 		.clk_en(1),
 		.cmd(cmd),
 		.sub_intf(sub_intf.slave),
-		.pos_intf(pos_intf.slave),
-		.update_intf(update_intf.slave),
+		.update_intf(update_intf.master),
 		.op(op)
 	);
 

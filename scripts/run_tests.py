@@ -49,7 +49,8 @@ PARSER_TESTS = [
 		"GcodeToCmd_tb",
 		"CmdSubparser_tb",
 		"ArgSubparser_tb",
-		"DummySubparser_tb"
+		"DummySubparser_tb",
+		"LinearSubparser_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS

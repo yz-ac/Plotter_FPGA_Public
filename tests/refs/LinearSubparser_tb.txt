@@ -1,0 +1,8 @@
+time:                    0, cmd:   0, x:    0, y:    0, arg_3:    0, arg_4:    0, flags:   0, cur_x:        x, cur_y:        x, success: x, newline: x
+time:                21200, cmd:   1, x:    1, y:    1, arg_3:    0, arg_4:    0, flags:   0, cur_x:       11, cur_y:       11, success: 1, newline: 0
+time:                27200, cmd:   1, x:    0, y:    0, arg_3:    0, arg_4:    0, flags:   0, cur_x:       11, cur_y:       11, success: 0, newline: 1
+time:                35200, cmd:   1, x:    0, y:    0, arg_3:    0, arg_4:    0, flags:   0, cur_x:       11, cur_y:       11, success: 0, newline: 1
+time:                48000, cmd:   1, x:    0, y:    0, arg_3:    0, arg_4:    0, flags:   0, cur_x:       11, cur_y:       11, success: 0, newline: 1
+time:                67200, cmd:   1, x:    2, y:    4, arg_3:    0, arg_4:    0, flags:   0, cur_x:       25, cur_y:       46, success: 1, newline: 0
+time:                88600, cmd:   1, x:    3, y:    6, arg_3:    0, arg_4:    0, flags:   0, cur_x:       34, cur_y:       67, success: 1, newline: 1
+time:               109800, cmd:   1, x:    1, y:    2, arg_3:    0, arg_4:    0, flags:   0, cur_x:       12, cur_y:       23, success: 1, newline: 0
