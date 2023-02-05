@@ -9,7 +9,6 @@ module CmdSubparser_tb;
 	Subparser_IF sub_intf ();
 	wire [`BYTE_BITS-1:0] char_in;
 	wire [`OP_CMD_BITS-1:0] cmd;
-	wire is_newline;
 
 	SimClock sim_clk (
 		.out(clk)
@@ -42,8 +41,7 @@ module CmdSubparser_tb;
 		.clk_en(1),
 		.sub_intf(sub_intf.slave),
 		.char_in(char_in),
-		.cmd(cmd),
-		.is_newline(is_newline)
+		.cmd(cmd)
 	);
 
 	always_ff @(negedge sub_intf.master.rdy) begin
@@ -55,7 +53,7 @@ module CmdSubparser_tb;
 	end
 
 	always_ff @(posedge sub_intf.master.rd_trigger or posedge sub_intf.slave.rd_done) begin
-		`FWRITE(("time: %t, char_in: %d, cmd: %d, success: %d, is_newline: %d", $time, char_in, cmd, sub_intf.master.success, is_newline))
+		`FWRITE(("time: %t, char_in: %d, cmd: %d, success: %d, is_newline: %d", $time, char_in, cmd, sub_intf.master.success, sub_intf.master.newline))
 	end
 
 	always_ff @(posedge sub_intf.master.done) begin

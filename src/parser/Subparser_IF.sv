@@ -9,6 +9,7 @@
 * :port rd_rdy: Reader ready to accept triggers.
 * :port is_empty: No more data can be read.
 * :port success: Is parsing successful.
+* :port newline: Encountered newline while parsing.
 */
 interface Subparser_IF ();
 
@@ -20,6 +21,7 @@ interface Subparser_IF ();
 	logic rd_rdy;
 	logic is_empty;
 	logic success;
+	logic newline;
 
 	modport master (
 		output trigger,
@@ -29,7 +31,8 @@ interface Subparser_IF ();
 		output rd_done,
 		output rd_rdy,
 		output is_empty,
-		input success
+		input success,
+		input newline
 	);
 
 	modport slave (
@@ -40,7 +43,8 @@ interface Subparser_IF ();
 		input rd_done,
 		input rd_rdy,
 		input is_empty,
-		output success
+		output success,
+		output newline
 	);
 
 endinterface : Subparser_IF

@@ -19,8 +19,7 @@ module CmdSubparser (
 	Subparser_IF sub_intf,
 	input logic [`BYTE_BITS-1:0] char_in,
 
-	output logic [`OP_CMD_BITS-1:0] cmd,
-	output logic is_newline
+	output logic [`OP_CMD_BITS-1:0] cmd
 );
 
 	localparam CMD_BITS = `OP_CMD_BITS;
@@ -91,7 +90,7 @@ module CmdSubparser (
 	);
 
 	assign sub_intf.success = _success;
-	assign is_newline = _is_newline;
+	assign sub_intf.newline = _is_newline;
 
 	always_ff @(posedge clk) begin
 		if (reset) begin

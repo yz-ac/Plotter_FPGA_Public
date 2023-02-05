@@ -16,7 +16,6 @@ import Char_PKG::Char_t;
 * :output num: Parsed number.
 * :output precise_num: Parsed precise number.
 * :output arg_too_big: Argument number out of bounds.
-* :output is_newline: Encountered newline while parsing.
 */
 module ArgSubparser #(
 	parameter NUM_BITS = `BYTE_BITS,
@@ -32,8 +31,7 @@ module ArgSubparser #(
 
 	output logic [NUM_BITS-1:0] num,
 	output logic [PRECISE_NUM_BITS-1:0] precise_num,
-	output logic arg_too_big,
-	output logic is_newline
+	output logic arg_too_big
 );
 
 	localparam WIDE_NUM_BITS = NUM_BITS * 2;
@@ -129,7 +127,7 @@ module ArgSubparser #(
 	assign precise_num = _precise_num;
 	assign arg_too_big = _arg_too_big;
 	assign sub_intf.success = _success;
-	assign is_newline = _is_newline;
+	assign sub_intf.newline = _is_newline;
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
