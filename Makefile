@@ -93,6 +93,7 @@ VFILES += $(PARSER_DIR)/LinearSubparser_FSM.sv
 VFILES += $(PARSER_DIR)/LinearSubparser.sv
 VFILES += $(PARSER_DIR)/CircularSubparser_FSM.sv
 VFILES += $(PARSER_DIR)/CircularSubparser.sv
+VFILES += $(PARSER_DIR)/SubparserInputChooser.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -139,6 +140,7 @@ TB_FILES += $(PARSER_DIR)/ArgSubparser_tb.sv
 TB_FILES += $(PARSER_DIR)/DummySubparser_tb.sv
 TB_FILES += $(PARSER_DIR)/LinearSubparser_tb.sv
 TB_FILES += $(PARSER_DIR)/CircularSubparser_tb.sv
+TB_FILES += $(PARSER_DIR)/SubparserInputChooser_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
