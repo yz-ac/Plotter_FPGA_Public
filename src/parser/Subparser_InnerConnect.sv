@@ -1,5 +1,5 @@
 /**
-* Internal connections of LinearSubparser module.
+* Internal connections for parsers controlling other subparsers.
 *
 * :input arg_parser_trigger: Trigger to argument subparser.
 * :input arg_parser_rd_done: Reader done signal to argument subparser.
@@ -12,7 +12,7 @@
 * :output arg_parser_success: Argument subparser succeeded parsing.
 * :output arg_parser_newline: Argument subparser encountered newline while parsing.
 */
-module LinearSubparser_InnerConnect (
+module Subparser_InnerConnect (
 	input logic arg_parser_trigger,
 	input logic arg_parser_rd_done,
 	input logic arg_parser_rd_rdy,
@@ -37,4 +37,4 @@ module LinearSubparser_InnerConnect (
 	assign arg_parser_success = arg_intf.success;
 	assign arg_parser_newline = arg_intf.newline;
 
-endmodule : LinearSubparser_InnerConnect
+endmodule : Subparser_InnerConnect

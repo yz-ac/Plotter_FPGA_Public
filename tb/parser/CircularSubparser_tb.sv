@@ -2,9 +2,9 @@
 `include "common/common.svh"
 
 import Op_PKG::Op_st;
-import Op_PKG::OP_CMD_G01;
+import Op_PKG::OP_CMD_G03;
 
-module LinearSubparser_tb;
+module CircularSubparser_tb;
 	int fd;
 
 	wire clk;
@@ -35,12 +35,12 @@ module LinearSubparser_tb;
 		.state_intf(pos_intf.master)
 	);
 
-	// data = G01 X 1.1 Y 1.1 F 0\nG01 X\nG01 X 3.4\nG01 X2.5 Y4.6 G01 X 3.4 Y 6.7\nG01 X 1.2 Y 2.3 F 0.2\n
+	// data = G03 X 0.0 Y 10.2 I 0.0 J 5.1\nG03 X 20000.0 Y 0.0 I 11.2 J 32.3\nG03 X10.2 Y0.0 I5.1 J0.0\nG03 X 7.5 Y 12.5 I -5.1 J 0.0\nG03 X 12.0 Y 10.0 I 8192.3 J 2.3\n
 	FifoBuffer #(
-		.ROWS(88),
+		.ROWS(151),
 		.COLS(`BYTE_BITS),
-		.INIT_FILE("data/linear_subparser_tb.mem"),
-		.PRELOADED_ROWS(88)
+		.INIT_FILE("data/circular_subparser_tb.mem"),
+		.PRELOADED_ROWS(151)
 	) fifo_buf (
 		.clk(clk),
 		.reset(reset),
@@ -57,7 +57,7 @@ module LinearSubparser_tb;
 		.wr_rdy()
 	);
 
-	LinearSubparser UUT (
+	CircularSubparser UUT (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(1),
@@ -82,7 +82,7 @@ module LinearSubparser_tb;
 	end
 
 	always_ff @(posedge sub_intf.master.done) begin
-		`FWRITE(("time: %t, cmd: %d, x: %d, y: %d, arg_3: %d, arg_4: %d, flags: %d, cur_x: %d, cur_y: %d, success: %d, newline: %d", $time, op.cmd, op.arg_1, op.arg_2, op.arg_3, op.arg_4, op.flags, pos_intf.slave.cur_x, pos_intf.slave.cur_y, sub_intf.master.success, sub_intf.master.newline))
+		`FWRITE(("time: %t, cmd: %d, x: %d, y: %d, i: %d, j: %d, flags: %d, cur_x: %d, cur_y: %d, success: %d, newline: %d", $time, op.cmd, op.arg_1, op.arg_2, op.arg_3, op.arg_4, op.flags, pos_intf.slave.cur_x, pos_intf.slave.cur_y, sub_intf.master.success, sub_intf.master.newline))
 	end
 
 	always_ff @(posedge sub_intf.master.done) begin
@@ -93,9 +93,9 @@ module LinearSubparser_tb;
 	end
 
 	initial begin
-		`FOPEN("tests/tests/LinearSubparser_tb.txt")
+		`FOPEN("tests/tests/CircularSubparser_tb.txt")
 
-		cmd = OP_CMD_G01;
+		cmd = OP_CMD_G03;
 		reset = 1;
 		#(`CLOCK_PERIOD * 2);
 
@@ -103,4 +103,4 @@ module LinearSubparser_tb;
 
 	end // initial
 
-endmodule : LinearSubparser_tb
+endmodule : CircularSubparser_tb

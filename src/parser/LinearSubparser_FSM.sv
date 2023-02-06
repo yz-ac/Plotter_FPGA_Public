@@ -14,6 +14,7 @@ import Char_PKG::CHAR_UNKNOWN;
 * :input arg_parser_rdy: Argument subparser ready to accept triggers.
 * :input arg_parser_success: Argument subparser parsed successfully.
 * :input arg_parser_newline: Argument subparser encountered newline while parsing.
+* :input arg_too_big: Argument number is to big to fit in field.
 * :output zero: Zero all buffers and flags.
 * :output set_cmd: Set 'cmd' field of opcode.
 * :output arg_title: Argument type to look for.
@@ -35,6 +36,7 @@ module LinearSubparser_FSM (
 	input logic arg_parser_rdy,
 	input logic arg_parser_success,
 	input logic arg_parser_newline,
+	input logic arg_too_big,
 
 	output logic zero,
 	output logic set_cmd,
@@ -190,7 +192,7 @@ module LinearSubparser_FSM (
 			done = 0;
 			rdy = 0;
 
-			if (arg_parser_success & !arg_parser_newline) begin
+			if (arg_parser_success & !arg_parser_newline & !arg_too_big) begin
 				_nxt_state = SET_X;
 			end
 			else if (arg_parser_newline) begin
@@ -279,10 +281,10 @@ module LinearSubparser_FSM (
 			done = 0;
 			rdy = 0;
 
-			if (arg_parser_success & arg_parser_newline) begin
+			if (arg_parser_success & arg_parser_newline & !arg_too_big) begin
 				_nxt_state = SET_NEWLINE_AND_CONTINUE;
 			end
-			else if (arg_parser_success) begin
+			else if (arg_parser_success & !arg_too_big) begin
 				_nxt_state = SET_Y;
 			end
 			else if (arg_parser_newline) begin

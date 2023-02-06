@@ -72,6 +72,7 @@ module ArgSubparser_FSM (
 		NUM_CHECK,
 		NUM_ADVANCE,
 		NUM_IS_VALID,
+		ZERO_BEFORE_TOO_BIG,
 		SET_TOO_BIG,
 		PRECISE_NUM_WAIT_RDY,
 		PRECISE_NUM_TRIGGER,
@@ -401,8 +402,22 @@ module ArgSubparser_FSM (
 			store = 0;
 
 			if (!is_valid) begin
-				_nxt_state = SET_TOO_BIG;
+				_nxt_state = ZERO_BEFORE_TOO_BIG;
 			end
+		end
+		ZERO_BEFORE_TOO_BIG: begin
+			_nxt_state = SET_TOO_BIG;
+			done = 0;
+			rdy = 0;
+			rd_trigger = 0;
+			set_success = 0;
+			set_too_big = 0;
+			advance_num = 0;
+			advance_precise_num = 0;
+			set_negative = 0;
+			set_newline = 0;
+			zero = 1;
+			store = 0;
 		end
 		SET_TOO_BIG: begin
 			_nxt_state = SET_SUCCESS;

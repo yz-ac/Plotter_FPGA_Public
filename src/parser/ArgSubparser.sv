@@ -15,7 +15,7 @@ import Char_PKG::Char_t;
 * :input arg_title: Type of argument to look for.
 * :output num: Parsed number.
 * :output precise_num: Parsed precise number.
-* :output arg_too_big: Argument number out of bounds.
+* :output arg_too_big: Argument number out of bounds (in which case both 'num' and 'precise_num' are zero).
 */
 module ArgSubparser #(
 	parameter NUM_BITS = `BYTE_BITS,

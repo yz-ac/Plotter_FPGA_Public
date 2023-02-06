@@ -4,7 +4,7 @@ import Op_PKG::Op_st;
 import Char_PKG::Char_t;
 
 /**
-* Module for parsing linear Gcode commands.
+* Module for parsing circular Gcode commands.
 *
 * :input clk: System clock.
 * :input reset: Resets the module.
@@ -16,7 +16,7 @@ import Char_PKG::Char_t;
 * :iface update_intf: Interface for updating precise position.
 * :output op: The resulting opcode.
 */
-module LinearSubparser (
+module CircularSubparser (
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
@@ -33,17 +33,23 @@ module LinearSubparser (
 
 	reg [update_intf.POS_X_BITS-1:0] _precise_x;
 	reg [update_intf.POS_Y_BITS-1:0] _precise_y;
+	reg [update_intf.POS_X_BITS-1:0] _precise_i;
+	reg [update_intf.POS_Y_BITS-1:0] _precise_j;
 	reg _success;
 	reg _newline;
 
 	wire [NUM_BITS-1:0] _num;
 	wire [PRECISE_NUM_BITS-1:0] _precise_num;
+	wire [`OP_FLAGS_BITS-1:0] _flags;
 
 	wire _zero;
 	wire _set_cmd;
 	Char_t _arg_title;
 	wire _set_x;
 	wire _set_y;
+	wire _set_i;
+	wire _set_j;
+	wire _set_flags;
 	wire _set_success;
 	wire _set_newline;
 
@@ -62,13 +68,13 @@ module LinearSubparser (
 		.zero(_zero),
 		.cmd(cmd),
 		.arg(_num),
-		.flags(0),
+		.flags(_flags),
 		.set_cmd(_set_cmd),
 		.set_arg_1(_set_x),
 		.set_arg_2(_set_y),
-		.set_arg_3(0),
-		.set_arg_4(0),
-		.set_flags(0),
+		.set_arg_3(_set_i),
+		.set_arg_4(_set_j),
+		.set_flags(_set_flags),
 		.op(op)
 	);
 
@@ -87,7 +93,16 @@ module LinearSubparser (
 		.arg_too_big(_arg_too_big)
 	);
 
-	LinearSubparser_FSM _fsm (
+	CircularFlagsBuilder _flags_builder (
+		.pos_intf(pos_intf),
+		.x(_precise_x),
+		.y(_precise_y),
+		.i(_precise_i),
+		.j(_precise_j),
+		.flags(_flags)
+	);
+
+	CircularSubparser_FSM _fsm (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en),
@@ -103,6 +118,9 @@ module LinearSubparser (
 		.arg_parser_trigger(_arg_parser_trigger),
 		.set_x(_set_x),
 		.set_y(_set_y),
+		.set_i(_set_i),
+		.set_j(_set_j),
+		.set_flags(_set_flags),
 		.update_pos(update_intf.update),
 		.set_success(_set_success),
 		.set_newline(_set_newline),
@@ -132,12 +150,16 @@ module LinearSubparser (
 		if (reset) begin
 			_precise_x <= 0;
 			_precise_y <= 0;
+			_precise_i <= 0;
+			_precise_j <= 0;
 			_success <= 0;
 			_newline <= 0;
 		end
 		else if (clk_en) begin
 			_precise_x <= _precise_x;
 			_precise_y <= _precise_y;
+			_precise_i <= _precise_i;
+			_precise_j <= _precise_j;
 			_success <= _success;
 			_newline <= _newline;
 
@@ -146,6 +168,12 @@ module LinearSubparser (
 			end
 			if (_set_y) begin
 				_precise_y <= _precise_num[update_intf.POS_Y_BITS-1:0];
+			end
+			if (_set_i) begin
+				_precise_i <= _precise_num[update_intf.POS_X_BITS-1:0];
+			end
+			if (_set_j) begin
+				_precise_j <= _precise_num[update_intf.POS_Y_BITS-1:0];
 			end
 			if (_set_success) begin
 				_success <= 1;
@@ -157,6 +185,8 @@ module LinearSubparser (
 			if (_zero) begin
 				_precise_x <= 0;
 				_precise_y <= 0;
+				_precise_i <= 0;
+				_precise_j <= 0;
 				_success <= 0;
 				_newline <= 0;
 			end
@@ -164,9 +194,11 @@ module LinearSubparser (
 		else begin
 			_precise_x <= _precise_x;
 			_precise_y <= _precise_y;
+			_precise_i <= _precise_i;
+			_precise_j <= _precise_j;
 			_success <= _success;
 			_newline <= _newline;
 		end
 	end // always_ff
 
-endmodule : LinearSubparser
+endmodule : CircularSubparser
