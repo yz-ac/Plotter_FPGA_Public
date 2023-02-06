@@ -110,17 +110,17 @@ module LinearSubparser (
 		.rdy(sub_intf.rdy)
 	);
 
-	Subparser_InnerConnect _inner_connect (
-		.arg_parser_trigger(_arg_parser_trigger),
-		.arg_parser_rd_done(sub_intf.rd_done),
-		.arg_parser_rd_rdy(sub_intf.rd_rdy),
-		.arg_parser_is_empty(sub_intf.is_empty),
-		.arg_intf(_arg_parser_intf.master),
-		.arg_parser_done(_arg_parser_done),
-		.arg_parser_rdy(_arg_parser_rdy),
-		.arg_parser_rd_trigger(sub_intf.rd_trigger),
-		.arg_parser_success(_arg_parser_success),
-		.arg_parser_newline(_arg_parser_newline)
+	SubparserConnector _subparser_connector (
+		.subparser_trigger(_arg_parser_trigger),
+		.subparser_rd_done(sub_intf.rd_done),
+		.subparser_rd_rdy(sub_intf.rd_rdy),
+		.subparser_is_empty(sub_intf.is_empty),
+		.sub_intf(_arg_parser_intf.master),
+		.subparser_done(_arg_parser_done),
+		.subparser_rdy(_arg_parser_rdy),
+		.subparser_rd_trigger(sub_intf.rd_trigger),
+		.subparser_success(_arg_parser_success),
+		.subparser_newline(_arg_parser_newline)
 	);
 
 	assign update_intf.new_x = (pos_intf.is_absolute) ? (_precise_x) : (pos_intf.cur_x + _precise_x);

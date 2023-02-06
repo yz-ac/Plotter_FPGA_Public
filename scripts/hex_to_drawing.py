@@ -28,7 +28,10 @@ class App(tk.Tk):
 		self._pos.y = y
 
 	def parse_line(self, line):
-		op = int(line, 16)
+		try:
+			op = int(line, 16)
+		except ValueError:
+			return
 		cmd = (op >> 56) & 0xff
 		arg_1 = (op >> 44) & 0xfff
 		arg_2 = (op >> 32) & 0xfff

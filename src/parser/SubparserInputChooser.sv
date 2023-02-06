@@ -34,6 +34,7 @@ module SubparserInputChooser (
 				in.rdy = out.rdy; \
 				in.rd_trigger = out.rd_trigger; \
 				out.rd_done = in.rd_done; \
+				out.rd_rdy = in.rd_rdy; \
 				out.is_empty = in.is_empty; \
 				in.success = out.success; \
 				in.newline = out.newline
