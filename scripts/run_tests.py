@@ -52,7 +52,8 @@ PARSER_TESTS = [
 		"DummySubparser_tb",
 		"LinearSubparser_tb",
 		"CircularSubparser_tb",
-		"SubparserInputChooser_tb"
+		"SubparserInputChooser_tb",
+		"SubparserOutputChooser_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS

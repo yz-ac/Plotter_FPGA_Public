@@ -1,0 +1,6 @@
+time:                  400, cmd:   0, new_x:    1, new_y:    1, op.cmd:   0
+time:                  800, cmd:   2, new_x:    2, new_y:    2, op.cmd:   2
+time:                 1200, cmd:   4, new_x:    3, new_y:    3, op.cmd:   4
+time:                 1600, cmd:   1, new_x:    1, new_y:    1, op.cmd:   0
+time:                 2000, cmd:   3, new_x:    2, new_y:    2, op.cmd:   2
+time:                 2400, cmd:   5, new_x:    3, new_y:    3, op.cmd:   4
