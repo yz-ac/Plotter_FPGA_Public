@@ -17,6 +17,7 @@ PARSER_DIR =parser
 PROC_DIR =processor
 MOTORS_DIR =motors
 BRAM_DIR =bram
+VGA_DIR =vga
 
 VINCLUDE :=+incdir+$(IDIR) +incdir+.
 VFLAGS :=-O0 +acc=npr -sv -sv12compat -s $(VINCLUDE)
@@ -98,6 +99,7 @@ VFILES += $(PARSER_DIR)/SubparserOutputChooser.sv
 VFILES += $(PARSER_DIR)/ParserTop_Innerconnect.sv
 VFILES += $(PARSER_DIR)/ParserTop_FSM.sv
 VFILES += $(PARSER_DIR)/ParserTop.sv
+VFILES += $(VGA_DIR)/VgaController.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -147,6 +149,7 @@ TB_FILES += $(PARSER_DIR)/CircularSubparser_tb.sv
 TB_FILES += $(PARSER_DIR)/SubparserInputChooser_tb.sv
 TB_FILES += $(PARSER_DIR)/SubparserOutputChooser_tb.sv
 TB_FILES += $(PARSER_DIR)/ParserTop_tb.sv
+TB_FILES += $(VGA_DIR)/VgaController_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
