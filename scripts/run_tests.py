@@ -58,7 +58,8 @@ PARSER_TESTS = [
 		]
 
 VGA_TESTS = [
-		"VgaController_tb"
+		"VgaController_tb",
+		"ByteToRgb_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS + VGA_TESTS
