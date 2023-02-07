@@ -1,0 +1,6 @@
+time:                  400, byte_out:   0
+time:                  800, byte_out:   0
+time:                 1200, byte_out:  51
+time:                 1600, byte_out:   0
+time:                 2000, byte_out:  51
+time:                 2400, byte_out:  51

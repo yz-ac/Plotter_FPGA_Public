@@ -18,4 +18,7 @@
 `define VGA_V_BITS (10)
 `define VGA_VS_POLARITY (1) // Active low
 
+`define VGA_ROWS (`VGA_V_ACTIVE)
+`define VGA_COLS (`VGA_H_ACTIVE)
+
 `endif // __VGA_640_480_60_SVH__
