@@ -15,7 +15,12 @@
 * :output n_en_x: Enable signal for X driver (active low) to prevent idle current.
 * :output out_servo: PWM output to servo.
 */
-module MotorsCtrl (
+module MotorsCtrl #(
+	parameter STEPPER_PULSE_NUM_X_FACTOR = `STEPPER_PULSE_NUM_X_FACTOR,
+	parameter STEPPER_PULSE_NUM_Y_FACTOR = `STEPPER_PULSE_NUM_Y_FACTOR
+
+)
+(
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
@@ -55,7 +60,10 @@ module MotorsCtrl (
 
 	ServoCtrl_IF _intf_servo ();
 
-	PulseNumMultiplier _pulse_mult (
+	PulseNumMultiplier #(
+		.STEPPER_PULSE_NUM_X_FACTOR(STEPPER_PULSE_NUM_X_FACTOR),
+		.STEPPER_PULSE_NUM_Y_FACTOR(STEPPER_PULSE_NUM_Y_FACTOR)
+	) _pulse_mult (
 		.intf_in(intf),
 		.intf_out(_large_motors_intf.master)
 	);
