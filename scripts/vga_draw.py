@@ -52,7 +52,7 @@ def main(path):
 USAGE = """
 python {0} <vga_signals_file>
 	
-	vga_signals_file - File with VGA simulation signals of the form "R:G:B"
+	vga_signals_file - File with VGA simulation signals in a png form (RGB as byte triplets)
 """
 
 if __name__ == "__main__":
