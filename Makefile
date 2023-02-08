@@ -102,6 +102,8 @@ VFILES += $(PARSER_DIR)/ParserTop.sv
 VFILES += $(VGA_DIR)/VgaController.sv
 VFILES += $(VGA_DIR)/ByteToRgb.sv
 VFILES += $(VGA_DIR)/VgaBuffer.sv
+VFILES += $(VGA_DIR)/MotorSignalsToVga_InnerLogic.sv
+VFILES += $(VGA_DIR)/MotorSignalsToVga.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -154,6 +156,7 @@ TB_FILES += $(PARSER_DIR)/ParserTop_tb.sv
 TB_FILES += $(VGA_DIR)/VgaController_tb.sv
 TB_FILES += $(VGA_DIR)/ByteToRgb_tb.sv
 TB_FILES += $(VGA_DIR)/VgaBuffer_tb.sv
+TB_FILES += $(VGA_DIR)/MotorSignalsToVga_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
