@@ -18,6 +18,7 @@ PROC_DIR =processor
 MOTORS_DIR =motors
 BRAM_DIR =bram
 VGA_DIR =vga
+UART_DIR =uart
 
 VINCLUDE :=+incdir+$(IDIR) +incdir+.
 VFLAGS :=-O0 +acc=npr -sv -sv12compat -s $(VINCLUDE)
@@ -104,6 +105,8 @@ VFILES += $(VGA_DIR)/ByteToRgb.sv
 VFILES += $(VGA_DIR)/VgaBuffer.sv
 VFILES += $(VGA_DIR)/MotorSignalsToVga_InnerLogic.sv
 VFILES += $(VGA_DIR)/MotorSignalsToVga.sv
+VFILES += $(UART_DIR)/UartRxController_FSM.sv
+VFILES += $(UART_DIR)/UartRxController.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -157,6 +160,7 @@ TB_FILES += $(VGA_DIR)/VgaController_tb.sv
 TB_FILES += $(VGA_DIR)/ByteToRgb_tb.sv
 TB_FILES += $(VGA_DIR)/VgaBuffer_tb.sv
 TB_FILES += $(VGA_DIR)/MotorSignalsToVga_tb.sv
+TB_FILES += $(UART_DIR)/UartRxController_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
