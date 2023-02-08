@@ -10,7 +10,9 @@ COMMON_TESTS = [
 		"Pwm_tb",
 		"TriggeredTimer_tb",
 		"PositionKeeper_tb",
-		"QuadrantFinder_tb"
+		"QuadrantFinder_tb",
+		"OpToBits_tb",
+		"BitsToOp_tb"
 		]
 
 BRAM_TESTS = [

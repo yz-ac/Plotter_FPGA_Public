@@ -1,0 +1,2 @@
+time:                  400, cmd:   0, arg_1:    1, arg_2:    2, arg_3:    0, arg_4:    0, flags:   0, op_bits:       17600775979008
+time:                  800, cmd:   2, arg_1:    3, arg_2:    4, arg_3:    5, arg_4:    6, flags:   1, op_bits:   144167981819102721
