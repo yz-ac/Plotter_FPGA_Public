@@ -114,6 +114,7 @@ VFILES += $(UART_DIR)/UartToFifoBuf_FSM.sv
 VFILES += $(UART_DIR)/UartToFifoBuf.sv
 VFILES += $(PLOTTER_DIR)/PlotterTop_InnerConnect.sv
 VFILES += $(PLOTTER_DIR)/PlotterTop.sv
+VFILES += Top.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
