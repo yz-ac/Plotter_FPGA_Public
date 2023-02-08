@@ -65,7 +65,8 @@ VGA_TESTS = [
 		]
 
 UART_TESTS = [
-		"UartRxController_tb"
+		"UartRxController_tb",
+		"UartToFifoBuf_tb"
 		]
 
 TESTS = COMMON_TESTS + BRAM_TESTS + MOTORS_TESTS + PROCESSOR_TESTS + PARSER_TESTS + VGA_TESTS + UART_TESTS
