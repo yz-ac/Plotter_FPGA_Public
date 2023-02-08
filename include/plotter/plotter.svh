@@ -1,0 +1,7 @@
+`ifndef __PLOTTER_SVH__
+`define __PLOTTER_SVH__
+
+`define PLOTTER_UART_TO_PARSER_BRAM_ROWS (1024) // 8Kb
+`define PLOTTER_PARSER_TO_PROCESSOR_BRAM_ROWS (1024) // 64Kb
+
+`endif // __PLOTTER_SVH__

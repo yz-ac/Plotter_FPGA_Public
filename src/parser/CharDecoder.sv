@@ -48,7 +48,7 @@ module CharDecoder (
 		else if (char_in == 74) begin
 			char_type = CHAR_J;
 		end
-		else if ((char_in == 9) | (char_in == 32)) begin
+		else if ((char_in == 9) | (char_in == 13) | (char_in == 32)) begin
 			char_type = CHAR_WHITESPACE;
 		end
 		else if (char_in == 46) begin

@@ -31,28 +31,18 @@ class App(object):
 	def pixels_to_images(self, pixels):
 		num_images = len(pixels) // (SCREEN_W * SCREEN_H)
 		num_pixels = num_images * SCREEN_W * SCREEN_H
-		arr = np.array(pixels)[:num_pixels]
+		arr = np.array(pixels)[:num_pixels].astype("uint8")
 		images = np.split(arr, num_images)
 		return images
-
-	def draw_image(self, img):
-		self._canvas.delete("all")
-		img_2d = img.reshape(SCREEN_H, SCREEN_W, 3)
-		pil_image = Image.fromarray(img_2d, "RGB")
-		pil_image = pil_image.transpose(Image.FLIP_TOP_BOTTOM)
-		tk_image = ImageTk.PhotoImage(image=pil_image)
-		# Fixes reference to array inside class so it is not deleted at the end of the scope
-		self._image = tk_image
-		self._canvas.create_image(0, 0, anchor=tk.NW, image=self._image)
 
 	def draw_all(self, cmd_delay):
 		pixels = self.get_pixels()
 		images = self.pixels_to_images(pixels)
 		fig = plt.figure()
-		plt.axis("off")
 		frames = [[plt.imshow(im.reshape(SCREEN_H, SCREEN_W, 3), animated=True, origin="lower")] for im in images]
 		ani = animation.ArtistAnimation(fig, frames, interval=cmd_delay, blit=True, repeat_delay=1000)
 
+		plt.axis("off")
 		plt.show()
 
 def main(path):

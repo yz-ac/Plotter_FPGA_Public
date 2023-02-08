@@ -19,6 +19,7 @@ MOTORS_DIR =motors
 BRAM_DIR =bram
 VGA_DIR =vga
 UART_DIR =uart
+PLOTTER_DIR =plotter
 
 VINCLUDE :=+incdir+$(IDIR) +incdir+.
 VFLAGS :=-O0 +acc=npr -sv -sv12compat -s $(VINCLUDE)
@@ -111,6 +112,8 @@ VFILES += $(UART_DIR)/UartRxController_FSM.sv
 VFILES += $(UART_DIR)/UartRxController.sv
 VFILES += $(UART_DIR)/UartToFifoBuf_FSM.sv
 VFILES += $(UART_DIR)/UartToFifoBuf.sv
+VFILES += $(PLOTTER_DIR)/PlotterTop_InnerConnect.sv
+VFILES += $(PLOTTER_DIR)/PlotterTop.sv
 
 PKG_FILES := 
 PKG_FILES += $(COMMON_DIR)/Op_PKG.sv
@@ -168,6 +171,7 @@ TB_FILES += $(VGA_DIR)/VgaBuffer_tb.sv
 TB_FILES += $(VGA_DIR)/MotorSignalsToVga_tb.sv
 TB_FILES += $(UART_DIR)/UartRxController_tb.sv
 TB_FILES += $(UART_DIR)/UartToFifoBuf_tb.sv
+TB_FILES += $(PLOTTER_DIR)/PlotterTop_tb.sv
 
 _VFILES = $(patsubst %.sv,$(SDIR)/%.sv,$(VFILES))
 _PKG_FILES = $(patsubst %.sv,$(SDIR)/%.sv,$(PKG_FILES))
