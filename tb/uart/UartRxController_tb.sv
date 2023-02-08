@@ -19,7 +19,9 @@ module UartRxController_tb;
 		.out(clk)
 	);
 
-	UartRxController UUT (
+	UartRxController #(
+		.CLKS_PER_BIT(CLKS_PER_BIT)
+	) UUT (
 		.clk(clk),
 		.reset(reset),
 		.data_in(data_in),
