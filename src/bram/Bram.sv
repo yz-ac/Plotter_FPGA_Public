@@ -31,9 +31,6 @@ module Bram #(
 
 	reg [COLS-1:0] _mem [ROWS-1:0];
 
-	// Not overflow safe.
-	assign rd_data = _mem[rd_addr];
-
 	initial begin
 		if (INIT_FILE != "") begin
 			$readmemh(INIT_FILE, _mem);
@@ -41,6 +38,9 @@ module Bram #(
 	end // initial
 
 	always_ff @(posedge clk) begin
+		// Not overflow safe.
+		rd_data <= _mem[rd_addr];
+
 		// If not wr_en _mem stays the same is inferred.
 		if (wr_en) begin
 			_mem[wr_addr] <= wr_data;
