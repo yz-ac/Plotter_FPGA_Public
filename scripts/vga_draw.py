@@ -39,7 +39,7 @@ class App(object):
 		pixels = self.get_pixels()
 		images = self.pixels_to_images(pixels)
 		fig = plt.figure()
-		frames = [[plt.imshow(im.reshape(SCREEN_H, SCREEN_W, 3), animated=True, origin="lower")] for im in images]
+		frames = [[plt.imshow(im.reshape(SCREEN_H, SCREEN_W, 3), animated=True)] for im in images]
 		ani = animation.ArtistAnimation(fig, frames, interval=cmd_delay, blit=True, repeat_delay=1000)
 
 		plt.axis("off")

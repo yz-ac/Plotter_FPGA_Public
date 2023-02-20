@@ -57,7 +57,7 @@ module MotorSignalsToVga_InnerLogic #(
 	always_ff @(posedge clk) begin
 		if (reset) begin
 			_pos_x <= 0;
-			_pos_y <= 0;
+			_pos_y <= `VGA_ROWS;
 			_x_counter <= 0;
 			_y_counter <= 0;
 			_last_x_sig <= motors_signal_x;
@@ -92,7 +92,8 @@ module MotorSignalsToVga_InnerLogic #(
 					_y_counter <= _y_counter + 1;
 					if (_y_counter == PULSE_NUM_Y_FACTOR) begin
 						_y_counter <= 0;
-						_pos_y <= (motors_dir_y) ? (_pos_y - 1) : (_pos_y + 1);
+						// Raster goes top to bottom (origin is top left).
+						_pos_y <= (motors_dir_y) ? (_pos_y + 1) : (_pos_y - 1);
 					end
 				end
 			end

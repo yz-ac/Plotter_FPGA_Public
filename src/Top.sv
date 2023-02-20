@@ -1,7 +1,7 @@
 /**
 * Project Top.
 *
-* :input clk: System clock.
+* :input master_clk: FPGA clock (100MHz).
 * :input reset: Resets the module.
 * :input uart_rx: UART RX serial input.
 * :output vga_r: VGA red channel.
@@ -62,8 +62,11 @@ module Top (
 	);
 
 `ifdef SIM_DEBUG
+
 	assign _clk_25 = master_clk;
+
 `else // SIM_DEBUG
+
 	Mmcm #(
 		.CLK_MULT(9.125),
 		.CLK_DIV(36.500)
@@ -71,6 +74,7 @@ module Top (
 		.clk_in(master_clk),
 		.clk_out(_clk_25)
 	);
+
 `endif // SIM_DEBUG
 
 endmodule : Top
