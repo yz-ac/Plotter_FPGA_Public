@@ -17,13 +17,13 @@
 `else // SIM_DEBUG
 
 `define SERVO_PWM_BITS (`DWORD_BITS)
-`define SERVO_PWM_PERIOD (1_000_000) // 20ms (with 20ns clk)
-`define SERVO_PWM_UP (50_000) // 1ms (with 20ns clk)
-`define SERVO_PWM_CENTER (71_350) // 1.427ms (with 20ns clk) - empirically measured on servo
-`define SERVO_PWM_DOWN (100_000) // 2ms (with 20ns clk)
+`define SERVO_PWM_PERIOD (500_000) // 20ms (with 40ns clk)
+`define SERVO_PWM_UP (25_000) // 1ms (with 40ns clk)
+`define SERVO_PWM_CENTER (35_675) // 1.427ms (with 40ns clk) - empirically measured on servo
+`define SERVO_PWM_DOWN (50_000) // 2ms (with 40ns clk)
 
 `define SERVO_TIMER_BITS (`DWORD_BITS)
-`define SERVO_TIMER_COUNT (300_000_000) // 6s, 300 pwm periods
+`define SERVO_TIMER_COUNT (150_000_000) // 6s, 300 pwm periods (40ns clock)
 
 `endif // SIM_DEBUG
 

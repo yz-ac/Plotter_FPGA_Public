@@ -1,7 +1,7 @@
 `ifndef __VGA_640_480_60_SVH__
 `define __VGA_640_480_60_SVH__
 
-`define VGA_FREQ_DIV (2) // 50MHz main clock => 25MHz pixel clock
+`define VGA_FREQ_DIV (1) // 25MHz main clock => 25MHz pixel clock
 `define VGA_FREQ_DIV_BITS (2)
 
 `define VGA_H_ACTIVE (640)

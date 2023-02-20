@@ -1,10 +1,11 @@
 `include "tb/simulation.svh"
 `include "common/common.svh"
+`include "uart/uart.svh"
 
 module UartRxController_tb;
 	int fd;
 
-	localparam CLKS_PER_BIT = 434; // 50MHz / 115200
+	localparam CLKS_PER_BIT = `UART_CLKS_PER_BIT;
 
 	wire clk;
 	reg reset;

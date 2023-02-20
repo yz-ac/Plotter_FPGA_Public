@@ -2,6 +2,7 @@
 
 /**
 * Frequency divider for enable signals.
+* Special cases: '0' if 'div' = 0 and '1' if 'div' = 1.
 * 
 * :param DIV_BITS: Field size of div signal.
 * :input clk: System clock.
@@ -55,7 +56,7 @@ module FreqDivider #(
 			out = 0;
 		end
 		else if (_last_div == 1) begin
-			out = clk & en;
+			out = 1;
 		end
 		else begin
 			out = 0;
