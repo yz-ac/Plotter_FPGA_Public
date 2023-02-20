@@ -1,6 +1,6 @@
-time:                  400, cmd:   0, lin: 1, circ: 0, dummy: 0
-time:                  800, cmd:   2, lin: 0, circ: 1, dummy: 0
-time:                 1200, cmd:   4, lin: 0, circ: 0, dummy: 1
-time:                 1600, cmd:   1, lin: 1, circ: 0, dummy: 0
-time:                 2000, cmd:   3, lin: 0, circ: 1, dummy: 0
-time:                 2400, cmd:   5, lin: 0, circ: 0, dummy: 1
+time:                  800, cmd:   0, lin: 1, circ: 0, dummy: 0
+time:                 1600, cmd:   2, lin: 0, circ: 1, dummy: 0
+time:                 2400, cmd:   4, lin: 0, circ: 0, dummy: 1
+time:                 3200, cmd:   1, lin: 1, circ: 0, dummy: 0
+time:                 4000, cmd:   3, lin: 0, circ: 1, dummy: 0
+time:                 4800, cmd:   5, lin: 0, circ: 0, dummy: 1

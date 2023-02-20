@@ -1,4 +1,4 @@
 time:                    0, count:   3
-time:                 3800, count:   3
-time:                 5000, count:   0
-time:                 9400, count:   5
+time:                 7600, count:   3
+time:                10000, count:   0
+time:                18800, count:   5

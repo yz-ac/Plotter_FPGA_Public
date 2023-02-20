@@ -1,5 +1,5 @@
 time:                    0, num:   0, result:   x
-time:                  600, num:   0, result:   0
-time:                 3000, num:   1, result:   1
-time:                 6000, num:   9, result:   3
-time:                11400, num: 255, result:  15
+time:                 1200, num:   0, result:   0
+time:                 6000, num:   1, result:   1
+time:                12000, num:   9, result:   3
+time:                22800, num: 255, result:  15

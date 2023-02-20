@@ -1,1 +1,1 @@
-time:                 1200, cur_x:    0, cur_y:    0, is_absolute: 1
+time:                 2400, cur_x:    0, cur_y:    0, is_absolute: 1

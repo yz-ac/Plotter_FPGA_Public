@@ -1,5 +1,5 @@
-time:                  400, rel: (  0,   0), quadrant:           1
-time:                  800, rel: (  1,   2), quadrant:           1
-time:                 1200, rel: (252,   2), quadrant:           2
-time:                 1600, rel: (251, 252), quadrant:           3
-time:                 2000, rel: (  2, 254), quadrant:           4
+time:                  800, rel: (  0,   0), quadrant:           1
+time:                 1600, rel: (  1,   2), quadrant:           1
+time:                 2400, rel: (252,   2), quadrant:           2
+time:                 3200, rel: (251, 252), quadrant:           3
+time:                 4000, rel: (  2, 254), quadrant:           4

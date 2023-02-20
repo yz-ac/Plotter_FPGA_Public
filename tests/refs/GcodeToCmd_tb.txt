@@ -1,7 +1,7 @@
-time:                  400, gcode:   0, cmd:   0, is_valid: 1
-time:                  800, gcode:   1, cmd:   1, is_valid: 1
-time:                 1200, gcode:   2, cmd:   2, is_valid: 1
-time:                 1600, gcode:   3, cmd:   3, is_valid: 1
-time:                 2000, gcode:  90, cmd:   4, is_valid: 1
-time:                 2400, gcode:  91, cmd:   5, is_valid: 1
-time:                 2800, gcode:   5, cmd:   0, is_valid: 0
+time:                  800, gcode:   0, cmd:   0, is_valid: 1
+time:                 1600, gcode:   1, cmd:   1, is_valid: 1
+time:                 2400, gcode:   2, cmd:   2, is_valid: 1
+time:                 3200, gcode:   3, cmd:   3, is_valid: 1
+time:                 4000, gcode:  90, cmd:   4, is_valid: 1
+time:                 4800, gcode:  91, cmd:   5, is_valid: 1
+time:                 5600, gcode:   5, cmd:   0, is_valid: 0

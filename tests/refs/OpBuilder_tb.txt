@@ -1,8 +1,8 @@
-time:                  400, op.cmd:   0, op.arg_1:    0, op.arg_2:    0, op.arg_3:    0, op.arg_4:    0, op.flags:   0
-time:                  600, op.cmd:   3, op.arg_1:    1, op.arg_2:    0, op.arg_3:    0, op.arg_4:    0, op.flags:   0
-time:                  800, op.cmd:   3, op.arg_1:    1, op.arg_2:    2, op.arg_3:    0, op.arg_4:    0, op.flags:   0
-time:                 1000, op.cmd:   3, op.arg_1:    1, op.arg_2:    2, op.arg_3:    3, op.arg_4:    0, op.flags:   0
-time:                 1200, op.cmd:   3, op.arg_1:    1, op.arg_2:    2, op.arg_3:    3, op.arg_4:    4, op.flags:   3
-time:                 1400, op.cmd:   0, op.arg_1:    0, op.arg_2:    0, op.arg_3:    0, op.arg_4:    0, op.flags:   0
-time:                 1600, op.cmd:   1, op.arg_1:    5, op.arg_2:    5, op.arg_3:    0, op.arg_4:    0, op.flags:   0
-time:                 1800, op.cmd:   1, op.arg_1:    5, op.arg_2:    5, op.arg_3:    0, op.arg_4:    0, op.flags:   0
+time:                  800, op.cmd:   0, op.arg_1:    0, op.arg_2:    0, op.arg_3:    0, op.arg_4:    0, op.flags:   0
+time:                 1200, op.cmd:   3, op.arg_1:    1, op.arg_2:    0, op.arg_3:    0, op.arg_4:    0, op.flags:   0
+time:                 1600, op.cmd:   3, op.arg_1:    1, op.arg_2:    2, op.arg_3:    0, op.arg_4:    0, op.flags:   0
+time:                 2000, op.cmd:   3, op.arg_1:    1, op.arg_2:    2, op.arg_3:    3, op.arg_4:    0, op.flags:   0
+time:                 2400, op.cmd:   3, op.arg_1:    1, op.arg_2:    2, op.arg_3:    3, op.arg_4:    4, op.flags:   3
+time:                 2800, op.cmd:   0, op.arg_1:    0, op.arg_2:    0, op.arg_3:    0, op.arg_4:    0, op.flags:   0
+time:                 3200, op.cmd:   1, op.arg_1:    5, op.arg_2:    5, op.arg_3:    0, op.arg_4:    0, op.flags:   0
+time:                 3600, op.cmd:   1, op.arg_1:    5, op.arg_2:    5, op.arg_3:    0, op.arg_4:    0, op.flags:   0

@@ -1,8 +1,8 @@
 time:                    0, test:           0, rd_data:   x, wr_data:   x, is_full: x, is_empty: x
-time:                 1000, test:           0, rd_data:   1, wr_data:   1, is_full: 0, is_empty: 0
-time:                 1800, test:           1, rd_data:   1, wr_data:   2, is_full: 1, is_empty: 0
-time:                 2400, test:           2, rd_data:   2, wr_data:   3, is_full: 0, is_empty: 0
-time:                 3200, test:           3, rd_data:   2, wr_data:   4, is_full: 1, is_empty: 0
-time:                 3800, test:           4, rd_data:   4, wr_data:   5, is_full: 0, is_empty: 0
-time:                 4400, test:           5, rd_data:   2, wr_data:   6, is_full: 0, is_empty: 1
-time:                 5200, test:           6, rd_data:   7, wr_data:   7, is_full: 0, is_empty: 0
+time:                 2000, test:           0, rd_data:   1, wr_data:   1, is_full: 0, is_empty: 0
+time:                 3600, test:           1, rd_data:   1, wr_data:   2, is_full: 1, is_empty: 0
+time:                 4800, test:           2, rd_data:   2, wr_data:   3, is_full: 0, is_empty: 0
+time:                 6400, test:           3, rd_data:   2, wr_data:   4, is_full: 1, is_empty: 0
+time:                 7600, test:           4, rd_data:   4, wr_data:   5, is_full: 0, is_empty: 0
+time:                 8800, test:           5, rd_data:   2, wr_data:   6, is_full: 0, is_empty: 1
+time:                10400, test:           6, rd_data:   7, wr_data:   7, is_full: 0, is_empty: 0

@@ -2,7 +2,7 @@
 `define __SIMULATION_SVH__
 
 `timescale 1ns/100ps
-`define CLOCK_PERIOD (20) // ns
+`define CLOCK_PERIOD (40) // ns
 
 `define TEST_OUT_FILE "out/tb_test.txt"
 

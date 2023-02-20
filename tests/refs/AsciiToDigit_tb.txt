@@ -1,4 +1,4 @@
-time:                  400, char_in: 0, digit_out:  0
-time:                  800, char_in: 5, digit_out:  5
-time:                 1200, char_in: 7, digit_out:  7
-time:                 1600, char_in: 2, digit_out:  2
+time:                  800, char_in: 0, digit_out:  0
+time:                 1600, char_in: 5, digit_out:  5
+time:                 2400, char_in: 7, digit_out:  7
+time:                 3200, char_in: 2, digit_out:  2

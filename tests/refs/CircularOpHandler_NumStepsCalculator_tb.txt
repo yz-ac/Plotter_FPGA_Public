@@ -1,6 +1,6 @@
-time:                  400, r:   2, is_cw: 0, start: (  2,   0), end: (  0,   2), num_steps:    4
-time:                  800, r:   2, is_cw: 0, start: (  0,   2), end: (  0, 254), num_steps:    8
-time:                 1200, r:   2, is_cw: 0, start: (  0,   2), end: (  0,   2), num_steps:   16
-time:                 1600, r:   2, is_cw: 1, start: (  2,   0), end: (  0,   2), num_steps:   12
-time:                 2000, r:   2, is_cw: 1, start: (  0,   2), end: (  0, 254), num_steps:    8
-time:                 2400, r:   2, is_cw: 1, start: (  0,   2), end: (  0,   2), num_steps:   16
+time:                  800, r:   2, is_cw: 0, start: (  2,   0), end: (  0,   2), num_steps:    4
+time:                 1600, r:   2, is_cw: 0, start: (  0,   2), end: (  0, 254), num_steps:    8
+time:                 2400, r:   2, is_cw: 0, start: (  0,   2), end: (  0,   2), num_steps:   16
+time:                 3200, r:   2, is_cw: 1, start: (  2,   0), end: (  0,   2), num_steps:   12
+time:                 4000, r:   2, is_cw: 1, start: (  0,   2), end: (  0, 254), num_steps:    8
+time:                 4800, r:   2, is_cw: 1, start: (  0,   2), end: (  0,   2), num_steps:   16

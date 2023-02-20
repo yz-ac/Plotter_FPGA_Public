@@ -1,3 +1,3 @@
 time:                    0, cmd:   0, arg_1:    0, arg_2:    0, arg_3:    0, arg_4:    0, flags:   0, is_absolute: x
-time:                  800, cmd:   5, arg_1:    0, arg_2:    0, arg_3:    0, arg_4:    0, flags:   0, is_absolute: 1
-time:                 1600, cmd:   4, arg_1:    0, arg_2:    0, arg_3:    0, arg_4:    0, flags:   0, is_absolute: 0
+time:                 1600, cmd:   5, arg_1:    0, arg_2:    0, arg_3:    0, arg_4:    0, flags:   0, is_absolute: 1
+time:                 3200, cmd:   4, arg_1:    0, arg_2:    0, arg_3:    0, arg_4:    0, flags:   0, is_absolute: 0

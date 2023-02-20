@@ -1,2 +1,2 @@
 time:                    0
-time:                  600
+time:                 1200
