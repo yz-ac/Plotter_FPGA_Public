@@ -18,7 +18,7 @@
 * :output out_servo: Servo PWM signal.
 */
 module Top (
-	input logic clk,
+	input logic master_clk,
 	input logic reset,
 
 	input logic uart_rx,
@@ -38,8 +38,10 @@ module Top (
 	output logic out_servo
 );
 
+	wire _clk_25;
+
 	PlotterTop _plotter (
-		.clk(clk),
+		.clk(_clk_25),
 		.reset(reset),
 
 		.uart_rx(uart_rx),
@@ -58,5 +60,17 @@ module Top (
 		.n_en_y(n_en_y),
 		.out_servo(out_servo)
 	);
+
+`ifdef SIM_DEBUG
+	assign _clk_25 = master_clk;
+`else // SIM_DEBUG
+	Mmcm #(
+		.CLK_MULT(9.125),
+		.CLK_DIV(36.500)
+	) _mmcm (
+		.clk_in(master_clk),
+		.clk_out(_clk_25)
+	);
+`endif // SIM_DEBUG
 
 endmodule : Top

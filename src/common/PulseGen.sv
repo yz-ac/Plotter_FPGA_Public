@@ -16,8 +16,8 @@
 * :output rdy: Ready to accept new triggers.
 */
 module PulseGen #(
-	parameter PULSE_NUM_BITS,
-	parameter PULSE_WIDTH_BITS
+	parameter PULSE_NUM_BITS = `BYTE_BITS,
+	parameter PULSE_WIDTH_BITS = `BYTE_BITS
 )
 (
 	input logic clk,

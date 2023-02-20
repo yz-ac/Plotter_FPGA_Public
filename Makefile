@@ -20,6 +20,7 @@ BRAM_DIR =bram
 VGA_DIR =vga
 UART_DIR =uart
 PLOTTER_DIR =plotter
+CLOCKING_DIR =clocking
 
 VINCLUDE :=+incdir+$(IDIR) +incdir+.
 VFLAGS :=-O0 +acc=npr -sv -sv12compat -s $(VINCLUDE)
@@ -114,6 +115,7 @@ VFILES += $(UART_DIR)/UartToFifoBuf_FSM.sv
 VFILES += $(UART_DIR)/UartToFifoBuf.sv
 VFILES += $(PLOTTER_DIR)/PlotterTop_InnerConnect.sv
 VFILES += $(PLOTTER_DIR)/PlotterTop.sv
+VFILES += $(CLOCKING_DIR)/Mmcm.sv
 VFILES += Top.sv
 
 PKG_FILES := 
