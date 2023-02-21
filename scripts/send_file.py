@@ -22,7 +22,7 @@ def main(com, path):
 	print(handle.stdout.read().decode("utf-8"))
 
 	handle = subprocess.Popen([
-		"copy",
+		"cp",
 		path,
 		r"\\.\{0}".format(com)
 		], shell=True, stdout=subprocess.PIPE)
