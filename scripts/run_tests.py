@@ -12,7 +12,8 @@ COMMON_TESTS = [
 		"PositionKeeper_tb",
 		"QuadrantFinder_tb",
 		"OpToBits_tb",
-		"BitsToOp_tb"
+		"BitsToOp_tb",
+		"Multiplier_tb"
 		]
 
 BRAM_TESTS = [
@@ -37,8 +38,7 @@ PROCESSOR_TESTS = [
 		"LinearOpHandler_tb",
 		"OpHandlerInputChooser_tb",
 		"OpHandlerOutputChooser_tb",
-		"ProcessorTop_tb",
-		"PulseNumMultiplier_tb"
+		"ProcessorTop_tb"
 		]
 
 PARSER_TESTS = [

@@ -49,28 +49,18 @@ module MotorsCtrl #(
 	wire _steppers_done;
 	wire _steppers_rdy;
 
-	MotorsCtrl_IF #(
-		.PULSE_NUM_X_BITS(`STEPPER_PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(`STEPPER_PULSE_NUM_Y_BITS)
-	) _large_motors_intf ();
-
 	StepperCtrlXY_IF #(
-		.PULSE_NUM_X_BITS(_large_motors_intf.PULSE_NUM_X_BITS),
-		.PULSE_NUM_Y_BITS(_large_motors_intf.PULSE_NUM_Y_BITS),
+		.PULSE_NUM_X_BITS(intf.PULSE_NUM_X_BITS),
+		.PULSE_NUM_Y_BITS(intf.PULSE_NUM_Y_BITS),
 		.PULSE_WIDTH_BITS(`STEPPER_PULSE_WIDTH_BITS)
 	) _intf_xy ();
 
 	ServoCtrl_IF _intf_servo ();
 
-	PulseNumMultiplier #(
-		.STEPPER_PULSE_NUM_X_FACTOR(STEPPER_PULSE_NUM_X_FACTOR),
-		.STEPPER_PULSE_NUM_Y_FACTOR(STEPPER_PULSE_NUM_Y_FACTOR)
-	) _pulse_mult (
-		.intf_in(intf),
-		.intf_out(_large_motors_intf.master)
-	);
-
-	StepperCtrlXY _xy_ctrl (
+	StepperCtrlXY #(
+		.MULT_X(STEPPER_PULSE_NUM_X_FACTOR),
+		.MULT_Y(STEPPER_PULSE_NUM_Y_FACTOR)
+	) _xy_ctrl (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en),
@@ -96,7 +86,7 @@ module MotorsCtrl #(
 		.motors_rdy(_motors_rdy),
 		.servo_trigger(_servo_trigger),
 		.steppers_trigger(_steppers_trigger),
-		.intf_motors(_large_motors_intf.slave),
+		.intf_motors(intf),
 		.intf_xy(_intf_xy.master),
 		.intf_servo(_intf_servo.master),
 		.motors_trigger(_motors_trigger),
