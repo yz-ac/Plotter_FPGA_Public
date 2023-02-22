@@ -3,6 +3,8 @@
 /**
 * Module to control all motors.
 *
+* :param STEPPER_PULSE_NUM_X_FACTOR: Pulse number multiplier (for better motor resolution) in X direction.
+* :param STEPPER_PULSE_NUM_Y_FACTOR: Pulse number multiplier (for better motor resolution) in Y direction.
 * :input clk: System clock.
 * :input reset: Resets the module.
 * :input clk_en: Module enabling clock.
