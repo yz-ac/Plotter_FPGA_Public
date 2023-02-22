@@ -1,0 +1,4 @@
+time:                  800, num_in:   0, num_out:   0
+time:                 1600, num_in:   3, num_out:   6
+time:                 2400, num_in: 251, num_out: 502
+time:                 3200, num_in:   1, num_out:   2

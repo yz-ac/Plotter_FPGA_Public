@@ -1,6 +1,8 @@
 /**
 * Module for controlling stepper motors in X and Y directions.
 *
+* :param MULT_X: Multiplier for pulses in the X axis.
+* :param MULT_Y: Multiplier for pulses in the Y axis.
 * :input clk: System clock.
 * :input reset: Resets the module.
 * :input clk_en: Module enabling clock.
@@ -12,7 +14,11 @@
 * :output dir_y: Direction of Y motor.
 * :output n_en_y: Enable signal for Y driver (active low) to prevent idle current.
 */
-module StepperCtrlXY (
+module StepperCtrlXY #(
+	parameter MULT_X = 1,
+	parameter MULT_Y = 1
+)
+(
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
@@ -44,7 +50,9 @@ module StepperCtrlXY (
 		.intf_y(_intf_y.master)
 	);
 
-	StepperCtrl _stepper_ctrl_x (
+	StepperCtrl #(
+		.MULT(MULT_X)
+	) _stepper_ctrl_x (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en),
@@ -54,7 +62,9 @@ module StepperCtrlXY (
 		.n_en(n_en_x)
 	);
 
-	StepperCtrl _stepper_ctrl_y (
+	StepperCtrl #(
+		.MULT(MULT_Y)
+	) _stepper_ctrl_y (
 		.clk(clk),
 		.reset(reset),
 		.clk_en(clk_en),
