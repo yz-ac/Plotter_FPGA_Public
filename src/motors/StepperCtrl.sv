@@ -1,6 +1,7 @@
 /**
 * Module to control stepper motors.
 *
+* :param MULT: Number by which to multiply number of bits (smoother motion).
 * :input clk: System clock.
 * :input reset: Resets the module.
 * :input clk_en: Logic enabling clock.
@@ -9,7 +10,10 @@
 * :output dir: Direction signal to stepper driver.
 * :output n_en: Enable signal for drivers (active low) to prevent idle current.
 */
-module StepperCtrl (
+module StepperCtrl #(
+	parameter MULT = 1
+)
+(
 	input logic clk,
 	input logic reset,
 	input logic clk_en,
@@ -19,18 +23,29 @@ module StepperCtrl (
 	output logic n_en
 );
 
-	wire [intf.PULSE_NUM_BITS-2:0] _abs_pulse_num;
+	localparam PULSE_NUM_BITS = intf.PULSE_NUM_BITS + $clog2(MULT);
+
+	wire [PULSE_NUM_BITS-1:0] _mult_pulse_num;
+	wire [PULSE_NUM_BITS-2:0] _abs_pulse_num;
 	wire _done;
 
+	Multiplier #(
+		.NUM_IN_BITS(intf.PULSE_NUM_BITS),
+		.NUM_MULT(MULT)
+	) _multiplier (
+		.num_in(intf.pulse_num),
+		.num_out(_mult_pulse_num)
+	);
+
 	Abs #(
-		.NUM_BITS(intf.PULSE_NUM_BITS)
+		.NUM_BITS(PULSE_NUM_BITS)
 	) _abs (
-		.num(intf.pulse_num),
+		.num(_mult_pulse_num),
 		.out(_abs_pulse_num)
 	);
 
 	PulseGen #(
-		.PULSE_NUM_BITS(intf.PULSE_NUM_BITS-1),
+		.PULSE_NUM_BITS(PULSE_NUM_BITS-1),
 		.PULSE_WIDTH_BITS(intf.PULSE_WIDTH_BITS)
 	) _pulse_gen (
 		.clk(clk),
