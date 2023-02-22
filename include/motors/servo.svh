@@ -19,7 +19,7 @@
 `define SERVO_PWM_BITS (`DWORD_BITS)
 `define SERVO_PWM_PERIOD (500_000) // 20ms (with 40ns clk)
 `define SERVO_PWM_UP (25_000) // 1ms (with 40ns clk)
-`define SERVO_PWM_CENTER (35_675) // 1.427ms (with 40ns clk) - empirically measured on servo
+`define SERVO_PWM_CENTER (35_550) // 1.422ms (with 40ns clk) - empirically measured on servo
 `define SERVO_PWM_DOWN (50_000) // 2ms (with 40ns clk)
 
 `define SERVO_TIMER_BITS (`DWORD_BITS)
