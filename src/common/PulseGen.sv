@@ -1,7 +1,7 @@
 `include "common/common.svh"
 
 /**
-* Pulse generator.
+* Pulse generator - generates pulses with 50% duty cycle.
 *
 * :param PULSE_NUM_BITS: Field width of number of pulses.
 * :param PULSE_WIDTH_BITS: Field width of pulse width.
