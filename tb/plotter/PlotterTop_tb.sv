@@ -10,6 +10,8 @@ module PlotterTop_tb;
 	wire clk;
 	reg reset;
 	reg uart_rx;
+	reg trace_path;
+	reg clear_screen;
 	wire [3:0] vga_r;
 	wire [3:0] vga_g;
 	wire [3:0] vga_b;
@@ -98,6 +100,8 @@ module PlotterTop_tb;
 	initial begin
 		fd = $fopen("tests/tests/PlotterTop_tb.txt", "wb");
 
+		trace_path = 0;
+		clear_screen = 0;
 		reset = 1;
 		_done_tx = 0;
 		uart_rx = 1;

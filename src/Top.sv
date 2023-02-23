@@ -4,6 +4,8 @@
 * :input master_clk: FPGA clock (100MHz).
 * :input reset: Resets the module.
 * :input uart_rx: UART RX serial input.
+* :input trace_path: Should rapid movements be visible.
+* :input clear_screen: Clear the screen.
 * :output vga_r: VGA red channel.
 * :output vga_g: VGA green channel.
 * :output vga_b: VGA blue channel.
@@ -22,6 +24,9 @@ module Top (
 	input logic reset,
 
 	input logic uart_rx,
+
+	input logic trace_path,
+	input logic clear_screen,
 
 	output logic [3:0] vga_r,
 	output logic [3:0] vga_g,
@@ -45,6 +50,9 @@ module Top (
 		.reset(reset),
 
 		.uart_rx(uart_rx),
+
+		.trace_path(trace_path),
+		.clear_screen(clear_screen),
 
 		.vga_r(vga_r),
 		.vga_g(vga_g),

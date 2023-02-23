@@ -12,6 +12,8 @@ import Op_PKG::Op_st;
 * :input clk: System clock.
 * :input reset: Resets the module.
 * :input uart_rx: UART RX serial input.
+* :input trace_path: Should rapid movements be visible.
+* :input clear_screen: Clear the screen.
 * :output vga_r: VGA red channel.
 * :output vga_g: VGA green channel.
 * :output vga_b: VGA blue channel.
@@ -30,6 +32,9 @@ module PlotterTop (
 	input logic reset,
 
 	input logic uart_rx,
+
+	input logic trace_path,
+	input logic clear_screen,
 
 	output logic [3:0] vga_r,
 	output logic [3:0] vga_g,
@@ -238,6 +243,8 @@ module PlotterTop (
 		.motors_signal_y(_out_y),
 		.motors_dir_y(_dir_y),
 		.should_draw(_should_draw),
+		.trace_path(trace_path),
+		.clear_screen(clear_screen),
 		.r_out(_red),
 		.g_out(_green),
 		.b_out(_blue),

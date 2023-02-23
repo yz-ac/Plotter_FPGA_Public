@@ -2,6 +2,10 @@
 `include "motors/motors.svh"
 `include "vga/vga.svh"
 
+`define DRAW_COLOR (8'b11111111)
+`define TRACE_COLOR (8'b00010101)
+`define CLEAR_COLOR (8'b00000000)
+
 /**
 * Inner logic for MotorSignalsToVga module - counts pulses and sets outputs
 * for VGA buffer.
@@ -14,6 +18,8 @@
 * :input motors_signal_y: Motors signal 'out_y'.
 * :input motors_dir_y: Motors signal 'dir_y'.
 * :input should_draw: Is currently drawing (servo up or down).
+* :input trace_path: Should rapid movements be visible.
+* :input clear_screen: Clear the screen.
 * :output wr_en: Should write to VGA buffer.
 * :output wr_x: Current X position.
 * :output wr_y: Current Y position.
@@ -32,6 +38,8 @@ module MotorSignalsToVga_InnerLogic #(
 	input logic motors_signal_y,
 	input logic motors_dir_y,
 	input logic should_draw,
+	input logic trace_path,
+	input logic clear_screen,
 
 	output logic wr_en,
 	output logic [`VGA_H_BITS-1:0] wr_x,
@@ -49,10 +57,21 @@ module MotorSignalsToVga_InnerLogic #(
 	reg _last_x_sig;
 	reg _last_y_sig;
 
-	assign wr_en = should_draw;
+	assign wr_en = should_draw | trace_path | clear_screen;
 	assign wr_x = _pos_x[`VGA_H_BITS-1:0];
 	assign wr_y = _pos_y[`VGA_V_BITS-1:0];
-	assign byte_out = 8'b11111111;
+
+	always_comb begin : __byte_out
+		byte_out = `DRAW_COLOR;
+		
+		if (trace_path) begin
+			byte_out = `TRACE_COLOR;
+		end
+
+		if (clear_screen) begin
+			byte_out = `CLEAR_COLOR;
+		end
+	end : __byte_out
 
 	always_ff @(posedge clk) begin
 		if (reset) begin

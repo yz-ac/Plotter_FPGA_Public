@@ -19,6 +19,8 @@ module MotorSignalsToVga_tb;
 	wire motors_signal_y;
 	wire motors_dir_y;
 	wire should_draw;
+	reg trace_path;
+	reg clear_screen;
 	wire [`BYTE_BITS-1:0] r_out;
 	wire [`BYTE_BITS-1:0] g_out;
 	wire [`BYTE_BITS-1:0] b_out;
@@ -144,6 +146,8 @@ module MotorSignalsToVga_tb;
 	initial begin
 		fd = $fopen("tests/tests/MotorSignalsToVga_tb.txt", "wb");
 
+		trace_path = 0;
+		clear_screen = 0;
 		reset = 1;
 		#(`CLOCK_PERIOD * 2);
 

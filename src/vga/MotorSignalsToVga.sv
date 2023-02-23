@@ -13,6 +13,8 @@
 * :input motors_signal_y: Motors Y step signal 'out_y'.
 * :input motors_dir_y: Motors Y direction signal 'dir_y'.
 * :input should_draw: Is currently drawing (is servo up or down).
+* :input trace_path: Should rapid movements be visible.
+* :input clear_screen: Clear the screen.
 * :output r_out: Red signal to monitor.
 * :output g_out: Green signal to monitor.
 * :output b_out: Blue signal to monitor.
@@ -32,6 +34,8 @@ module MotorSignalsToVga #(
 	input logic motors_signal_y,
 	input logic motors_dir_y,
 	input logic should_draw,
+	input logic trace_path,
+	input logic clear_screen,
 
 	output logic [`BYTE_BITS-1:0] r_out,
 	output logic [`BYTE_BITS-1:0] g_out,
@@ -67,6 +71,8 @@ module MotorSignalsToVga #(
 		.motors_signal_y(motors_signal_y),
 		.motors_dir_y(motors_dir_y),
 		.should_draw(should_draw),
+		.trace_path(trace_path),
+		.clear_screen(clear_screen),
 		.wr_en(_wr_en),
 		.wr_x(_wr_x),
 		.wr_y(_wr_y),
