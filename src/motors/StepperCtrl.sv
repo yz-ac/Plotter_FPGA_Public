@@ -31,9 +31,10 @@ module StepperCtrl #(
 
 	Multiplier #(
 		.NUM_IN_BITS(intf.PULSE_NUM_BITS),
-		.NUM_MULT(MULT)
+		.MULT_BITS($clog2(MULT) + 1)
 	) _multiplier (
 		.num_in(intf.pulse_num),
+		.mult(MULT),
 		.num_out(_mult_pulse_num)
 	);
 
