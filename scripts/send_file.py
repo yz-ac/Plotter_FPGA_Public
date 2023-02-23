@@ -1,34 +1,23 @@
 import sys
-import subprocess
+import serial
 
 BAUD = 115200
-PARITY = "n"
+PARITY = "N"
 DATA = 8
-DTR = "off"
-RTS = "off"
+DTR = False
+RTS = False
 
-# WARNING: Uses vulnerable "shell=True", not for production environments.
 def main(com, path):
-	handle = subprocess.Popen([
-		"mode",
-		com,
-		"BAUD={0}".format(BAUD),
-		"PARITY={0}".format(PARITY),
-		"DATA={0}".format(DATA),
-		"DTR={0}".format(DTR),
-		"RTS={0}".format(RTS)], shell=True, stdout=subprocess.PIPE)
+	ser = serial.Serial()
+	ser.port = com
+	ser.baudrate = BAUD
+	ser.parity = PARITY
+	ser.dtr = DTR
+	ser.rts = RTS
 
-	handle.wait()
-	print(handle.stdout.read().decode("utf-8"))
-
-	handle = subprocess.Popen([
-		"cp",
-		path,
-		r"\\.\{0}".format(com)
-		], shell=True, stdout=subprocess.PIPE)
-
-	handle.wait()
-	print(handle.stdout.read().decode("utf-8"))
+	ser.open()
+	ser.write(open(path, "rb").read())
+	ser.close()
 
 USAGE = """
 python {0} <com_port> <file>

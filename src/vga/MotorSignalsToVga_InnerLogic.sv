@@ -20,6 +20,8 @@
 * :input should_draw: Is currently drawing (servo up or down).
 * :input trace_path: Should rapid movements be visible.
 * :input clear_screen: Clear the screen.
+* :input px_x: Current X pos of VGA controller.
+* :input px_y: Current Y pos of VGA controller.
 * :output wr_en: Should write to VGA buffer.
 * :output wr_x: Current X position.
 * :output wr_y: Current Y position.
@@ -40,6 +42,8 @@ module MotorSignalsToVga_InnerLogic #(
 	input logic should_draw,
 	input logic trace_path,
 	input logic clear_screen,
+	input logic [`VGA_H_BITS-1:0] px_x,
+	input logic [`VGA_V_BITS-1:0] px_y,
 
 	output logic wr_en,
 	output logic [`VGA_H_BITS-1:0] wr_x,
@@ -58,13 +62,20 @@ module MotorSignalsToVga_InnerLogic #(
 	reg _last_y_sig;
 
 	assign wr_en = should_draw | trace_path | clear_screen;
-	assign wr_x = _pos_x[`VGA_H_BITS-1:0];
-	assign wr_y = _pos_y[`VGA_V_BITS-1:0];
+
+	always_comb begin : __write_pos
+		wr_x = _pos_x[`VGA_H_BITS-1:0];
+		wr_y = _pos_y[`VGA_V_BITS-1:0];
+		if (clear_screen) begin
+			wr_x = px_x;
+			wr_y = px_y;
+		end
+	end : __write_pos
 
 	always_comb begin : __byte_out
 		byte_out = `DRAW_COLOR;
 		
-		if (trace_path) begin
+		if (trace_path & !should_draw) begin
 			byte_out = `TRACE_COLOR;
 		end
 

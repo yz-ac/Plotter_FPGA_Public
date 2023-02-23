@@ -73,6 +73,8 @@ module MotorSignalsToVga #(
 		.should_draw(should_draw),
 		.trace_path(trace_path),
 		.clear_screen(clear_screen),
+		.px_x(_rd_x),
+		.px_y(_rd_y),
 		.wr_en(_wr_en),
 		.wr_x(_wr_x),
 		.wr_y(_wr_y),
