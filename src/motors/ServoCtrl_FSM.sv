@@ -149,7 +149,7 @@ module ServoCtrl_FSM (
 
 	always_ff @(posedge clk) begin
 		if (reset) begin
-			_cur_state <= IDLE_UP;
+			_cur_state <= IDLE_DOWN;
 		end
 		else if (clk_en) begin
 			_cur_state <= _nxt_state;

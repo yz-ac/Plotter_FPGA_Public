@@ -22,7 +22,7 @@
 `define STEPPER_PULSE_NUM_X_BITS (`OP_ARG_1_BITS)
 `define STEPPER_PULSE_NUM_Y_BITS (`OP_ARG_2_BITS)
 `define STEPPER_PULSE_WIDTH_BITS (`DWORD_BITS)
-`define STEPPER_PULSE_WIDTH (25_000) // 1ms min pulses (40ns clk)
+`define STEPPER_PULSE_WIDTH (50_000) // 2ms min pulses (40ns clk)
 
 `endif // SIM_DEBUG
 
