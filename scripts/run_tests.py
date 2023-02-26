@@ -35,6 +35,8 @@ PROCESSOR_TESTS = [
 		"CircularOpHandler_NumStepsCalculator_tb",
 		"CircularOpHandler_tb",
 		"DummyOpHandler_tb",
+		"LinearOpHandler_NumStepsCalculator_tb",
+		"LinearOpHandler_DirectionFinder_tb",
 		"LinearOpHandler_tb",
 		"OpHandlerInputChooser_tb",
 		"OpHandlerOutputChooser_tb",

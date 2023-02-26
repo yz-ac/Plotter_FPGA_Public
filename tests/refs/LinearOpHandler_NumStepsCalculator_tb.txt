@@ -1,0 +1,5 @@
+time:                  800, start: (  0,   0), end: (  0,   0), steps:    0
+time:                 1600, start: (  2, 255), end: (  4, 251), steps:    6
+time:                 2400, start: (255,   3), end: (254,   6), steps:    4
+time:                 3200, start: (  1,   2), end: (  2,   3), steps:    2
+time:                 4000, start: (255, 254), end: (253, 252), steps:    4

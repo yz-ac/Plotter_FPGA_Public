@@ -1,0 +1,9 @@
+time:                  800, start: (  0,   0), cur: (  0,   0), end: (  0,   0), dir:           0
+time:                 1600, start: (  1,   1), cur: (  7,   6), end: ( 11,  11), dir:           0
+time:                 2400, start: (  1,   1), cur: (  6,   7), end: ( 11,  11), dir:           3
+time:                 3200, start: (  1,  11), cur: (  5,   6), end: ( 11,   1), dir:           3
+time:                 4000, start: (  1,  11), cur: (  6,   7), end: ( 11,   1), dir:           1
+time:                 4800, start: ( 11,  11), cur: (  7,   6), end: (  1,   1), dir:           2
+time:                 5600, start: ( 11,  11), cur: (  6,   7), end: (  1,   1), dir:           1
+time:                 6400, start: ( 11,   1), cur: (  5,   6), end: (  1,  11), dir:           0
+time:                 7200, start: ( 11,   1), cur: (  6,   7), end: (  1,  11), dir:           2
