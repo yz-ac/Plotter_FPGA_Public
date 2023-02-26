@@ -73,6 +73,7 @@ VFILES += $(PROC_DIR)/DummyOpHandler.sv
 VFILES += $(PROC_DIR)/OpHandlerInputChooser.sv
 VFILES += $(PROC_DIR)/LinearOpHandler_NumStepsCalculator.sv
 VFILES += $(PROC_DIR)/LinearOpHandler_DirectionFinder.sv
+VFILES += $(PROC_DIR)/LinearOpHandler_InnerLogic.sv
 VFILES += $(PROC_DIR)/LinearOpHandler.sv
 VFILES += $(PROC_DIR)/LinearOpHandler_FSM.sv
 VFILES += $(PROC_DIR)/CircularOpHandler_DirectionFinder.sv
