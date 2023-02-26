@@ -62,23 +62,92 @@ class App(tk.Tk):
 			return arg - 0x1000
 		return arg
 
-	def do_G00(self, arg1, arg2, arg3, arg4, flags):
+	def _do_step(self, direction, pen_down=True):
+		if direction == "up":
+			self.move(self._pos.x, self._pos.y + 1, pen_down)
+		elif direction == "down":
+			self.move(self._pos.x, self._pos.y - 1, pen_down)
+		elif direction == "left":
+			self.move(self._pos.x - 1, self._pos.y, pen_down)
+		else:
+			self.move(self._pos.x + 1, self._pos.y, pen_down)
+
+	def _find_num_steps_linear(self, start_x, start_y, end_x, end_y):
+		dx = end_x - start_x
+		dy = end_y - start_y
+
+		return abs(dx) + abs(dy)
+
+	def _find_direction_linear(self, start_x, start_y, end_x, end_y):
+		dx = end_x - start_x
+		dy = end_y - start_y
+		direction = "up"
+
+		# Line equation
+		lhs = (end_x - start_x) * (self._pos.y - start_y)
+		rhs = (end_y - start_y) * (self._pos.x - start_x)
+		lhs_abs = abs(lhs)
+		rhs_abs = abs(rhs)
+
+		if dx == 0:
+			if dy > 0:
+				direction = "up"
+			else:
+				direction = "down"
+		elif dy == 0:
+			if dx > 0:
+				direction = "right"
+			else:
+				direction = "left"
+		else:
+			if dx > 0 and dy > 0:
+				if lhs_abs > rhs_abs:
+					direction = "right"
+				else:
+					direction = "up"
+			elif dx > 0 and dy < 0:
+				if lhs_abs < rhs_abs:
+					direction = "down"
+				else:
+					direction = "right"
+			elif dx < 0 and dy < 0:
+				if lhs_abs > rhs_abs:
+					direction = "left"
+				else:
+					direction = "down"
+			else:
+				if lhs_abs < rhs_abs:
+					direction = "up"
+				else:
+					direction = "left"
+
+		return direction
+
+	def _do_linear_mvt(self, arg1, arg2, arg3, arg4, flags, pen_down):
 		x = self._parse_arg(arg1)
 		y = self._parse_arg(arg2)
 
-		if self._pos.absolute:
-			self.move(x, y, pen_down=False)
-		else:
-			self.move(self._pos.x + x, self._pos.y + y, pen_down=False)
+		start_x = self._pos.x
+		start_y = self._pos.y
+
+		end_x = x
+		end_y = y
+		if not self._pos.absolute:
+			end_x = self._pos.x + x
+			end_y = self._pos.y + y
+
+		num_steps = self._find_num_steps_linear(start_x, start_y, end_x, end_y)
+		for step in range(num_steps):
+			direction = self._find_direction_linear(start_x, start_y, end_x, end_y)
+			self._do_step(direction, pen_down)
+
+		self.move(end_x, end_y, pen_down)
+
+	def do_G00(self, arg1, arg2, arg3, arg4, flags):
+		self._do_linear_mvt(arg1, arg2, arg3, arg4, flags, False)
 
 	def do_G01(self, arg1, arg2, arg3, arg4, flags):
-		x = self._parse_arg(arg1)
-		y = self._parse_arg(arg2)
-
-		if self._pos.absolute:
-			self.move(x, y, pen_down=True)
-		else:
-			self.move(self._pos.x + x, self._pos.y + y, pen_down=True)
+		self._do_linear_mvt(arg1, arg2, arg3, arg4, flags, True)
 
 	def _find_quadrant(self, rel_x, rel_y):
 		if (rel_x >= 0) and (rel_y >= 0):
@@ -105,7 +174,7 @@ class App(tk.Tk):
 
 		return l
 
-	def _find_direction(self, rel_x, rel_y, r2, is_ccw):
+	def _find_direction_circular(self, rel_x, rel_y, r2, is_ccw):
 		quadrant = self._find_quadrant(rel_x, rel_y)
 		cur_r2 = (rel_x * rel_x) + (rel_y * rel_y)
 
@@ -145,16 +214,6 @@ class App(tk.Tk):
 					direction = "down"
 
 		return direction
-
-	def _do_step(self, direction):
-		if direction == "up":
-			self.move(self._pos.x, self._pos.y + 1, True)
-		elif direction == "down":
-			self.move(self._pos.x, self._pos.y - 1, True)
-		elif direction == "left":
-			self.move(self._pos.x - 1, self._pos.y, True)
-		else:
-			self.move(self._pos.x + 1, self._pos.y, True)
 
 	def _find_num_steps_ccw(self, x, y, i, j, flags, r):
 		start_x = self._pos.x
@@ -234,7 +293,7 @@ class App(tk.Tk):
 
 		return num_steps
 
-	def _find_num_steps(self, x, y, i, j, flags, r, is_ccw):
+	def _find_num_steps_circular(self, x, y, i, j, flags, r, is_ccw):
 		num_steps_ccw = self._find_num_steps_ccw(x, y, i, j, flags, r)
 		num_steps_cw = 8 * r - num_steps_ccw
 		if (num_steps_ccw == 8 * r) and (flags & 0b10):
@@ -262,11 +321,11 @@ class App(tk.Tk):
 		r2 = (i * i) + (j * j)
 		r = self._isqrt(r2)
 
-		num_steps = self._find_num_steps(x, y, i, j, flags, r, is_ccw)
+		num_steps = self._find_num_steps_circular(x, y, i, j, flags, r, is_ccw)
 		for step in range(num_steps):
 			rel_x = self._pos.x - center_x
 			rel_y = self._pos.y - center_y
-			direction = self._find_direction(rel_x, rel_y, r2, is_ccw)
+			direction = self._find_direction_circular(rel_x, rel_y, r2, is_ccw)
 			self._do_step(direction)
 
 		self.move(end_x, end_y, True)
