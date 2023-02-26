@@ -37,10 +37,6 @@ module CircularOpHandler_NumStepsCalculator #(
 	output logic [STEP_BITS-1:0] num_steps
 );
 
-	wire [STEP_BITS-1:0] _ext_start_x;
-	wire [STEP_BITS-1:0] _ext_start_y;
-	wire [STEP_BITS-1:0] _ext_end_x;
-	wire [STEP_BITS-1:0] _ext_end_y;
 	wire [STEP_BITS-1:0] _ext_r;
 
 	wire [STEP_BITS-1:0] _abs_start_x;
@@ -125,10 +121,6 @@ module CircularOpHandler_NumStepsCalculator #(
 		.out(_abs_dy[NUM_BITS-2:0])
 	);
 
-	assign _ext_start_x = {{STEP_BITS-NUM_BITS{start_x[NUM_BITS-1]}}, start_x[NUM_BITS-1:0]};
-	assign _ext_start_y = {{STEP_BITS-NUM_BITS{start_y[NUM_BITS-1]}}, start_y[NUM_BITS-1:0]};
-	assign _ext_end_x = {{STEP_BITS-NUM_BITS{end_x[NUM_BITS-1]}}, end_x[NUM_BITS-1:0]};
-	assign _ext_end_y = {{STEP_BITS-NUM_BITS{end_y[NUM_BITS-1]}}, end_y[NUM_BITS-1:0]};
 	assign _ext_r = {{STEP_BITS-NUM_BITS{r[NUM_BITS-1]}}, r[NUM_BITS-1:0]};
 
 	assign _abs_start_x[STEP_BITS-1:NUM_BITS-1] = 0;
