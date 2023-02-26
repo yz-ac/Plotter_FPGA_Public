@@ -57,6 +57,7 @@ module CircularOpHandler (
 	PosDirection_t _nxt_dir;
 
 	wire _is_last_mvt;
+	wire _update_counter;
 
 	wire [STEP_BITS-1:0] _num_steps;
 	reg [STEP_BITS-1:0] _steps_counter;

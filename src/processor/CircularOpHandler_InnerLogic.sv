@@ -13,11 +13,11 @@ import Position_PKG::POS_DIR_RIGHT;
 /**
 * Inner connections and logic of CircularOpHandler module.
 *
-* :parameter NUM_BITS: Field width of numbers for calculation.
-* :parameter PULSE_NUM_X_BITS: Field width of X pulse number to motors.
-* :parameter PULSE_NUM_Y_BITS: Field width of Y pulse number to motors.
-* :parameter POS_X_BITS: Field width of X position coordinate.
-* :parameter POS_Y_BITS: Field width of Y position coordinate.
+* :param NUM_BITS: Field width of numbers for calculation.
+* :param PULSE_NUM_X_BITS: Field width of X pulse number to motors.
+* :param PULSE_NUM_Y_BITS: Field width of Y pulse number to motors.
+* :param POS_X_BITS: Field width of X position coordinate.
+* :param POS_Y_BITS: Field width of Y position coordinate.
 * :input op: Opcode currently being processed.
 * :iface state_intf: Interface for acquiring current position.
 * :input last_x: X position when module was triggered.
@@ -50,10 +50,10 @@ module CircularOpHandler_InnerLogic #(
 (
 	input Op_st op,
 	PositionState_IF state_intf,
-	input [state_intf.POS_X_BITS-1:0] last_x,
-	input [state_intf.POS_Y_BITS-1:0] last_y,
+	input logic [state_intf.POS_X_BITS-1:0] last_x,
+	input logic [state_intf.POS_Y_BITS-1:0] last_y,
 	input PosDirection_t dir,
-	input is_last_mvt,
+	input logic is_last_mvt,
 
 	output logic [PULSE_NUM_X_BITS-1:0] pulse_num_x,
 	output logic [PULSE_NUM_Y_BITS-1:0] pulse_num_y,
