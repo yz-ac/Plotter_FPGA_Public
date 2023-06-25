@@ -2,3 +2,7 @@
 out
 vsim.wlf
 tests/tests
+project/Plotter.cache
+project/Plotter.hw
+project/Plotter.runs
+project/vivado*
